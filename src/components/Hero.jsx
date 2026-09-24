@@ -8,8 +8,8 @@ export default function Hero({ onSelectVehicle }) {
       {/* Full-Screen Background Image Spanning 100% of the Hero Viewport */}
       <div className="hero-fullscreen-media">
         <img
-          src="/images/hero_houston.jpg"
-          alt="Lavender Taxi Houston Airport Chauffeur Service"
+          src="/images/sub_car_img.png"
+          alt="Lavender Taxi Houston Airport Chauffeur Service - Chevrolet Suburban"
           className="hero-fullscreen-img"
         />
         {/* Crisp White Left-Fade Overlay for Legibility */}
