@@ -1,128 +1,131 @@
 import React from 'react';
-import { PhoneCall, Clock, PlaneTakeoff, MapPin } from 'lucide-react';
-import { OWNER_PHONE_DISPLAY, OWNER_PHONE_RAW } from '../utils/whatsapp';
+import { Plane, MapPin, Briefcase, Calendar } from 'lucide-react';
+
+const HIGHLIGHTS = [
+  {
+    icon: Plane,
+    title: 'Airport Transfers',
+    description: 'IAH & HOU airport pickup and drop-off.',
+  },
+  {
+    icon: MapPin,
+    title: 'Local Transportation',
+    description: 'Reliable rides throughout Houston.',
+  },
+  {
+    icon: Briefcase,
+    title: 'Corporate Transportation',
+    description: 'Professional transportation for business travelers.',
+  },
+  {
+    icon: Calendar,
+    title: 'Private & Hourly Rides',
+    description: 'Flexible transportation for events, appointments and more.',
+  },
+];
 
 export default function QuickInfoBar() {
   return (
-    <section className="info-ribbon-blue">
+    <section className="services-highlight-strip">
       <div className="container">
-        <div className="info-ribbon-grid">
-          {/* Item 1: Call Now */}
-          <a
-            href={`tel:+${OWNER_PHONE_RAW}`}
-            className="info-ribbon-item info-clickable"
-            title="Call Dispatch"
-          >
-            <div className="info-ribbon-icon">
-              <PhoneCall size={20} color="#0284C7" />
-            </div>
-            <div className="info-ribbon-text">
-              <span className="info-ribbon-label">Call Now</span>
-              <span className="info-ribbon-val">{OWNER_PHONE_DISPLAY}</span>
-            </div>
-          </a>
-
-          {/* Item 2: 24/7 Service */}
-          <div className="info-ribbon-item">
-            <div className="info-ribbon-icon">
-              <Clock size={20} color="#0284C7" />
-            </div>
-            <div className="info-ribbon-text">
-              <span className="info-ribbon-label">24/7 Service</span>
-              <span className="info-ribbon-val">Always here for you</span>
-            </div>
-          </div>
-
-          {/* Item 3: Flight Monitoring */}
-          <div className="info-ribbon-item">
-            <div className="info-ribbon-icon">
-              <PlaneTakeoff size={20} color="#0284C7" />
-            </div>
-            <div className="info-ribbon-text">
-              <span className="info-ribbon-label">Flight Monitoring</span>
-              <span className="info-ribbon-val">We track your flight</span>
-            </div>
-          </div>
-
-          {/* Item 4: Serving Houston */}
-          <div className="info-ribbon-item">
-            <div className="info-ribbon-icon">
-              <MapPin size={20} color="#0284C7" />
-            </div>
-            <div className="info-ribbon-text">
-              <span className="info-ribbon-label">Serving Houston</span>
-              <span className="info-ribbon-val">and Surrounding Areas</span>
-            </div>
-          </div>
+        <div className="highlight-strip-grid">
+          {HIGHLIGHTS.map((item, idx) => {
+            const Icon = item.icon;
+            return (
+              <div key={idx} className="highlight-strip-item">
+                <div className="highlight-icon-circle">
+                  <Icon size={20} color="#D97706" />
+                </div>
+                <div className="highlight-text-wrap">
+                  <h3 className="highlight-item-title">{item.title}</h3>
+                  <p className="highlight-item-desc">{item.description}</p>
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
 
       <style>{`
-        .info-ribbon-blue {
-          background: #0284C7;
-          color: #FFFFFF;
-          padding: 16px 0;
-          box-shadow: 0 4px 14px rgba(2, 132, 199, 0.2);
+        .services-highlight-strip {
+          background: #FFFFFF;
+          padding: 24px 0;
+          border-bottom: 1px solid #E2E8F0;
+          box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
         }
-        .info-ribbon-grid {
+
+        .highlight-strip-grid {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 20px;
+          gap: 28px;
           align-items: center;
         }
-        .info-ribbon-item {
+
+        .highlight-strip-item {
           display: flex;
           align-items: center;
-          gap: 12px;
-          color: inherit;
+          gap: 14px;
+          text-align: left;
         }
-        .info-clickable {
-          cursor: pointer;
-          transition: opacity 0.15s ease;
+
+        .highlight-strip-item:not(:last-child) {
+          border-right: 1px solid #F1F5F9;
+          padding-right: 20px;
         }
-        .info-clickable:hover {
-          opacity: 0.9;
-        }
-        .info-ribbon-icon {
-          width: 40px;
-          height: 40px;
+
+        .highlight-icon-circle {
+          width: 46px;
+          height: 46px;
           border-radius: 50%;
-          background: #FFFFFF;
+          background: #FEF3C7;
+          border: 1px solid #FDE68A;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-        }
-        .info-ribbon-text {
-          display: flex;
-          flex-direction: column;
-        }
-        .info-ribbon-label {
-          font-size: 0.74rem;
-          color: rgba(255, 255, 255, 0.85);
-          text-transform: uppercase;
-          font-weight: 600;
-          letter-spacing: 0.04em;
-        }
-        .info-ribbon-val {
-          font-family: var(--font-heading);
-          font-size: 1rem;
-          font-weight: 800;
-          color: #FFFFFF;
-          line-height: 1.15;
         }
 
-        @media (max-width: 992px) {
-          .info-ribbon-grid {
+        .highlight-text-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .highlight-item-title {
+          font-family: var(--font-heading);
+          font-size: 0.96rem;
+          font-weight: 800;
+          color: #0F172A;
+          line-height: 1.2;
+          margin: 0;
+        }
+
+        .highlight-item-desc {
+          font-size: 0.78rem;
+          color: #64748B;
+          line-height: 1.35;
+          margin: 0;
+        }
+
+        @media (max-width: 1024px) {
+          .highlight-strip-grid {
             grid-template-columns: repeat(2, 1fr);
-            gap: 16px;
+            gap: 20px;
+          }
+          .highlight-strip-item:nth-child(2) {
+            border-right: none;
+            padding-right: 0;
           }
         }
-        @media (max-width: 580px) {
-          .info-ribbon-grid {
+
+        @media (max-width: 600px) {
+          .highlight-strip-grid {
             grid-template-columns: 1fr;
-            gap: 12px;
+            gap: 16px;
+          }
+          .highlight-strip-item {
+            border-right: none;
+            padding-right: 0;
           }
         }
       `}</style>

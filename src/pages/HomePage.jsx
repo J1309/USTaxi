@@ -1,39 +1,35 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import QuickInfoBar from '../components/QuickInfoBar';
-import ServicesSection from '../components/ServicesSection';
 import FleetSection from '../components/FleetSection';
+import ServicesSection from '../components/ServicesSection';
 import WhyChooseUs from '../components/WhyChooseUs';
-import HoustonGuide from '../components/HoustonGuide';
-import Testimonials from '../components/Testimonials';
 import CtaBanner from '../components/CtaBanner';
+import HoustonGuide from '../components/HoustonGuide';
 
 export default function HomePage({ onSelectVehicle }) {
   return (
     <main id="main-content">
-      {/* Hero Section with Live Booking Engine */}
-      <Hero onSelectVehicle={onSelectVehicle} />
+      {/* 1. Hero Section (Reliable Transportation Across Houston with Suburban image) */}
+      <Hero />
 
-      {/* 24/7 Hotline & Real-time Flight Monitoring Bar */}
+      {/* 2. Services Highlight Strip (4 columns with gold circular icons) */}
       <QuickInfoBar />
 
-      {/* Travel Solutions (Airport, Hourly, NASA, Cruise, Corporate, 8-Pax) */}
-      <ServicesSection />
-
-      {/* Fleet Showcase (Chevrolet Suburban & Lexus Luxury Sedan) */}
+      {/* 3. Our Fleet & Book Your Ride (2 cars: Lexus Sedan & Chevrolet Suburban + Booking Widget on dark navy) */}
       <FleetSection onSelectVehicleForBooking={onSelectVehicle} />
 
-      {/* Value Pillars & Guarantee */}
+      {/* 4. Houston Airport Transportation (IAH & HOU Airport Transfers with 2 cards) */}
+      <ServicesSection />
+
+      {/* 5. Why Ride With Us (Exact 6-card bento grid preserved 100%) */}
       <WhyChooseUs />
 
-      {/* Houston City & Galveston Tour Guide */}
-      <HoustonGuide />
-
-      {/* Client Testimonials Carousel */}
-      <Testimonials />
-
-      {/* Direct WhatsApp & Call Chauffeur Banner */}
+      {/* 6. Why Choose Lavender Taxi & Ready for Your Ride? Skyline Banner */}
       <CtaBanner />
+
+      {/* 7. Service Areas & Google Customer Reviews (2-column layout matching reference) */}
+      <HoustonGuide />
     </main>
   );
 }

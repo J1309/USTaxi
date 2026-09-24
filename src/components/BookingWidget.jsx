@@ -90,6 +90,13 @@ export default function BookingWidget({ preselectedVehicle }) {
 
   return (
     <div id="booking-section" className="booking-card-light">
+      <div className="booking-header-block">
+        <h3 className="booking-heading-text">Book Your Ride</h3>
+        <p className="booking-sub-text">
+          Get a ride in minutes. Fill in the details and we will confirm your booking.
+        </p>
+      </div>
+
       {/* Top Tabs: One Way vs Hourly Rental */}
       <div className="booking-tabs-row">
         <button
@@ -288,9 +295,9 @@ export default function BookingWidget({ preselectedVehicle }) {
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn-quote-orange"
+              className="btn-quote-gold"
             >
-              <span>{isSubmitting ? 'Opening WhatsApp...' : 'Get a Quote'}</span>
+              <span>{isSubmitting ? 'Opening WhatsApp...' : 'Request a Ride'}</span>
               <ArrowRight size={16} />
             </button>
 
@@ -310,12 +317,46 @@ export default function BookingWidget({ preselectedVehicle }) {
       <style>{`
         .booking-card-light {
           background: #FFFFFF;
-          border-radius: 18px;
+          border-radius: 16px;
           border: 1px solid #E2E8F0;
-          box-shadow: var(--shadow-hero-widget);
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
           padding: 24px;
-          max-width: 540px;
           width: 100%;
+        }
+        .booking-header-block {
+          margin-bottom: 16px;
+          text-align: left;
+        }
+        .booking-heading-text {
+          font-family: var(--font-heading);
+          font-size: 1.35rem;
+          font-weight: 900;
+          color: #0F172A;
+          margin: 0 0 4px 0;
+        }
+        .booking-sub-text {
+          font-size: 0.8rem;
+          color: #64748B;
+          margin: 0;
+          line-height: 1.35;
+        }
+        .btn-quote-gold {
+          flex: 1;
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: #F59E0B;
+          color: #0F172A;
+          font-weight: 800;
+          font-size: 0.95rem;
+          padding: 13px 20px;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(245, 158, 11, 0.28);
+          transition: background 0.18s ease;
+        }
+        .btn-quote-gold:hover {
+          background: #D97706;
         }
         .booking-tabs-row {
           display: flex;

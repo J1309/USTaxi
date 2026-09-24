@@ -187,8 +187,8 @@ export default function Footer() {
 
       <style>{`
         .site-footer-light {
-          background: #FFFFFF;
-          border-top: 1px solid #E2E8F0;
+          background: #080D14;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           padding-top: 60px;
           padding-bottom: 30px;
         }
@@ -208,34 +208,34 @@ export default function Footer() {
           height: 44px;
           border-radius: 8px;
           object-fit: cover;
-          border: 1px solid #CBD5E1;
+          border: 1px solid rgba(255, 255, 255, 0.15);
         }
         .footer-brand-title {
           font-family: var(--font-heading);
           font-size: 1.15rem;
           font-weight: 800;
-          color: #0F172A;
+          color: #FFFFFF;
           letter-spacing: 0.05em;
           display: block;
           line-height: 1;
         }
         .footer-brand-sub {
           font-size: 0.65rem;
-          color: var(--brand-lavender);
+          color: #94A3B8;
           font-weight: 700;
           letter-spacing: 0.12em;
           text-transform: uppercase;
         }
         .footer-slogan-text {
           font-size: 0.85rem;
-          color: #64748B;
+          color: #94A3B8;
           margin-top: 14px;
           font-style: italic;
         }
         .footer-col-title {
           font-size: 0.94rem;
           font-weight: 700;
-          color: #0F172A;
+          color: #FFFFFF;
           margin-bottom: 16px;
         }
         .footer-col-list {
@@ -246,11 +246,11 @@ export default function Footer() {
         }
         .footer-col-list a {
           font-size: 0.86rem;
-          color: #64748B;
+          color: #94A3B8;
           transition: color 0.15s ease;
         }
         .footer-col-list a:hover {
-          color: #0284C7;
+          color: #F59E0B;
         }
         .footer-contact-stack {
           display: flex;
@@ -262,11 +262,11 @@ export default function Footer() {
           align-items: center;
           gap: 8px;
           font-size: 0.86rem;
-          color: #475569;
+          color: #CBD5E1;
           font-weight: 500;
         }
         .footer-contact-link:hover {
-          color: #0284C7;
+          color: #F59E0B;
         }
         .footer-social-icons {
           display: flex;
@@ -276,11 +276,11 @@ export default function Footer() {
           width: 36px;
           height: 36px;
           border-radius: 50%;
-          border: 1px solid #CBD5E1;
+          border: 1px solid rgba(255, 255, 255, 0.2);
           display: flex;
           align-items: center;
           justify-content: center;
-          color: #334155;
+          color: #CBD5E1;
           transition: all 0.15s ease;
         }
         .social-round-btn.wa:hover {
@@ -289,26 +289,26 @@ export default function Footer() {
           color: #FFFFFF;
         }
         .social-round-btn.phone:hover {
-          background: #0284C7;
-          border-color: #0284C7;
-          color: #FFFFFF;
+          background: #F59E0B;
+          border-color: #F59E0B;
+          color: #0F172A;
         }
         .footer-bottom-row-light {
           display: flex;
           align-items: center;
           justify-content: space-between;
           padding-top: 24px;
-          border-top: 1px solid #F1F5F9;
+          border-top: 1px solid rgba(255, 255, 255, 0.08);
           flex-wrap: wrap;
           gap: 12px;
         }
         .copyright-light {
           font-size: 0.82rem;
-          color: #94A3B8;
+          color: #64748B;
         }
         .motto-light {
           font-size: 0.82rem;
-          color: #64748B;
+          color: #94A3B8;
           font-style: italic;
         }
 

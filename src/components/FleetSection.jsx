@@ -1,336 +1,343 @@
 import React from 'react';
-import {
-  Users,
-  Briefcase,
-  Award,
-  ArrowRight,
-  Wifi,
-  Sparkles,
-  MessageCircle,
-} from 'lucide-react';
-import { ImageWithSkeleton } from './SkeletonLoader';
+import { Users, Briefcase, ArrowRight, ShieldCheck, Sparkles } from 'lucide-react';
+import BookingWidget from './BookingWidget';
 import { smoothScrollTo } from '../hooks/useLenis';
-import { buildWhatsAppBookingUrl } from '../utils/whatsapp';
 
-const COMPACT_FLEET = [
-  {
-    id: 'suburban',
-    make: 'CHEVROLET',
-    model: 'Chevrolet Suburban',
-    tag: 'Up to 8 Passengers',
-    badge: 'Popular for Groups',
-    image: '/images/fleet_suburban.jpg',
-    rate: 'From $70 Flat',
-    specs: [
-      { icon: Users, text: '8 Passenger Seats' },
-      { icon: Briefcase, text: 'Large Luggage Space (8+ Bags)' },
-      { icon: Award, text: 'Premium Comfort & Tri-Zone A/C' },
-      { icon: Wifi, text: '5G Wi-Fi & USB-C Chargers' },
-    ],
-    buttonColor: '#0284C7',
-    hoverColor: '#0369A1',
-  },
+const VEHICLES = [
   {
     id: 'lexus',
-    make: 'LEXUS',
-    model: 'Lexus Luxury Sedan',
-    tag: 'Up to 4 Passengers',
-    badge: 'Executive Comfort',
+    type: 'SEDAN',
+    name: 'Lexus Luxury Sedan',
     image: '/images/fleet_lexus.jpg',
-    rate: 'From $55 Flat',
-    specs: [
-      { icon: Users, text: '4 Passenger Seats' },
-      { icon: Award, text: 'Plush Leather Interior' },
-      { icon: Briefcase, text: 'Smooth & Quiet Suspension' },
-      { icon: Wifi, text: 'Fast Charging & Privacy Glass' },
-    ],
-    buttonColor: '#0F172A',
-    hoverColor: '#1E293B',
+    passengers: 'Up to 4 Passengers',
+    luggage: '3 Luggage',
+    description: 'Perfect for individuals, executives & small groups. Comfortable, quiet, reliable and economical.',
+    badge: 'Executive Sedan',
+  },
+  {
+    id: 'suburban',
+    type: 'SUV',
+    name: 'Chevrolet Suburban',
+    image: '/images/fleet_suburban.jpg',
+    passengers: 'Up to 7 Passengers',
+    luggage: '6 Luggage',
+    description: 'More space for families, cruise groups and airport luggage. Ideal for transfers and private group travel.',
+    badge: 'Luxury Full-Size SUV',
   },
 ];
 
 export default function FleetSection({ onSelectVehicleForBooking }) {
-  const handleBookVehicle = (vehicleId) => {
-    if (onSelectVehicleForBooking) {
-      onSelectVehicleForBooking(vehicleId);
-    }
-    smoothScrollTo('#booking-section');
-  };
+  const [selectedVehicle, setSelectedVehicle] = React.useState('suburban');
 
-  const handleWhatsApp = (vehicle) => {
-    const url = buildWhatsAppBookingUrl({
-      vehicle: `${vehicle.model} (${vehicle.tag})`,
-      tripType: 'One Way',
-      passengers: vehicle.id === 'suburban' ? 8 : 4,
-      luggage: vehicle.id === 'suburban' ? 8 : 3,
-    });
-    window.open(url, '_blank', 'noopener,noreferrer');
+  const handleSelect = (vId) => {
+    setSelectedVehicle(vId);
+    if (onSelectVehicleForBooking) {
+      onSelectVehicleForBooking(vId);
+    }
+    smoothScrollTo('#fleet-booking-card');
   };
 
   return (
-    <section id="fleet" className="section-spacing fleet-section-compact">
+    <section id="fleet" className="fleet-booking-combined-section">
       <div className="container">
-        {/* Header */}
-        <div className="fleet-compact-header">
-          <div>
-            <span className="section-tag-small">OUR FLEET</span>
-            <h2 className="section-title-large">Choose Your Ride</h2>
-            <p className="section-desc-sub">
-              Well-maintained, clean and premium vehicles for a comfortable and safe journey.
-            </p>
+        <div className="fleet-booking-grid">
+          {/* Left Column: Fleet Header & The 2 Vehicle Cards */}
+          <div className="fleet-left-column">
+            <div className="fleet-header-row">
+              <div className="fleet-header-text">
+                <span className="section-tag-gold">OUR FLEET</span>
+                <h2 className="fleet-title-white">Choose Your Ride</h2>
+                <p className="fleet-subtitle-gray">
+                  Clean, well-maintained vehicles for a comfortable and safe journey.
+                </p>
+              </div>
+
+              <a
+                href="#services"
+                onClick={(e) => {
+                  e.preventDefault();
+                  smoothScrollTo('#services');
+                }}
+                className="btn-view-services"
+              >
+                <span>View All Services</span>
+                <ArrowRight size={14} />
+              </a>
+            </div>
+
+            {/* The 2 Luxury Vehicle Cards matching reference styling */}
+            <div className="fleet-cards-row">
+              {VEHICLES.map((v) => (
+                <div key={v.id} className="reference-fleet-card">
+                  <div className="fleet-card-img-wrap">
+                    <img src={v.image} alt={v.name} className="fleet-card-img" />
+                    <span className="fleet-card-badge">{v.badge}</span>
+                  </div>
+
+                  <div className="fleet-card-content">
+                    <div className="fleet-card-title-row">
+                      <h3 className="fleet-card-type">{v.type}</h3>
+                      <span className="fleet-card-model">{v.name}</span>
+                    </div>
+
+                    <div className="fleet-card-specs-row">
+                      <div className="fleet-spec-item">
+                        <Users size={15} color="#475569" />
+                        <span>{v.passengers}</span>
+                      </div>
+                      <div className="fleet-spec-item">
+                        <Briefcase size={15} color="#475569" />
+                        <span>{v.luggage}</span>
+                      </div>
+                    </div>
+
+                    <p className="fleet-card-desc">{v.description}</p>
+
+                    <button
+                      type="button"
+                      onClick={() => handleSelect(v.id)}
+                      className="fleet-card-gold-btn"
+                    >
+                      <span>Book This Vehicle</span>
+                      <ArrowRight size={14} />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
 
-          <button
-            type="button"
-            onClick={() => smoothScrollTo('#booking-section')}
-            className="btn-blue-outline"
-          >
-            <span>View All Vehicles</span>
-            <ArrowRight size={14} />
-          </button>
-        </div>
-
-        {/* 2 Sleek Compact Horizontal Cards */}
-        <div className="fleet-compact-grid">
-          {COMPACT_FLEET.map((vehicle) => (
-            <div key={vehicle.id} className="fleet-sleek-card">
-              {/* Photo on Left */}
-              <div className="fleet-sleek-photo-box">
-                <ImageWithSkeleton
-                  src={vehicle.image}
-                  alt={vehicle.model}
-                  aspectRatio="16/11"
-                  className="fleet-sleek-img"
-                />
-                <span className="fleet-corner-badge">
-                  <Sparkles size={11} />
-                  <span>{vehicle.badge}</span>
-                </span>
-              </div>
-
-              {/* Specs & Actions on Right */}
-              <div className="fleet-sleek-info-box">
-                <div className="fleet-sleek-title-row">
-                  <div>
-                    <span className="fleet-mini-make">{vehicle.make}</span>
-                    <h3 className="fleet-compact-name">{vehicle.model}</h3>
-                  </div>
-                  <div className="fleet-mini-rate">{vehicle.rate}</div>
-                </div>
-
-                {/* 4 Clean Bullet Points */}
-                <ul className="fleet-mini-specs">
-                  {vehicle.specs.map((item, idx) => {
-                    const Icon = item.icon;
-                    return (
-                      <li key={idx}>
-                        <Icon size={14} color="#0284C7" />
-                        <span>{item.text}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-
-                {/* Compact Actions Row */}
-                <div className="fleet-sleek-actions">
-                  <button
-                    type="button"
-                    onClick={() => handleBookVehicle(vehicle.id)}
-                    style={{ background: vehicle.buttonColor }}
-                    className="btn-compact-book"
-                  >
-                    <span>Book This Vehicle</span>
-                    <ArrowRight size={14} />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => handleWhatsApp(vehicle)}
-                    className="btn-compact-wa"
-                    title="Reserve on WhatsApp"
-                  >
-                    <MessageCircle size={15} color="#25D366" />
-                    <span>WhatsApp</span>
-                  </button>
-                </div>
-              </div>
-            </div>
-          ))}
+          {/* Right Column: Book Your Ride Card embedded directly */}
+          <div className="booking-right-column" id="fleet-booking-card">
+            <BookingWidget
+              preselectedVehicle={selectedVehicle}
+              onSelectVehicle={setSelectedVehicle}
+            />
+          </div>
         </div>
       </div>
 
       <style>{`
-        .fleet-section-compact {
-          background: #F8FAFC;
-          border-top: 1px solid #E2E8F0;
-          border-bottom: 1px solid #E2E8F0;
+        .fleet-booking-combined-section {
+          background: #0A1118;
+          padding: 70px 0 80px 0;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
-        .fleet-compact-header {
+
+        .fleet-booking-grid {
+          display: grid;
+          grid-template-columns: 1fr 440px;
+          gap: 36px;
+          align-items: start;
+        }
+
+        .fleet-left-column {
+          display: flex;
+          flex-direction: column;
+        }
+
+        .fleet-header-row {
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
-          flex-wrap: wrap;
           gap: 20px;
           margin-bottom: 32px;
+          flex-wrap: wrap;
         }
-        .fleet-compact-grid {
+
+        .section-tag-gold {
+          font-family: var(--font-heading);
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.16em;
+          text-transform: uppercase;
+          color: #F59E0B;
+          display: block;
+          margin-bottom: 6px;
+        }
+
+        .fleet-title-white {
+          font-size: clamp(2rem, 3.2vw, 2.7rem);
+          font-weight: 900;
+          color: #FFFFFF;
+          line-height: 1.15;
+          letter-spacing: -0.02em;
+          margin: 0 0 8px 0;
+        }
+
+        .fleet-subtitle-gray {
+          font-size: 0.96rem;
+          color: #94A3B8;
+          margin: 0;
+        }
+
+        .btn-view-services {
+          display: inline-flex;
+          align-items: center;
+          gap: 6px;
+          padding: 8px 16px;
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: var(--radius-full);
+          font-size: 0.84rem;
+          font-weight: 700;
+          color: #E2E8F0;
+          transition: all 0.18s ease;
+        }
+
+        .btn-view-services:hover {
+          border-color: #F59E0B;
+          color: #F59E0B;
+        }
+
+        /* 2 Fleet Cards side by side */
+        .fleet-cards-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 24px;
         }
-        .fleet-sleek-card {
+
+        .reference-fleet-card {
           background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
+          border-radius: 16px;
           overflow: hidden;
-          display: grid;
-          grid-template-columns: 1.15fr 1fr;
-          box-shadow: var(--shadow-sm);
-          transition: transform 0.2s var(--ease-snappy), box-shadow 0.2s var(--ease-snappy), border-color 0.2s ease;
-          max-height: 280px;
-        }
-        .fleet-sleek-card:hover {
-          transform: translateY(-3px);
-          box-shadow: var(--shadow-md);
-          border-color: #CBD5E1;
-        }
-        .fleet-sleek-photo-box {
-          position: relative;
-          background: #F1F5F9;
+          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
           display: flex;
-          align-items: center;
+          flex-direction: column;
+          transition: transform 0.22s ease, box-shadow 0.22s ease;
+        }
+
+        .reference-fleet-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+        }
+
+        .fleet-card-img-wrap {
+          position: relative;
+          width: 100%;
+          height: 200px;
+          background: #F1F5F9;
           overflow: hidden;
         }
-        .fleet-sleek-photo-box img {
+
+        .fleet-card-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.35s ease;
+          object-position: center;
+          transition: transform 0.3s ease;
         }
-        .fleet-sleek-card:hover .fleet-sleek-photo-box img {
-          transform: scale(1.03);
+
+        .reference-fleet-card:hover .fleet-card-img {
+          transform: scale(1.04);
         }
-        .fleet-corner-badge {
+
+        .fleet-card-badge {
           position: absolute;
-          top: 10px;
-          left: 10px;
-          z-index: 2;
-          display: inline-flex;
-          align-items: center;
-          gap: 4px;
+          top: 12px;
+          right: 12px;
           background: rgba(15, 23, 42, 0.88);
           backdrop-filter: blur(6px);
           color: #FFFFFF;
-          font-size: 0.68rem;
+          font-size: 0.72rem;
           font-weight: 700;
-          padding: 3px 8px;
+          padding: 4px 10px;
           border-radius: var(--radius-full);
-        }
-        .fleet-sleek-info-box {
-          padding: 18px 20px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          gap: 10px;
-          text-align: left;
-        }
-        .fleet-sleek-title-row {
-          display: flex;
-          align-items: flex-start;
-          justify-content: space-between;
-          gap: 8px;
-        }
-        .fleet-mini-make {
-          font-size: 0.68rem;
-          font-weight: 800;
-          letter-spacing: 0.14em;
-          color: #64748B;
-          display: block;
-        }
-        .fleet-compact-name {
-          font-size: 1.15rem;
-          font-weight: 800;
-          color: #0F172A;
-          line-height: 1.2;
-          margin-top: 1px;
-        }
-        .fleet-mini-rate {
-          font-size: 0.82rem;
-          font-weight: 800;
-          color: #0284C7;
-          background: #F0F9FF;
-          padding: 3px 8px;
-          border-radius: 6px;
-          white-space: nowrap;
-        }
-        .fleet-mini-specs {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-        }
-        .fleet-mini-specs li {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.82rem;
-          font-weight: 600;
-          color: #334155;
-          line-height: 1.3;
-        }
-        .fleet-sleek-actions {
-          display: grid;
-          grid-template-columns: 1.5fr 1fr;
-          gap: 8px;
-          margin-top: 4px;
-        }
-        .btn-compact-book {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          color: #FFFFFF;
-          font-weight: 700;
-          font-size: 0.84rem;
-          padding: 8px 12px;
-          border-radius: 8px;
-          transition: opacity 0.15s ease;
-        }
-        .btn-compact-book:hover {
-          opacity: 0.92;
-        }
-        .btn-compact-wa {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 5px;
-          background: #FFFFFF;
-          border: 1px solid #CBD5E1;
-          color: #0F172A;
-          font-weight: 700;
-          font-size: 0.82rem;
-          padding: 8px 10px;
-          border-radius: 8px;
-          transition: background 0.15s ease;
-        }
-        .btn-compact-wa:hover {
-          background: #F0FDF4;
-          border-color: #86EFAC;
+          border: 1px solid rgba(255, 255, 255, 0.2);
         }
 
-        @media (max-width: 1024px) {
-          .fleet-compact-grid {
+        .fleet-card-content {
+          padding: 22px;
+          display: flex;
+          flex-direction: column;
+          flex-grow: 1;
+          text-align: left;
+        }
+
+        .fleet-card-title-row {
+          display: flex;
+          align-items: baseline;
+          justify-content: space-between;
+          margin-bottom: 10px;
+        }
+
+        .fleet-card-type {
+          font-family: var(--font-heading);
+          font-size: 1.25rem;
+          font-weight: 900;
+          color: #0F172A;
+          letter-spacing: -0.01em;
+          margin: 0;
+        }
+
+        .fleet-card-model {
+          font-size: 0.8rem;
+          color: #64748B;
+          font-weight: 600;
+        }
+
+        .fleet-card-specs-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          font-size: 0.82rem;
+          color: #475569;
+          font-weight: 600;
+          margin-bottom: 12px;
+        }
+
+        .fleet-spec-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+        }
+
+        .fleet-card-desc {
+          font-size: 0.88rem;
+          color: #64748B;
+          line-height: 1.45;
+          margin-bottom: 20px;
+          flex-grow: 1;
+        }
+
+        .fleet-card-gold-btn {
+          width: 100%;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          background: #F59E0B;
+          color: #0F172A;
+          font-weight: 800;
+          font-size: 0.92rem;
+          padding: 12px 18px;
+          border-radius: 8px;
+          box-shadow: 0 2px 8px rgba(245, 158, 11, 0.25);
+          transition: background 0.18s ease;
+        }
+
+        .fleet-card-gold-btn:hover {
+          background: #D97706;
+        }
+
+        .booking-right-column {
+          position: sticky;
+          top: 96px;
+        }
+
+        @media (max-width: 1200px) {
+          .fleet-booking-grid {
             grid-template-columns: 1fr;
           }
-          .fleet-sleek-card {
-            max-height: none;
+          .booking-right-column {
+            position: static;
+            max-width: 600px;
+            width: 100%;
+            margin: 0 auto;
           }
         }
-        @media (max-width: 600px) {
-          .fleet-sleek-card {
-            grid-template-columns: 1fr;
-          }
-          .fleet-sleek-actions {
+
+        @media (max-width: 680px) {
+          .fleet-cards-row {
             grid-template-columns: 1fr;
           }
         }

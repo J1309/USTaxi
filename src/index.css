@@ -13,16 +13,23 @@
   /* Executive Brand Colors */
   --primary-navy: #0F172A;
   --primary-slate: #1E293B;
+  --dark-navy: #0A1118;
+  --dark-navy-card: #111A24;
+  --dark-navy-border: #1E293B;
   --brand-blue: #0284C7;
   --brand-blue-hover: #0369A1;
   --brand-blue-dark: #075985;
   --brand-lavender: #4F46E5;
   --brand-lavender-light: #EEF2FF;
 
-  /* Accent Action (Amber/Orange from reference) */
-  --accent-cta: #F97316;
-  --accent-cta-hover: #EA580C;
-  --accent-cta-glow: rgba(249, 115, 22, 0.28);
+  /* Reference Design Accent (Warm Gold / Amber) */
+  --accent-gold: #F59E0B;
+  --accent-gold-hover: #D97706;
+  --accent-gold-light: #FEF3C7;
+  --accent-gold-text: #0F172A;
+  --accent-cta: #F59E0B;
+  --accent-cta-hover: #D97706;
+  --accent-cta-glow: rgba(245, 158, 11, 0.28);
 
   /* WhatsApp */
   --whatsapp-green: #25D366;

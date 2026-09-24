@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { Phone, ArrowRight, Menu, X, MessageCircle } from 'lucide-react';
+import { ArrowRight, Menu, X } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
-import { OWNER_PHONE_RAW, getDirectWhatsAppChatUrl } from '../utils/whatsapp';
+import { OWNER_PHONE_RAW } from '../utils/whatsapp';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -128,14 +128,22 @@ export default function Navbar() {
 
         {/* Right Desktop Actions */}
         <div className="header-actions">
-          {/* Gold Book a Ride Button as shown in reference */}
+          {/* Phone block matching reference: number + Call Anytime */}
+          <div className="header-phone-block">
+            <a href={`tel:+${OWNER_PHONE_RAW}`} className="header-phone-number">
+              +1 (832) 879-8685
+            </a>
+            <span className="header-phone-sub">Call Anytime</span>
+          </div>
+
+          {/* Gold Book a Ride Button matching reference */}
           <button
             type="button"
             onClick={handleBookRideClick}
-            className="header-book-btn"
+            className="header-gold-btn"
           >
             <span>Book a Ride</span>
-            <ArrowRight size={15} />
+            <ArrowRight size={14} />
           </button>
 
           {/* Mobile Menu Hamburger */}
@@ -175,16 +183,6 @@ export default function Navbar() {
               </a>
             </li>
             <li>
-              <a href="#why-us" onClick={(e) => handleSectionNav(e, '#why-us')}>
-                Why Ride With Us
-              </a>
-            </li>
-            <li>
-              <a href="#houston-guide" onClick={(e) => handleSectionNav(e, '#houston-guide')}>
-                Houston Destinations
-              </a>
-            </li>
-            <li>
               <a href="#contact" onClick={(e) => handleSectionNav(e, '#contact')}>
                 Contact & 24/7 Dispatch
               </a>
@@ -192,19 +190,17 @@ export default function Navbar() {
           </ul>
 
           <div className="mobile-drawer-footer">
-            <a href={`tel:+${OWNER_PHONE_RAW}`} className="header-phone-pill mobile-full">
-              <Phone size={16} />
-              <span>Call (832) 879-8685</span>
+            <a href={`tel:+${OWNER_PHONE_RAW}`} className="header-phone-number mobile-phone">
+              +1 (832) 879-8685 (Call Anytime)
             </a>
-            <a
-              href={getDirectWhatsAppChatUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-whatsapp-pill mobile-full"
+            <button
+              type="button"
+              onClick={handleBookRideClick}
+              className="header-gold-btn mobile-full"
             >
-              <MessageCircle size={16} />
-              <span>WhatsApp Dispatch</span>
-            </a>
+              <span>Book a Ride</span>
+              <ArrowRight size={15} />
+            </button>
           </div>
         </div>
       )}
@@ -213,18 +209,16 @@ export default function Navbar() {
         .site-header {
           position: sticky;
           top: 0;
-          left: 0;
-          right: 0;
-          z-index: 100;
-          background: #FFFFFF;
-          border-bottom: 1px solid var(--border-subtle);
-          box-shadow: 0 1px 4px rgba(15, 23, 42, 0.04);
+          z-index: 1000;
+          background: #0A1118;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
         }
         .header-container {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 74px;
+          height: 76px;
         }
         .brand-logo-link {
           display: flex;
@@ -232,11 +226,11 @@ export default function Navbar() {
           gap: 12px;
         }
         .brand-logo-img {
-          width: 44px;
-          height: 44px;
+          width: 42px;
+          height: 42px;
           border-radius: 8px;
           object-fit: cover;
-          border: 1px solid #CBD5E1;
+          border: 1px solid rgba(255, 255, 255, 0.15);
         }
         .brand-text-block {
           display: flex;
@@ -244,19 +238,19 @@ export default function Navbar() {
         }
         .brand-name {
           font-family: var(--font-heading);
-          font-size: 1.15rem;
+          font-size: 1.12rem;
           font-weight: 800;
-          color: var(--text-main);
-          letter-spacing: 0.05em;
+          color: #FFFFFF;
+          letter-spacing: 0.06em;
           line-height: 1;
         }
         .brand-service {
           font-size: 0.68rem;
           font-weight: 700;
-          color: var(--brand-lavender);
+          color: #94A3B8;
           letter-spacing: 0.14em;
           text-transform: uppercase;
-          margin-top: 2px;
+          margin-top: 3px;
         }
         .desktop-nav-list {
           display: flex;
@@ -265,78 +259,85 @@ export default function Navbar() {
           list-style: none;
         }
         .desktop-nav-link {
-          font-size: 0.95rem;
+          font-size: 0.92rem;
           font-weight: 600;
-          color: var(--text-body);
+          color: #CBD5E1;
           transition: color 0.15s ease;
           position: relative;
         }
         .desktop-nav-link:hover,
         .desktop-nav-link.active {
-          color: var(--brand-blue);
+          color: #F59E0B;
         }
         .desktop-nav-link.active::after {
           content: '';
           position: absolute;
-          bottom: -25px;
+          bottom: -28px;
           left: 0;
           right: 0;
           height: 2px;
-          background: var(--brand-blue);
+          background: #F59E0B;
           border-radius: 2px;
         }
         .header-actions {
           display: flex;
           align-items: center;
-          gap: 14px;
+          gap: 20px;
         }
-        .header-phone-pill {
+        .header-phone-block {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          line-height: 1.2;
+        }
+        .header-phone-number {
+          font-size: 0.95rem;
+          font-weight: 700;
+          color: #FFFFFF;
+          letter-spacing: 0.01em;
+          transition: color 0.15s ease;
+        }
+        .header-phone-number:hover {
+          color: #F59E0B;
+        }
+        .header-phone-sub {
+          font-size: 0.72rem;
+          color: #94A3B8;
+          font-weight: 500;
+        }
+        .header-gold-btn {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: #0284C7;
-          color: #FFFFFF;
+          background: #F59E0B;
+          color: #0F172A;
           font-weight: 700;
-          font-size: 0.9rem;
-          padding: 9px 18px;
-          border-radius: var(--radius-full);
-          transition: background 0.15s ease;
+          font-size: 0.88rem;
+          padding: 10px 18px;
+          border-radius: 8px;
+          box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25);
+          transition: all 0.18s ease;
         }
-        .header-phone-pill:hover {
-          background: #0369A1;
-        }
-        .header-book-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: var(--accent-cta);
-          color: #FFFFFF;
-          font-weight: 700;
-          font-size: 0.9rem;
-          padding: 9px 18px;
-          border-radius: var(--radius-full);
-          box-shadow: 0 2px 10px var(--accent-cta-glow);
-          transition: background 0.15s ease;
-        }
-        .header-book-btn:hover {
-          background: var(--accent-cta-hover);
+        .header-gold-btn:hover {
+          background: #D97706;
+          transform: translateY(-1px);
         }
         .header-hamburger-btn {
           display: none;
           padding: 8px;
-          color: var(--text-main);
+          color: #FFFFFF;
         }
 
         /* Mobile Drawer */
         .mobile-nav-drawer {
           position: absolute;
-          top: 74px;
+          top: 76px;
           left: 0;
           right: 0;
-          background: #FFFFFF;
-          border-bottom: 2px solid var(--border-subtle);
+          background: #0A1118;
+          border-bottom: 2px solid rgba(255, 255, 255, 0.1);
           padding: 24px;
-          box-shadow: var(--shadow-lg);
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
           display: flex;
           flex-direction: column;
           gap: 20px;
@@ -350,15 +351,19 @@ export default function Navbar() {
         .mobile-links-list a {
           font-size: 1.1rem;
           font-weight: 700;
-          color: var(--text-main);
+          color: #FFFFFF;
           padding: 6px 0;
         }
         .mobile-drawer-footer {
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          gap: 12px;
           padding-top: 14px;
-          border-top: 1px solid var(--border-subtle);
+          border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        .mobile-phone {
+          text-align: center;
+          padding: 6px 0;
         }
         .mobile-full {
           width: 100%;
@@ -367,8 +372,8 @@ export default function Navbar() {
 
         @media (max-width: 900px) {
           .desktop-nav,
-          .header-phone-pill,
-          .header-book-btn {
+          .header-phone-block,
+          .header-gold-btn {
             display: none;
           }
           .header-hamburger-btn {
