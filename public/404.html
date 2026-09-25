@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <title>Lavender Taxi Service</title>
+    <script type="text/javascript">
+      // Single Page Apps for GitHub Pages & Static Hosts
+      // Redirects 404 sub-paths to index.html with a query string preserving the route
+      var pathSegmentsToKeep = 1; // 1 for GitHub project pages e.g. /USTaxi/about, 0 for root domains
+      var l = window.location;
+      
+      // Check if this is a custom domain or localhost
+      if (l.hostname.indexOf('github.io') === -1) {
+        pathSegmentsToKeep = 0;
+      }
+
+      var redirectUrl = l.protocol + '//' + l.hostname + (l.port ? ':' + l.port : '') +
+        l.pathname.split('/').slice(0, 1 + pathSegmentsToKeep).join('/') + '/?/' +
+        l.pathname.slice(1).split('/').slice(pathSegmentsToKeep).join('/').replace(/&/g, '~and~') +
+        (l.search ? '&' + l.search.slice(1).replace(/&/g, '~and~') : '') +
+        l.hash;
+
+      l.replace(redirectUrl);
+    </script>
+  </head>
+  <body>
+  </body>
+</html>
