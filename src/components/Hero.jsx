@@ -5,16 +5,16 @@ import { OWNER_PHONE_RAW } from '../utils/whatsapp';
 
 export default function Hero() {
   const handleBookRideClick = () => {
-    smoothScrollTo('#fleet-booking');
+    smoothScrollTo('#fleet-booking-card');
   };
 
   return (
-    <section id="home" className="hero-reference-section">
-      {/* Background Image: sub_car_img.png with Dark Night/Dusk Overlay */}
+    <section id="home" className="hero-light-luxury-section">
+      {/* Background Image: hero_suburban_light.jpg with Light Elegant Fade */}
       <div className="hero-bg-media">
         <img
-          src="/images/sub_car_img.png"
-          alt="Lavender Taxi Houston Luxury Chevrolet Suburban"
+          src="/images/hero_suburban_light.jpg"
+          alt="Lavender Taxi Houston Luxury Chevrolet Suburban High Country"
           className="hero-bg-img"
         />
         <div className="hero-bg-overlay" />
@@ -53,7 +53,7 @@ export default function Hero() {
 
             <a
               href={`tel:+${OWNER_PHONE_RAW}`}
-              className="hero-dark-outline-btn"
+              className="hero-light-outline-btn"
             >
               <Phone size={16} />
               <span>+1 (832) 879-8685</span>
@@ -62,12 +62,12 @@ export default function Hero() {
 
           <div className="hero-airports-strip">
             <div className="airport-bullet">
-              <Plane size={15} color="#F59E0B" />
+              <Plane size={15} color="#D97706" />
               <span>IAH Airport</span>
             </div>
             <span className="strip-divider">|</span>
             <div className="airport-bullet">
-              <Plane size={15} color="#F59E0B" />
+              <Plane size={15} color="#D97706" />
               <span>HOU Airport</span>
             </div>
             <span className="strip-divider">|</span>
@@ -79,16 +79,16 @@ export default function Hero() {
       </div>
 
       <style>{`
-        .hero-reference-section {
+        .hero-light-luxury-section {
           position: relative;
           width: 100%;
-          min-height: 560px;
+          min-height: 580px;
           display: flex;
           align-items: center;
           overflow: hidden;
-          background: #0A1118;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          padding: 80px 0 70px 0;
+          background: #FFFFFF;
+          border-bottom: 1px solid #E2E8F0;
+          padding: 85px 0 75px 0;
         }
 
         .hero-bg-media {
@@ -111,10 +111,11 @@ export default function Hero() {
           inset: 0;
           background: linear-gradient(
             90deg,
-            #0A1118 0%,
-            rgba(10, 17, 24, 0.95) 44%,
-            rgba(10, 17, 24, 0.45) 75%,
-            rgba(10, 17, 24, 0.75) 100%
+            #FFFFFF 0%,
+            rgba(255, 255, 255, 0.97) 36%,
+            rgba(255, 255, 255, 0.82) 50%,
+            rgba(255, 255, 255, 0.35) 68%,
+            rgba(255, 255, 255, 0.0) 86%
           );
         }
 
@@ -128,7 +129,7 @@ export default function Hero() {
         }
 
         .hero-text-block {
-          max-width: 640px;
+          max-width: 620px;
           text-align: left;
         }
 
@@ -136,36 +137,37 @@ export default function Hero() {
           display: flex;
           align-items: center;
           gap: 10px;
-          font-size: 0.74rem;
+          font-size: 0.76rem;
           font-weight: 800;
           letter-spacing: 0.16em;
-          color: #94A3B8;
+          color: #64748B;
           margin-bottom: 14px;
         }
 
         .hero-eyebrow-pills .dot {
-          color: #F59E0B;
+          color: #D97706;
         }
 
         .hero-main-heading {
-          font-size: clamp(2.6rem, 4.2vw, 3.8rem);
+          font-family: var(--font-heading);
+          font-size: clamp(2.95rem, 4.6vw, 4.3rem);
           font-weight: 900;
-          color: #FFFFFF;
+          color: #0F172A;
           line-height: 1.08;
           letter-spacing: -0.025em;
           margin-bottom: 16px;
         }
 
         .gold-text {
-          color: #F59E0B;
+          color: #D97706;
         }
 
         .hero-sub-description {
           font-size: 1.05rem;
-          color: #CBD5E1;
+          color: #334155;
           line-height: 1.55;
           margin-bottom: 28px;
-          max-width: 580px;
+          max-width: 540px;
         }
 
         .hero-cta-buttons-row {
@@ -186,44 +188,44 @@ export default function Hero() {
           font-size: 0.98rem;
           padding: 13px 24px;
           border-radius: 8px;
-          box-shadow: 0 4px 16px rgba(245, 158, 11, 0.3);
+          box-shadow: 0 4px 16px rgba(245, 158, 11, 0.32);
           transition: all 0.18s ease;
         }
 
         .hero-gold-action-btn:hover {
           background: #D97706;
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(245, 158, 11, 0.4);
+          box-shadow: 0 6px 20px rgba(245, 158, 11, 0.42);
         }
 
-        .hero-dark-outline-btn {
+        .hero-light-outline-btn {
           display: inline-flex;
           align-items: center;
           gap: 10px;
-          background: rgba(15, 23, 42, 0.7);
-          color: #FFFFFF;
-          border: 1px solid rgba(255, 255, 255, 0.25);
+          background: #FFFFFF;
+          color: #0F172A;
+          border: 1.5px solid #CBD5E1;
           font-weight: 700;
           font-size: 0.95rem;
           padding: 13px 22px;
           border-radius: 8px;
-          backdrop-filter: blur(8px);
+          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
           transition: all 0.18s ease;
         }
 
-        .hero-dark-outline-btn:hover {
-          border-color: #F59E0B;
-          color: #F59E0B;
-          background: rgba(15, 23, 42, 0.9);
+        .hero-light-outline-btn:hover {
+          border-color: #D97706;
+          color: #D97706;
+          background: #FFFBEB;
         }
 
         .hero-airports-strip {
           display: flex;
           align-items: center;
           gap: 14px;
-          color: #94A3B8;
-          font-size: 0.85rem;
-          font-weight: 600;
+          color: #64748B;
+          font-size: 0.86rem;
+          font-weight: 700;
           flex-wrap: wrap;
         }
 
@@ -231,15 +233,15 @@ export default function Hero() {
           display: flex;
           align-items: center;
           gap: 6px;
-          color: #E2E8F0;
+          color: #1E293B;
         }
 
         .strip-divider {
-          color: #475569;
+          color: #CBD5E1;
         }
 
         @media (max-width: 768px) {
-          .hero-reference-section {
+          .hero-light-luxury-section {
             padding: 60px 0 50px 0;
             min-height: auto;
           }
@@ -251,7 +253,7 @@ export default function Hero() {
             align-items: stretch;
           }
           .hero-gold-action-btn,
-          .hero-dark-outline-btn {
+          .hero-light-outline-btn {
             justify-content: center;
           }
         }

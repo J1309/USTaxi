@@ -348,7 +348,7 @@ export default function AboutSection() {
             <p className="metric-sub">Real-time flight radar tracking ensures we are always waiting.</p>
           </div>
           <div className="metric-box">
-            <span className="metric-big-num">$0</span>
+            <span className="metric-big-num">Zero</span>
             <span className="metric-label">Surge Surcharges Ever</span>
             <p className="metric-sub">Honest, upfront flat-rate quotes rain or shine.</p>
           </div>

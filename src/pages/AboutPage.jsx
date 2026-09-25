@@ -383,7 +383,7 @@ export default function AboutPage() {
                 <tbody>
                   <tr>
                     <td><strong>Pricing Model</strong></td>
-                    <td className="td-highlight"><Check size={16} color="#0284C7" /> Flat Upfront Rate ($0 Surge Ever)</td>
+                    <td className="td-highlight"><Check size={16} color="#0284C7" /> Flat Upfront Rate (Zero Surge Ever)</td>
                     <td><CloseIcon size={16} color="#EF4444" /> Volatile 1.5x - 3.5x Surge Pricing</td>
                   </tr>
                   <tr>
@@ -434,7 +434,7 @@ export default function AboutPage() {
               <p className="metric-sub">Real-time flight radar tracking ensures we are always waiting.</p>
             </div>
             <div className="metric-box">
-              <span className="metric-big-num">$0</span>
+              <span className="metric-big-num">Zero</span>
               <span className="metric-label">Surge Surcharges Ever</span>
               <p className="metric-sub">Honest, upfront flat-rate quotes rain or shine.</p>
             </div>

@@ -17,12 +17,12 @@ const VEHICLES = [
   {
     id: 'suburban',
     type: 'SUV',
-    name: 'Chevrolet Suburban',
+    name: 'Chevrolet Suburban High Country',
     image: '/images/fleet_suburban.jpg',
     passengers: 'Up to 7 Passengers',
     luggage: '6 Luggage',
-    description: 'More space for families, cruise groups and airport luggage. Ideal for transfers and private group travel.',
-    badge: 'Luxury Full-Size SUV',
+    description: 'Spacious High Country luxury SUV for families, cruise groups and airport luggage. Ideal for transfers and private group travel.',
+    badge: 'High Country Luxury SUV',
   },
 ];
 
@@ -46,7 +46,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             <div className="fleet-header-row">
               <div className="fleet-header-text">
                 <span className="section-tag-gold">OUR FLEET</span>
-                <h2 className="fleet-title-white">Choose Your Ride</h2>
+                <h2 className="fleet-title-dark">Choose Your Ride</h2>
                 <p className="fleet-subtitle-gray">
                   Clean, well-maintained vehicles for a comfortable and safe journey.
                 </p>
@@ -65,7 +65,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
               </a>
             </div>
 
-            {/* The 2 Luxury Vehicle Cards matching reference styling */}
+            {/* The 2 Luxury Vehicle Cards matching light executive styling */}
             <div className="fleet-cards-row">
               {VEHICLES.map((v) => (
                 <div key={v.id} className="reference-fleet-card">
@@ -119,9 +119,9 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
       <style>{`
         .fleet-booking-combined-section {
-          background: #0A1118;
-          padding: 70px 0 80px 0;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          background: #F8FAFC;
+          padding: 75px 0 85px 0;
+          border-bottom: 1px solid #E2E8F0;
         }
 
         .fleet-booking-grid {
@@ -151,15 +151,16 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           font-weight: 800;
           letter-spacing: 0.16em;
           text-transform: uppercase;
-          color: #F59E0B;
+          color: #D97706;
           display: block;
           margin-bottom: 6px;
         }
 
-        .fleet-title-white {
-          font-size: clamp(2rem, 3.2vw, 2.7rem);
+        .fleet-title-dark {
+          font-family: var(--font-heading);
+          font-size: clamp(2.35rem, 3.5vw, 3.15rem);
           font-weight: 900;
-          color: #FFFFFF;
+          color: #0F172A;
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin: 0 0 8px 0;
@@ -167,7 +168,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
         .fleet-subtitle-gray {
           font-size: 0.96rem;
-          color: #94A3B8;
+          color: #64748B;
           margin: 0;
         }
 
@@ -176,17 +177,19 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           align-items: center;
           gap: 6px;
           padding: 8px 16px;
-          border: 1px solid rgba(255, 255, 255, 0.2);
+          background: #FFFFFF;
+          border: 1px solid #CBD5E1;
           border-radius: var(--radius-full);
           font-size: 0.84rem;
           font-weight: 700;
-          color: #E2E8F0;
+          color: #334155;
+          box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
           transition: all 0.18s ease;
         }
 
         .btn-view-services:hover {
-          border-color: #F59E0B;
-          color: #F59E0B;
+          border-color: #D97706;
+          color: #D97706;
         }
 
         /* 2 Fleet Cards side by side */
@@ -198,32 +201,35 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
         .reference-fleet-card {
           background: #FFFFFF;
+          border: 1px solid #E2E8F0;
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.22);
+          box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
           display: flex;
           flex-direction: column;
-          transition: transform 0.22s ease, box-shadow 0.22s ease;
+          transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
         }
 
         .reference-fleet-card:hover {
           transform: translateY(-4px);
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+          border-color: #BAE6FD;
+          box-shadow: 0 12px 28px rgba(15, 23, 42, 0.1);
         }
 
         .fleet-card-img-wrap {
           position: relative;
           width: 100%;
-          height: 200px;
-          background: #F1F5F9;
+          height: 210px;
+          background: #0A1118;
           overflow: hidden;
         }
 
         .fleet-card-img {
           width: 100%;
           height: 100%;
-          object-fit: cover;
+          object-fit: contain;
           object-position: center;
+          padding: 12px;
           transition: transform 0.3s ease;
         }
 
@@ -246,7 +252,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
         }
 
         .fleet-card-content {
-          padding: 22px;
+          padding: 24px;
           display: flex;
           flex-direction: column;
           flex-grow: 1;

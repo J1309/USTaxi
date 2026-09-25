@@ -172,11 +172,11 @@ input, select, textarea {
 }
 
 .section-title-large {
-  font-size: clamp(2.1rem, 3.2vw, 2.9rem);
+  font-size: clamp(2.35rem, 3.5vw, 3.2rem);
   font-weight: 800;
   color: var(--text-main);
   letter-spacing: -0.025em;
-  line-height: 1.18;
+  line-height: 1.15;
   text-align: left;
 }
 

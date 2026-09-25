@@ -287,7 +287,7 @@ export default function BookingWidget({ preselectedVehicle }) {
         {/* Fare Estimate & CTA Buttons */}
         <div className="booking-footer-clean">
           <div className="fare-badge-clean">
-            <span className="fare-badge-label">Estimated Fare:</span>
+            <span className="fare-badge-label">Pricing Guarantee:</span>
             <span className="fare-badge-price">{fareResult.displayText}</span>
           </div>
 

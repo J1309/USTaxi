@@ -62,7 +62,7 @@ export function buildWhatsAppBookingUrl(booking) {
   }
 
   if (estimatedFare) {
-    details.push(`💵 *Estimated Rate:* $${estimatedFare}`);
+    details.push(`💵 *Rate Terms:* ${estimatedFare}`);
   }
 
   const footer = `\n_Sent via Lavender Taxi Service Houston Web App._\n_Please confirm availability and dispatch our chauffeur. Thank you!_`;
