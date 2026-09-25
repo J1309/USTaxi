@@ -1,7 +1,6 @@
 import React from 'react';
-import { ArrowRight, Phone, Car, Plane } from 'lucide-react';
+import { ArrowRight, Car, Plane } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
-import { OWNER_PHONE_RAW } from '../utils/whatsapp';
 
 export default function Hero() {
   const handleBookRideClick = () => {
@@ -50,14 +49,6 @@ export default function Hero() {
               <span>Book a Ride</span>
               <ArrowRight size={16} />
             </button>
-
-            <a
-              href={`tel:+${OWNER_PHONE_RAW}`}
-              className="hero-light-outline-btn"
-            >
-              <Phone size={16} />
-              <span>+1 (832) 879-8685</span>
-            </a>
           </div>
 
           <div className="hero-airports-strip">
@@ -111,11 +102,10 @@ export default function Hero() {
           inset: 0;
           background: linear-gradient(
             90deg,
-            #FFFFFF 0%,
-            rgba(255, 255, 255, 0.97) 36%,
-            rgba(255, 255, 255, 0.82) 50%,
-            rgba(255, 255, 255, 0.35) 68%,
-            rgba(255, 255, 255, 0.0) 86%
+            rgba(255, 255, 255, 0.80) 0%,
+            rgba(255, 255, 255, 0.62) 26%,
+            rgba(255, 255, 255, 0.20) 46%,
+            rgba(255, 255, 255, 0.0) 64%
           );
         }
 
@@ -198,26 +188,6 @@ export default function Hero() {
           box-shadow: 0 6px 20px rgba(245, 158, 11, 0.42);
         }
 
-        .hero-light-outline-btn {
-          display: inline-flex;
-          align-items: center;
-          gap: 10px;
-          background: #FFFFFF;
-          color: #0F172A;
-          border: 1.5px solid #CBD5E1;
-          font-weight: 700;
-          font-size: 0.95rem;
-          padding: 13px 22px;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.06);
-          transition: all 0.18s ease;
-        }
-
-        .hero-light-outline-btn:hover {
-          border-color: #D97706;
-          color: #D97706;
-          background: #FFFBEB;
-        }
 
         .hero-airports-strip {
           display: flex;
@@ -245,6 +215,14 @@ export default function Hero() {
             padding: 60px 0 50px 0;
             min-height: auto;
           }
+          .hero-bg-overlay {
+            background: linear-gradient(
+              180deg,
+              rgba(255, 255, 255, 0.85) 0%,
+              rgba(255, 255, 255, 0.65) 50%,
+              rgba(255, 255, 255, 0.20) 100%
+            );
+          }
           .hero-main-heading {
             font-size: 2.3rem;
           }
@@ -252,8 +230,7 @@ export default function Hero() {
             flex-direction: column;
             align-items: stretch;
           }
-          .hero-gold-action-btn,
-          .hero-light-outline-btn {
+          .hero-gold-action-btn {
             justify-content: center;
           }
         }
