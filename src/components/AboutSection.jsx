@@ -12,7 +12,9 @@ import {
   Quote, 
   Calendar,
   Compass,
-  HeartHandshake
+  HeartHandshake,
+  Check,
+  X as CloseIcon
 } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
 import { OWNER_PHONE_DISPLAY, OWNER_PHONE_RAW, getDirectWhatsAppOwnerUrl } from '../utils/whatsapp';
@@ -21,233 +23,244 @@ export default function AboutSection() {
   const [activeTab, setActiveTab] = useState('story');
 
   return (
-    <section id="about" className="section-spacing about-section-clean">
+    <section id="about" className="about-section-luxury">
       <div className="container">
-        {/* Section Header (Strictly Left-Aligned) */}
+        
+        {/* Section Header */}
         <div className="about-header-block">
-          <span className="section-tag-small">MEET THE FOUNDER & OUR STORY</span>
-          <h2 className="section-title-large">Driven by Integrity. Defined by Personal Service.</h2>
-          <p className="section-desc-sub">
-            Meet <strong>Symanthan</strong> — the dedicated founder and owner behind Lavender Taxi Service, 
-            bringing honest flat rates, punctual excellence, and true Southern hospitality to Greater Houston.
+          <div className="about-tag-pill">
+            <Sparkles size={14} color="#D97706" />
+            <span>MEET THE FOUNDER & OUR PHILOSOPHY</span>
+          </div>
+          <h2 className="about-main-title">
+            Driven by Integrity. Defined by Personal Service.
+          </h2>
+          <p className="about-sub-title">
+            Meet <strong>Symanthan</strong> — the dedicated founder and owner-chauffeur behind Lavender Taxi Service, 
+            bringing honest upfront flat rates, punctual excellence, and true Southern hospitality to Greater Houston.
           </p>
         </div>
 
-        {/* Main 2-Column Bento Layout */}
+        {/* Main 2-Column Luxury Layout */}
         <div className="about-grid-main">
-          {/* Left Column: Owner Profile & Executive Showcase */}
-          <div className="owner-card-profile">
-            {/* Portrait Image Frame */}
-            <div className="owner-image-frame">
-              <img
-                src="/images/owner_symanthan.jpg"
-                alt="Symanthan - Founder & Owner of Lavender Taxi Service"
-                className="owner-photo-img"
-              />
-              {/* Online / Active Owner Badge */}
-              <div className="owner-status-pill">
-                <span className="status-dot-pulse"></span>
-                <span>Owner-Operated in Houston</span>
-              </div>
-            </div>
-
-            {/* Owner Info & Details */}
-            <div className="owner-info-content">
-              <div className="owner-title-row">
-                <div>
-                  <h3 className="owner-name-heading">Symanthan</h3>
-                  <p className="owner-role-text">Founder & Business Owner</p>
-                </div>
-                <div className="owner-badge-verified" title="Verified Business Owner">
-                  <ShieldCheck size={18} color="#0284C7" />
-                  <span>Verified Owner</span>
+          
+          {/* LEFT COLUMN: Executive Owner Showcase Card */}
+          <div className="owner-card-bezel">
+            <div className="owner-card-inner">
+              
+              {/* Portrait Image Frame */}
+              <div className="owner-image-frame">
+                <img
+                  src="/images/owner_symanthan.jpg"
+                  alt="Symanthan - Founder & Owner of Lavender Taxi Service"
+                  className="owner-photo-img"
+                />
+                
+                {/* Active Owner Status Pill */}
+                <div className="owner-status-pill">
+                  <span className="status-dot-pulse" />
+                  <span>Owner-Chauffeur • Active in Houston</span>
                 </div>
               </div>
 
-              {/* Service Badges */}
-              <div className="owner-pills-row">
-                <span className="owner-pill-item">
-                  <MapPin size={13} color="#0284C7" />
-                  <span>Houston, Texas</span>
-                </span>
-                <span className="owner-pill-item">
-                  <Calendar size={13} color="#0284C7" />
-                  <span>10+ Yrs Experience</span>
-                </span>
-                <span className="owner-pill-item">
-                  <Award size={13} color="#0284C7" />
-                  <span>5,000+ Safe Trips</span>
-                </span>
-              </div>
-
-              {/* Personal Guarantee Card */}
-              <div className="owner-quote-box">
-                <Quote size={20} className="owner-quote-icon" />
-                <p className="owner-quote-text">
-                  “When you book with Lavender Taxi, you have my personal word on your pickup. No cancelled rides, no surge pricing—just dependable, executive service every single time.”
-                </p>
-                <div className="owner-signature-line">
-                  <span className="signature-name">— Symanthan</span>
-                  <span className="signature-sub">Lavender Taxi Service</span>
+              {/* Owner Info Details */}
+              <div className="owner-info-content">
+                <div className="owner-title-row">
+                  <div>
+                    <h3 className="owner-name-heading">Symanthan</h3>
+                    <p className="owner-role-text">Founder & Managing Chauffeur</p>
+                  </div>
+                  <div className="owner-badge-verified" title="City of Houston Licensed & Permitted Business">
+                    <ShieldCheck size={16} color="#059669" />
+                    <span>City Permitted</span>
+                  </div>
                 </div>
-              </div>
 
-              {/* Direct Owner Contact Actions */}
-              <div className="owner-direct-actions">
-                <a
-                  href={`tel:+${OWNER_PHONE_RAW}`}
-                  className="btn-owner-call"
-                  title="Call Symanthan Directly"
-                >
-                  <Phone size={16} />
-                  <span>Call {OWNER_PHONE_DISPLAY}</span>
-                </a>
-                <a
-                  href={getDirectWhatsAppOwnerUrl()}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="btn-owner-whatsapp"
-                  title="Chat directly with Symanthan on WhatsApp"
-                >
-                  <MessageCircle size={16} />
-                  <span>WhatsApp Symanthan</span>
-                </a>
+                {/* Service Credentials Pills */}
+                <div className="owner-credentials-pills">
+                  <span className="cred-pill">
+                    <MapPin size={13} color="#D97706" />
+                    <span>Houston, Texas</span>
+                  </span>
+                  <span className="cred-pill">
+                    <Calendar size={13} color="#D97706" />
+                    <span>10+ Yrs Experience</span>
+                  </span>
+                  <span className="cred-pill">
+                    <Award size={13} color="#D97706" />
+                    <span>5,000+ Safe Transfers</span>
+                  </span>
+                </div>
+
+                {/* Personal Word of Honor Quote Box */}
+                <div className="owner-quote-box">
+                  <Quote size={18} className="quote-icon" />
+                  <p className="quote-text">
+                    “When you book with Lavender Taxi, you have my personal word on your pickup. No cancelled rides, no surge pricing—just dependable, executive service every single time.”
+                  </p>
+                  <div className="quote-author-row">
+                    <span className="author-name">— Symanthan</span>
+                    <span className="author-title">Owner-Operator</span>
+                  </div>
+                </div>
+
+                {/* Direct Owner Actions */}
+                <div className="owner-direct-actions">
+                  <a
+                    href={getDirectWhatsAppOwnerUrl()}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="btn-owner-whatsapp"
+                    title="Chat directly with Symanthan on WhatsApp"
+                  >
+                    <MessageCircle size={17} />
+                    <span>WhatsApp Symanthan</span>
+                  </a>
+
+                  <a
+                    href={`tel:+${OWNER_PHONE_RAW}`}
+                    className="btn-owner-call"
+                    title="Call Symanthan Directly"
+                  >
+                    <Phone size={16} />
+                    <span>Call {OWNER_PHONE_DISPLAY}</span>
+                  </a>
+                </div>
+
               </div>
             </div>
           </div>
 
-          {/* Right Column: The Story & Chauffeur Philosophy */}
-          <div className="story-content-panel">
-            {/* Interactive Tab Switcher */}
-            <div className="story-tabs-nav" role="tablist">
+          {/* RIGHT COLUMN: Editorial Story & Chauffeur Philosophy */}
+          <div className="about-editorial-panel">
+            
+            {/* Interactive Luxury Tab Switcher */}
+            <div className="about-tabs-nav" role="tablist">
               <button
                 type="button"
                 role="tab"
                 aria-selected={activeTab === 'story'}
                 onClick={() => setActiveTab('story')}
-                className={`story-tab-btn ${activeTab === 'story' ? 'active' : ''}`}
+                className={`about-tab-btn ${activeTab === 'story' ? 'active' : ''}`}
               >
                 <Compass size={16} />
-                <span>The Journey</span>
+                <span>Our Story</span>
               </button>
               <button
                 type="button"
                 role="tab"
                 aria-selected={activeTab === 'standard'}
                 onClick={() => setActiveTab('standard')}
-                className={`story-tab-btn ${activeTab === 'standard' ? 'active' : ''}`}
+                className={`about-tab-btn ${activeTab === 'standard' ? 'active' : ''}`}
               >
                 <Sparkles size={16} />
-                <span>The Chauffeur Standard</span>
+                <span>Chauffeur Standards</span>
               </button>
               <button
                 type="button"
                 role="tab"
                 aria-selected={activeTab === 'advantage'}
                 onClick={() => setActiveTab('advantage')}
-                className={`story-tab-btn ${activeTab === 'advantage' ? 'active' : ''}`}
+                className={`about-tab-btn ${activeTab === 'advantage' ? 'active' : ''}`}
               >
                 <HeartHandshake size={16} />
-                <span>The Personal Advantage</span>
+                <span>Owner Advantage</span>
               </button>
             </div>
 
-            {/* Tab 1: The Business Journey */}
+            {/* TAB 1: The Business Journey & Mission */}
             {activeTab === 'story' && (
-              <div className="story-tab-content">
-                <h4 className="story-content-title">
-                  From a Vision for Hospitality to Houston's Premier Private Transportation Service
+              <div className="tab-pane-fade">
+                <h4 className="pane-lead-title">
+                  From a Vision of Southern Hospitality to Houston's Premier Private Transportation Service
                 </h4>
                 
-                <p className="story-paragraph">
+                <p className="pane-lead-text">
                   Over a decade ago, Symanthan noticed a troubling shift across Houston’s ground transportation landscape. 
-                  Rideshare apps were introducing volatile surge pricing, unvetted drivers, and frequent last-minute cancellations—leaving 
-                  passengers stranded at Bush Intercontinental (IAH) and William P. Hobby (HOU) late at night or during sudden Texas downpours.
+                  Algorithmic rideshare apps introduced unpredictable surge multipliers, unvetted drivers, and sudden cancellations—leaving 
+                  passengers stranded at Bush Intercontinental (IAH) and William P. Hobby (HOU) late at night or during sudden Gulf storms.
                 </p>
 
-                <p className="story-paragraph">
-                  Believing that travelers deserved far greater respect and reliability, Symanthan founded 
-                  <strong> Lavender Taxi Service</strong> with a distinct mission: to restore trust and executive-grade standards to private travel—where 
-                  our professional chauffeurs arrive early, assist with luggage with care, know Houston’s highway grid inside out, and provide 
-                  honest, upfront flat rates with zero surprise surcharges.
+                <p className="pane-body-text">
+                  Believing that travelers deserved far greater respect and reliability, Symanthan established 
+                  <strong> Lavender Taxi Service</strong> with a distinct mission: to restore trust and executive-grade standards to private travel. 
+                  Our chauffeurs arrive early, assist with luggage with white-glove care, know Houston’s highway network inside out, and provide 
+                  guaranteed upfront flat rates with zero surge surcharges.
                 </p>
 
-                <p className="story-paragraph">
-                  Establishing Lavender Taxi Service as a hands-on, owner-operated company, Symanthan carefully built a trusted team of 
-                  certified, professional chauffeurs while personally overseeing every dispatch and booking. Under his management, the company 
-                  has earned the trust of business executives, medical patients visiting the Texas Medical Center, families heading to the Space Center NASA, 
-                  and vacationers boarding cruise liners in Galveston. Today, his fleet of premium Chevrolet Suburbans and Lexus Luxury Sedans stands as a 
-                  symbol of punctuality, safety, and true Southern hospitality.
-                </p>
-
-                {/* Key Highlights Grid */}
-                <div className="story-features-grid">
-                  <div className="story-feature-card">
-                    <CheckCircle2 size={18} color="#0284C7" />
+                {/* 2 High-Craft Story Bento Chips */}
+                <div className="story-bento-row">
+                  <div className="story-bento-card">
+                    <div className="bento-icon-circle">
+                      <Clock size={18} color="#D97706" />
+                    </div>
                     <div>
-                      <span className="feature-title">Independent & Local</span>
-                      <p className="feature-desc">Proudly Houston-owned and operated with deep community roots.</p>
+                      <h5 className="bento-card-title">Real-Time Flight Radar Tracking</h5>
+                      <p className="bento-card-desc">
+                        We monitor FAA flight tail numbers live. Early landing or two-hour delay—your driver is curbside the moment you exit baggage claim with zero waiting fees.
+                      </p>
                     </div>
                   </div>
-                  <div className="story-feature-card">
-                    <CheckCircle2 size={18} color="#0284C7" />
+
+                  <div className="story-bento-card">
+                    <div className="bento-icon-circle">
+                      <ShieldCheck size={18} color="#059669" />
+                    </div>
                     <div>
-                      <span className="feature-title">Punctuality Obsession</span>
-                      <p className="feature-desc">We track FAA flights in real-time so your driver is curbside the moment you touch down.</p>
+                      <h5 className="bento-card-title">Hands-On Owner Accountability</h5>
+                      <p className="bento-card-desc">
+                        Symanthan personally oversees dispatching and booking inquiries. You speak directly with the owner, not an automated chatbot or outsourced call center.
+                      </p>
                     </div>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Tab 2: The Chauffeur Standard */}
+            {/* TAB 2: The 4 Chauffeur Standards */}
             {activeTab === 'standard' && (
-              <div className="story-tab-content">
-                <h4 className="story-content-title">
+              <div className="tab-pane-fade">
+                <h4 className="pane-lead-title">
                   The Four Non-Negotiable Pillars of Lavender Taxi Service
                 </h4>
-                
-                <div className="standards-list">
-                  <div className="standard-item">
-                    <div className="standard-num">01</div>
-                    <div className="standard-text">
-                      <h5>Guaranteed Flat-Rate Transparency</h5>
-                      <p>
-                        No algorithmic surge prices. Whether it is rush hour on I-610, torrential rain, or a holiday weekend, 
-                        the rate you are quoted is the rate you pay. Guaranteed.
+
+                <div className="standards-grid-cards">
+                  <div className="standard-pillar-card">
+                    <div className="pillar-num-badge">01</div>
+                    <div className="pillar-body">
+                      <h5 className="pillar-title">Guaranteed Flat-Rate Transparency</h5>
+                      <p className="pillar-desc">
+                        No dynamic surge multipliers. Whether it is rush hour on I-610, torrential rain, or holiday weekends, the upfront quote you receive is the exact rate you pay.
                       </p>
                     </div>
                   </div>
 
-                  <div className="standard-item">
-                    <div className="standard-num">02</div>
-                    <div className="standard-text">
-                      <h5>Live FAA Flight Tracking (IAH & HOU)</h5>
-                      <p>
-                        We monitor commercial and private tail numbers in real time. If your flight lands 30 minutes early or is delayed 
-                        two hours, Symanthan and his team adjust your pickup schedule automatically with zero waiting penalty.
+                  <div className="standard-pillar-card">
+                    <div className="pillar-num-badge">02</div>
+                    <div className="pillar-body">
+                      <h5 className="pillar-title">FAA Commercial Flight Tracking</h5>
+                      <p className="pillar-desc">
+                        We synchronize our dispatch with your actual aircraft touchdown time at IAH & HOU, ensuring timely curbside pickup regardless of airline delays.
                       </p>
                     </div>
                   </div>
 
-                  <div className="standard-item">
-                    <div className="standard-num">03</div>
-                    <div className="standard-text">
-                      <h5>Immaculate Executive Cabin Cleanliness</h5>
-                      <p>
-                        Every Chevrolet Suburban and Lexus Sedan is thoroughly sanitized, vacuumed, and detailed between clients. Enjoy 
-                        complimentary chilled bottled water, phone charging cords for iPhone and Android, and climate control set to your preference.
+                  <div className="standard-pillar-card">
+                    <div className="pillar-num-badge">03</div>
+                    <div className="pillar-body">
+                      <h5 className="pillar-title">Executive Cabin Sanitization</h5>
+                      <p className="pillar-desc">
+                        Every Chevrolet Suburban and Lexus Sedan is steam sanitized and detailed between clients, complete with chilled bottled spring water and device charging.
                       </p>
                     </div>
                   </div>
 
-                  <div className="standard-item">
-                    <div className="standard-num">04</div>
-                    <div className="standard-text">
-                      <h5>White-Glove Door-to-Door Courtesy</h5>
-                      <p>
-                        Our service begins the moment we greet you at your doorstep or baggage claim. We handle all heavy luggage with care 
-                        and ensure you arrive at your destination refreshed and stress-free.
+                  <div className="standard-pillar-card">
+                    <div className="pillar-num-badge">04</div>
+                    <div className="pillar-body">
+                      <h5 className="pillar-title">White-Glove Luggage & Courtesy</h5>
+                      <p className="pillar-desc">
+                        From your doorstep to the airport terminal, our chauffeurs handle heavy luggage, open doors, and provide a quiet, smooth ride tailored to your preference.
                       </p>
                     </div>
                   </div>
@@ -255,65 +268,77 @@ export default function AboutSection() {
               </div>
             )}
 
-            {/* Tab 3: The Personal Advantage */}
+            {/* TAB 3: The Personal Advantage (Comparison) */}
             {activeTab === 'advantage' && (
-              <div className="story-tab-content">
-                <h4 className="story-content-title">
+              <div className="tab-pane-fade">
+                <h4 className="pane-lead-title">
                   Why Discerning Travelers Choose an Owner-Operator Over App Rides
                 </h4>
-                
-                <p className="story-paragraph">
-                  When you book with mass-market rideshare platforms, your booking is sent into an automated roulette wheel. Drivers can cancel 
-                  at the last moment, vehicles may be aged or poorly maintained, and if anything goes wrong, you are forced to navigate 
-                  robotic support chat bots.
-                </p>
 
-                <p className="story-paragraph">
-                  With <strong>Lavender Taxi Service</strong>, you are in direct contact with <strong>Symanthan</strong>. You receive:
-                </p>
-
-                <div className="advantage-benefits-grid">
-                  <div className="benefit-badge-item">
-                    <ShieldCheck size={20} color="#0284C7" />
-                    <div>
-                      <strong>Direct Owner Line</strong>
-                      <p>Reach owner Symanthan on WhatsApp or phone 24/7 for booking and dispatch coordination without frustrating automated menus.</p>
-                    </div>
+                <div className="comparison-table-card">
+                  <div className="comparison-header">
+                    <span className="col-feature">Service Feature</span>
+                    <span className="col-brand">Lavender Taxi Service</span>
+                    <span className="col-others">Generic Rideshare Apps</span>
                   </div>
 
-                  <div className="benefit-badge-item">
-                    <Clock size={20} color="#0284C7" />
-                    <div>
-                      <strong>Early Morning Reliability</strong>
-                      <p>Need a 3:30 AM pickup for a 6:00 AM flight? We confirm the evening before and arrive 10 minutes early.</p>
-                    </div>
+                  <div className="comparison-row">
+                    <span className="col-feature">Vehicle Guarantee</span>
+                    <span className="col-brand">
+                      <Check size={15} color="#059669" />
+                      Guaranteed Suburban or Lexus
+                    </span>
+                    <span className="col-others">
+                      <CloseIcon size={14} color="#94A3B8" />
+                      Random unvetted compact cars
+                    </span>
                   </div>
 
-                  <div className="benefit-badge-item">
-                    <Sparkles size={20} color="#0284C7" />
-                    <div>
-                      <strong>Specialized Care for Families & Seniors</strong>
-                      <p>Gentle assistance for elderly passengers, child-friendly spacious seating, and accommodating Galveston cruise luggage.</p>
-                    </div>
+                  <div className="comparison-row">
+                    <span className="col-feature">Surge Pricing</span>
+                    <span className="col-brand">
+                      <Check size={15} color="#059669" />
+                      Zero Surge Ever (Upfront Flat Rate)
+                    </span>
+                    <span className="col-others">
+                      <CloseIcon size={14} color="#94A3B8" />
+                      2x - 3.5x Surge in bad weather
+                    </span>
                   </div>
 
-                  <div className="benefit-badge-item">
-                    <Award size={20} color="#0284C7" />
-                    <div>
-                      <strong>Premium Vehicle Fleet</strong>
-                      <p>Only top-tier Chevrolet Suburbans (seats up to 7) and Lexus Luxury Sedans—never compact economy cars.</p>
-                    </div>
+                  <div className="comparison-row">
+                    <span className="col-feature">Driver Reliability</span>
+                    <span className="col-brand">
+                      <Check size={15} color="#059669" />
+                      100% Confirmed • Zero Cancellations
+                    </span>
+                    <span className="col-others">
+                      <CloseIcon size={14} color="#94A3B8" />
+                      Frequent last-minute cancellations
+                    </span>
+                  </div>
+
+                  <div className="comparison-row">
+                    <span className="col-feature">Customer Support</span>
+                    <span className="col-brand">
+                      <Check size={15} color="#059669" />
+                      Direct Line to Owner Symanthan
+                    </span>
+                    <span className="col-others">
+                      <CloseIcon size={14} color="#94A3B8" />
+                      Automated chatbots & script agents
+                    </span>
                   </div>
                 </div>
               </div>
             )}
 
-            {/* Bottom Story Action Row */}
-            <div className="story-bottom-action-bar">
+            {/* Bottom Action Row */}
+            <div className="about-bottom-actions">
               <button
                 type="button"
-                onClick={() => smoothScrollTo('#booking-section')}
-                className="btn-cta-gold"
+                onClick={() => smoothScrollTo('#fleet-booking-card')}
+                className="btn-reserve-ride"
               >
                 <span>Reserve Your Private Ride</span>
                 <ArrowRight size={16} />
@@ -322,11 +347,12 @@ export default function AboutSection() {
               <button
                 type="button"
                 onClick={() => smoothScrollTo('#fleet')}
-                className="btn-blue-outline"
+                className="btn-view-fleet"
               >
-                <span>View Our Vehicles</span>
+                <span>Explore Fleet & Specs</span>
               </button>
             </div>
+
           </div>
         </div>
 
@@ -334,8 +360,8 @@ export default function AboutSection() {
         <div className="about-metrics-strip">
           <div className="metric-box">
             <span className="metric-big-num">10+</span>
-            <span className="metric-label">Years Navigating Houston</span>
-            <p className="metric-sub">Deep knowledge of all Texas freeways, bypasses & terminals.</p>
+            <span className="metric-label">Years Serving Houston</span>
+            <p className="metric-sub">Deep navigational knowledge of all Texas freeways, bypasses & terminals.</p>
           </div>
           <div className="metric-box">
             <span className="metric-big-num">5,000+</span>
@@ -345,54 +371,103 @@ export default function AboutSection() {
           <div className="metric-box">
             <span className="metric-big-num">100%</span>
             <span className="metric-label">On-Time Guarantee</span>
-            <p className="metric-sub">Real-time flight radar tracking ensures we are always waiting.</p>
+            <p className="metric-sub">Real-time FAA flight radar tracking ensures we are always waiting curbside.</p>
           </div>
           <div className="metric-box">
             <span className="metric-big-num">Zero</span>
             <span className="metric-label">Surge Surcharges Ever</span>
-            <p className="metric-sub">Honest, upfront flat-rate quotes rain or shine.</p>
+            <p className="metric-sub">Honest, upfront flat-rate quotes rain or shine with zero surprises.</p>
           </div>
         </div>
+
       </div>
 
       <style>{`
-        .about-section-clean {
+        /* ==========================================================================
+           ABOUT SECTION — HIGH-END EDITORIAL LUXURY
+           ========================================================================== */
+        .about-section-luxury {
           background: #FFFFFF;
-          border-top: 1px solid var(--border-subtle);
-          border-bottom: 1px solid var(--border-subtle);
+          padding: 85px 0 95px 0;
+          border-top: 1px solid #E2E8F0;
+          border-bottom: 1px solid #E2E8F0;
         }
 
         .about-header-block {
-          margin-bottom: 45px;
           text-align: left;
+          max-width: 820px;
+          margin-bottom: 48px;
         }
 
+        .about-tag-pill {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          background: #FEF3C7;
+          border: 1px solid #FDE68A;
+          padding: 4px 12px;
+          border-radius: 9999px;
+          font-size: 0.76rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          color: #B45309;
+          margin-bottom: 12px;
+        }
+
+        .about-main-title {
+          font-family: var(--font-heading);
+          font-size: clamp(2.35rem, 3.5vw, 3.2rem);
+          font-weight: 900;
+          color: #0F172A;
+          line-height: 1.15;
+          letter-spacing: -0.025em;
+          margin-bottom: 12px;
+        }
+
+        .about-sub-title {
+          font-size: 1.05rem;
+          color: #475569;
+          line-height: 1.6;
+        }
+
+        /* 2-Column Grid */
         .about-grid-main {
           display: grid;
-          grid-template-columns: 460px 1fr;
+          grid-template-columns: 440px 1fr;
           gap: 40px;
           align-items: start;
+          margin-bottom: 60px;
         }
 
-        /* Left Column: Owner Profile Card */
-        .owner-card-profile {
+        /* --------------------------------------------------------------------------
+           LEFT: Double-Bezel Owner Card
+           -------------------------------------------------------------------------- */
+        .owner-card-bezel {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 24px;
+          padding: 10px;
+          box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.08);
+          position: sticky;
+          top: 96px;
+        }
+
+        .owner-card-inner {
           background: #FFFFFF;
           border: 1px solid #E2E8F0;
-          border-radius: var(--radius-xl);
+          border-radius: 18px;
           padding: 24px;
-          box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
-          position: sticky;
-          top: 90px;
+          text-align: left;
         }
 
         .owner-image-frame {
           position: relative;
           width: 100%;
-          border-radius: var(--radius-lg);
+          border-radius: 14px;
           overflow: hidden;
           background: #F1F5F9;
-          border: 1px solid #CBD5E1;
-          box-shadow: 0 4px 12px rgba(15, 23, 42, 0.06);
+          border: 1px solid #E2E8F0;
+          box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
         }
 
         .owner-photo-img {
@@ -404,23 +479,25 @@ export default function AboutSection() {
           transition: transform 0.4s var(--ease-snappy);
         }
 
-        .owner-photo-img:hover {
+        .owner-image-frame:hover .owner-photo-img {
           transform: scale(1.02);
         }
 
         .owner-status-pill {
           position: absolute;
-          bottom: 14px;
-          left: 14px;
-          background: rgba(15, 23, 42, 0.85);
+          bottom: 12px;
+          left: 12px;
+          right: 12px;
+          background: rgba(15, 23, 42, 0.90);
           backdrop-filter: blur(8px);
           color: #FFFFFF;
-          font-size: 0.78rem;
+          font-size: 0.74rem;
           font-weight: 700;
-          padding: 6px 14px;
-          border-radius: var(--radius-full);
+          padding: 7px 12px;
+          border-radius: 9999px;
           display: flex;
           align-items: center;
+          justify-content: center;
           gap: 8px;
           border: 1px solid rgba(255, 255, 255, 0.15);
         }
@@ -429,15 +506,15 @@ export default function AboutSection() {
           width: 8px;
           height: 8px;
           border-radius: 50%;
-          background: #22C55E;
-          box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.4);
-          animation: pulse-ring 2s infinite;
+          background: #10B981;
+          box-shadow: 0 0 0 2px rgba(16, 185, 129, 0.4);
+          animation: statusPulse 2s infinite;
         }
 
-        @keyframes pulse-ring {
-          0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.7); }
-          70% { box-shadow: 0 0 0 6px rgba(34, 197, 94, 0); }
-          100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+        @keyframes statusPulse {
+          0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+          70% { box-shadow: 0 0 0 6px rgba(16, 185, 129, 0); }
+          100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
         }
 
         .owner-info-content {
@@ -451,22 +528,21 @@ export default function AboutSection() {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
-          padding-bottom: 14px;
-          border-bottom: 1px solid #F1F5F9;
+          gap: 12px;
         }
 
         .owner-name-heading {
-          font-size: 1.55rem;
-          font-weight: 800;
+          font-family: var(--font-heading);
+          font-size: 1.35rem;
+          font-weight: 900;
           color: #0F172A;
-          letter-spacing: -0.02em;
-          line-height: 1.15;
+          line-height: 1.1;
         }
 
         .owner-role-text {
-          font-size: 0.88rem;
+          font-size: 0.82rem;
+          color: #64748B;
           font-weight: 600;
-          color: #0284C7;
           margin-top: 3px;
         }
 
@@ -474,405 +550,485 @@ export default function AboutSection() {
           display: inline-flex;
           align-items: center;
           gap: 5px;
-          background: #F0F9FF;
-          border: 1px solid #BAE6FD;
-          color: #0369A1;
-          font-size: 0.76rem;
-          font-weight: 700;
-          padding: 4px 10px;
-          border-radius: var(--radius-full);
+          background: #ECFDF5;
+          border: 1px solid #A7F3D0;
+          padding: 4px 9px;
+          border-radius: 9999px;
+          font-size: 0.72rem;
+          font-weight: 800;
+          color: #047857;
         }
 
-        .owner-pills-row {
+        .owner-credentials-pills {
           display: flex;
           flex-wrap: wrap;
-          gap: 8px;
+          gap: 6px;
         }
 
-        .owner-pill-item {
+        .cred-pill {
           display: inline-flex;
           align-items: center;
           gap: 6px;
           background: #F8FAFC;
           border: 1px solid #E2E8F0;
           padding: 5px 10px;
-          border-radius: var(--radius-full);
-          font-size: 0.78rem;
-          font-weight: 600;
+          border-radius: 6px;
+          font-size: 0.74rem;
+          font-weight: 700;
           color: #334155;
         }
 
+        /* Quote Box */
         .owner-quote-box {
-          background: #F8FAFC;
-          border-left: 3px solid #0284C7;
+          background: #FBF9F5;
+          border: 1px solid #EAE4D6;
+          border-left: 3px solid #D97706;
+          border-radius: 0 10px 10px 0;
           padding: 14px 16px;
-          border-radius: 0 var(--radius-md) var(--radius-md) 0;
           position: relative;
         }
 
-        .owner-quote-icon {
-          color: #0284C7;
-          opacity: 0.35;
-          position: absolute;
-          top: 10px;
-          right: 12px;
+        .quote-icon {
+          color: #D97706;
+          margin-bottom: 6px;
+          display: block;
         }
 
-        .owner-quote-text {
+        .quote-text {
           font-size: 0.86rem;
-          color: #334155;
           font-style: italic;
+          color: #334155;
           line-height: 1.5;
         }
 
-        .owner-signature-line {
-          margin-top: 8px;
+        .quote-author-row {
           display: flex;
-          align-items: baseline;
+          align-items: center;
           gap: 6px;
+          margin-top: 8px;
         }
 
-        .signature-name {
-          font-size: 0.82rem;
-          font-weight: 700;
+        .author-name {
+          font-weight: 800;
+          font-size: 0.78rem;
           color: #0F172A;
         }
 
-        .signature-sub {
-          font-size: 0.74rem;
+        .author-title {
+          font-size: 0.72rem;
           color: #64748B;
         }
 
+        /* Direct Contact Buttons */
         .owner-direct-actions {
           display: flex;
           flex-direction: column;
           gap: 10px;
-          margin-top: 6px;
-        }
-
-        .btn-owner-call {
-          display: inline-flex;
-          align-items: center;
-          justify-content: center;
-          gap: 8px;
-          background: #0284C7;
-          color: #FFFFFF;
-          font-weight: 700;
-          font-size: 0.9rem;
-          padding: 11px 18px;
-          border-radius: var(--radius-full);
-          transition: background 0.15s ease;
-        }
-
-        .btn-owner-call:hover {
-          background: #0369A1;
+          margin-top: 4px;
         }
 
         .btn-owner-whatsapp {
-          display: inline-flex;
+          display: flex;
           align-items: center;
           justify-content: center;
           gap: 8px;
           background: #25D366;
           color: #FFFFFF;
           font-weight: 700;
-          font-size: 0.9rem;
-          padding: 11px 18px;
-          border-radius: var(--radius-full);
-          transition: background 0.15s ease;
+          font-size: 0.88rem;
+          padding: 10px 16px;
+          border-radius: 8px;
           box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+          transition: all 0.18s ease;
         }
 
         .btn-owner-whatsapp:hover {
           background: #1EBE5D;
+          transform: translateY(-1px);
         }
 
-        /* Right Column: Story Panel */
-        .story-content-panel {
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: var(--radius-xl);
-          padding: 36px 40px;
-          box-shadow: 0 4px 20px rgba(15, 23, 42, 0.04);
-        }
-
-        .story-tabs-nav {
+        .btn-owner-call {
           display: flex;
           align-items: center;
-          gap: 10px;
-          border-bottom: 2px solid #F1F5F9;
-          padding-bottom: 14px;
-          margin-bottom: 28px;
-          overflow-x: auto;
-        }
-
-        .story-tab-btn {
-          display: inline-flex;
-          align-items: center;
+          justify-content: center;
           gap: 8px;
-          padding: 9px 18px;
-          border-radius: var(--radius-full);
-          font-size: 0.9rem;
+          background: #FFFFFF;
+          border: 1.5px solid #E2E8F0;
+          color: #0F172A;
           font-weight: 700;
-          color: #64748B;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          transition: all 0.2s ease;
-          white-space: nowrap;
+          font-size: 0.88rem;
+          padding: 9px 16px;
+          border-radius: 8px;
+          transition: all 0.18s ease;
         }
 
-        .story-tab-btn:hover {
-          color: #0284C7;
-          border-color: #BAE6FD;
-          background: #F0F9FF;
+        .btn-owner-call:hover {
+          border-color: #D97706;
+          color: #D97706;
+          background: #FFFBEB;
         }
 
-        .story-tab-btn.active {
-          background: #0284C7;
-          color: #FFFFFF;
-          border-color: #0284C7;
-          box-shadow: 0 2px 8px rgba(2, 132, 199, 0.25);
-        }
-
-        .story-tab-content {
-          animation: fadeInTab 0.3s ease-in-out;
-        }
-
-        @keyframes fadeInTab {
-          from { opacity: 0; transform: translateY(6px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-
-        .story-content-title {
-          font-size: 1.45rem;
-          font-weight: 800;
-          color: #0F172A;
-          line-height: 1.3;
-          margin-bottom: 18px;
+        /* --------------------------------------------------------------------------
+           RIGHT: Editorial Tabs & Content
+           -------------------------------------------------------------------------- */
+        .about-editorial-panel {
           text-align: left;
         }
 
-        .story-paragraph {
-          font-size: 1.02rem;
-          line-height: 1.7;
-          color: #334155;
-          margin-bottom: 16px;
-          text-align: left;
-        }
-
-        .story-paragraph strong {
-          color: #0F172A;
-        }
-
-        .story-features-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 20px;
-          margin-top: 26px;
-          padding-top: 22px;
-          border-top: 1px solid #F1F5F9;
-        }
-
-        .story-feature-card {
+        .about-tabs-nav {
           display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          background: #F8FAFC;
+          gap: 8px;
+          background: #F1F5F9;
+          padding: 6px;
+          border-radius: 12px;
+          margin-bottom: 28px;
           border: 1px solid #E2E8F0;
-          padding: 16px;
-          border-radius: var(--radius-md);
-        }
-
-        .feature-title {
-          font-size: 0.95rem;
-          font-weight: 800;
-          color: #0F172A;
-          display: block;
-          margin-bottom: 4px;
-        }
-
-        .feature-desc {
-          font-size: 0.85rem;
-          color: #64748B;
-          line-height: 1.45;
-          margin: 0;
-        }
-
-        /* Standards List */
-        .standards-list {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-
-        .standard-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 18px;
-          padding: 18px;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: var(--radius-md);
-          transition: border-color 0.2s ease;
-        }
-
-        .standard-item:hover {
-          border-color: #BAE6FD;
-          background: #F0F9FF;
-        }
-
-        .standard-num {
-          font-size: 1.3rem;
-          font-weight: 800;
-          color: #0284C7;
-          line-height: 1;
-          padding-top: 2px;
-        }
-
-        .standard-text h5 {
-          font-size: 1.05rem;
-          font-weight: 800;
-          color: #0F172A;
-          margin-bottom: 4px;
-        }
-
-        .standard-text p {
-          font-size: 0.9rem;
-          color: #475569;
-          line-height: 1.5;
-          margin: 0;
-        }
-
-        /* Advantage Grid */
-        .advantage-benefits-grid {
-          display: grid;
-          grid-template-columns: repeat(2, 1fr);
-          gap: 18px;
-          margin-top: 14px;
-        }
-
-        .benefit-badge-item {
-          display: flex;
-          align-items: flex-start;
-          gap: 12px;
-          padding: 16px;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: var(--radius-md);
-        }
-
-        .benefit-badge-item strong {
-          font-size: 0.95rem;
-          color: #0F172A;
-          display: block;
-          margin-bottom: 4px;
-        }
-
-        .benefit-badge-item p {
-          font-size: 0.85rem;
-          color: #64748B;
-          line-height: 1.45;
-          margin: 0;
-        }
-
-        .story-bottom-action-bar {
-          display: flex;
-          align-items: center;
-          gap: 16px;
-          margin-top: 32px;
-          padding-top: 24px;
-          border-top: 1px solid #F1F5F9;
           flex-wrap: wrap;
         }
 
-        /* Metrics Strip */
+        .about-tab-btn {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: transparent;
+          color: #64748B;
+          font-weight: 700;
+          font-size: 0.88rem;
+          padding: 9px 18px;
+          border-radius: 8px;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .about-tab-btn:hover {
+          color: #0F172A;
+        }
+
+        .about-tab-btn.active {
+          background: #FFFFFF;
+          color: #0F172A;
+          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+        }
+
+        .pane-lead-title {
+          font-family: var(--font-heading);
+          font-size: 1.35rem;
+          font-weight: 800;
+          color: #0F172A;
+          line-height: 1.3;
+          margin-bottom: 16px;
+        }
+
+        .pane-lead-text {
+          font-size: 1.02rem;
+          color: #334155;
+          line-height: 1.65;
+          margin-bottom: 14px;
+        }
+
+        .pane-body-text {
+          font-size: 0.96rem;
+          color: #475569;
+          line-height: 1.65;
+          margin-bottom: 24px;
+        }
+
+        /* Story Bento Chips */
+        .story-bento-row {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 28px;
+        }
+
+        .story-bento-card {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 14px;
+          padding: 20px;
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .story-bento-card:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+        }
+
+        .bento-icon-circle {
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
+        }
+
+        .bento-card-title {
+          font-family: var(--font-heading);
+          font-size: 0.96rem;
+          font-weight: 800;
+          color: #0F172A;
+          margin-bottom: 6px;
+        }
+
+        .bento-card-desc {
+          font-size: 0.84rem;
+          color: #64748B;
+          line-height: 1.5;
+        }
+
+        /* 4 Standards Grid */
+        .standards-grid-cards {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 16px;
+          margin-bottom: 28px;
+        }
+
+        .standard-pillar-card {
+          background: #F8FAFC;
+          border: 1px solid #E2E8F0;
+          border-radius: 14px;
+          padding: 20px;
+          display: flex;
+          gap: 14px;
+          align-items: flex-start;
+        }
+
+        .pillar-num-badge {
+          font-family: var(--font-heading);
+          font-size: 1.1rem;
+          font-weight: 900;
+          color: #D97706;
+          background: #FEF3C7;
+          border: 1px solid #FDE68A;
+          width: 38px;
+          height: 38px;
+          border-radius: 10px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .pillar-title {
+          font-family: var(--font-heading);
+          font-size: 0.96rem;
+          font-weight: 800;
+          color: #0F172A;
+          margin-bottom: 6px;
+        }
+
+        .pillar-desc {
+          font-size: 0.84rem;
+          color: #64748B;
+          line-height: 1.5;
+        }
+
+        /* Comparison Table Card */
+        .comparison-table-card {
+          background: #FFFFFF;
+          border: 1px solid #E2E8F0;
+          border-radius: 14px;
+          overflow: hidden;
+          margin-bottom: 28px;
+          box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+        }
+
+        .comparison-header {
+          display: grid;
+          grid-template-columns: 1.4fr 1.6fr 1.6fr;
+          background: #0F172A;
+          color: #FFFFFF;
+          padding: 12px 18px;
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        .comparison-header .col-brand {
+          color: #F59E0B;
+        }
+
+        .comparison-row {
+          display: grid;
+          grid-template-columns: 1.4fr 1.6fr 1.6fr;
+          padding: 14px 18px;
+          border-bottom: 1px solid #F1F5F9;
+          font-size: 0.85rem;
+          align-items: center;
+        }
+
+        .comparison-row:last-child {
+          border-bottom: none;
+        }
+
+        .comparison-row .col-feature {
+          font-weight: 700;
+          color: #0F172A;
+        }
+
+        .comparison-row .col-brand {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #0F172A;
+          font-weight: 700;
+        }
+
+        .comparison-row .col-others {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          color: #64748B;
+        }
+
+        /* Action Row */
+        .about-bottom-actions {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          flex-wrap: wrap;
+        }
+
+        .btn-reserve-ride {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #F59E0B;
+          color: #0F172A;
+          font-weight: 800;
+          font-size: 0.94rem;
+          padding: 12px 24px;
+          border-radius: 9999px;
+          box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
+          transition: all 0.18s ease;
+        }
+
+        .btn-reserve-ride:hover {
+          background: #D97706;
+          transform: translateY(-1px);
+        }
+
+        .btn-view-fleet {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          background: #FFFFFF;
+          border: 1.5px solid #CBD5E1;
+          color: #334155;
+          font-weight: 700;
+          font-size: 0.90rem;
+          padding: 11px 22px;
+          border-radius: 9999px;
+          transition: all 0.18s ease;
+        }
+
+        .btn-view-fleet:hover {
+          border-color: #0F172A;
+          color: #0F172A;
+          background: #F8FAFC;
+        }
+
+        /* --------------------------------------------------------------------------
+           BOTTOM: 4 Trust Milestone Metric Cards
+           -------------------------------------------------------------------------- */
         .about-metrics-strip {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
-          margin-top: 40px;
+          gap: 20px;
         }
 
         .metric-box {
           background: #F8FAFC;
           border: 1px solid #E2E8F0;
-          border-radius: var(--radius-lg);
-          padding: 24px;
+          border-top: 3px solid #D97706;
+          border-radius: 14px;
+          padding: 24px 20px;
           text-align: left;
-          transition: all 0.2s ease;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .metric-box:hover {
-          border-color: #BAE6FD;
-          background: #F0F9FF;
           transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
         }
 
         .metric-big-num {
           font-family: var(--font-heading);
           font-size: 2.2rem;
-          font-weight: 800;
-          color: #0284C7;
+          font-weight: 900;
+          color: #0F172A;
           display: block;
           line-height: 1;
-          letter-spacing: -0.03em;
+          margin-bottom: 6px;
         }
 
         .metric-label {
-          font-size: 0.95rem;
+          font-size: 0.88rem;
           font-weight: 800;
-          color: #0F172A;
+          color: #D97706;
           display: block;
-          margin-top: 8px;
-          margin-bottom: 4px;
+          margin-bottom: 6px;
         }
 
         .metric-sub {
           font-size: 0.82rem;
           color: #64748B;
-          line-height: 1.4;
-          margin: 0;
+          line-height: 1.45;
         }
 
-        @media (max-width: 1200px) {
+        /* Responsive Breakpoints */
+        @media (max-width: 1024px) {
           .about-grid-main {
-            grid-template-columns: 380px 1fr;
-            gap: 28px;
+            grid-template-columns: 1fr;
           }
+
+          .owner-card-bezel {
+            position: static;
+          }
+
           .about-metrics-strip {
             grid-template-columns: repeat(2, 1fr);
           }
         }
 
-        @media (max-width: 900px) {
-          .about-grid-main {
-            grid-template-columns: 1fr;
+        @media (max-width: 640px) {
+          .about-section-luxury {
+            padding: 60px 0 70px 0;
           }
-          .owner-card-profile {
-            position: static;
-          }
-          .story-features-grid,
-          .advantage-benefits-grid {
-            grid-template-columns: 1fr;
-          }
-          .story-content-panel {
-            padding: 24px;
-          }
-        }
 
-        @media (max-width: 600px) {
+          .story-bento-row,
+          .standards-grid-cards {
+            grid-template-columns: 1fr;
+          }
+
+          .comparison-header,
+          .comparison-row {
+            grid-template-columns: 1fr;
+            gap: 6px;
+          }
+
           .about-metrics-strip {
             grid-template-columns: 1fr;
           }
-          .story-tabs-nav {
-            justify-content: flex-start;
-          }
-          .story-bottom-action-bar {
+
+          .about-bottom-actions {
             flex-direction: column;
             align-items: stretch;
           }
-          .story-bottom-action-bar button {
-            width: 100%;
+
+          .btn-reserve-ride,
+          .btn-view-fleet {
+            justify-content: center;
           }
         }
       `}</style>
