@@ -65,7 +65,7 @@ export default function Navbar() {
           className="brand-logo-link"
         >
           <img
-            src="/images/logo_lavender.jpg"
+            src="/images/logo_lavender_transparent.png"
             alt="Lavender Taxi Service"
             className="brand-logo-img"
           />
@@ -210,9 +210,11 @@ export default function Navbar() {
           position: sticky;
           top: 0;
           z-index: 1000;
-          background: #0A1118;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.25);
+          background: rgba(255, 255, 255, 0.94);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          border-bottom: 1px solid #E2E8F0;
+          box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
         }
         .header-container {
           display: flex;
@@ -223,14 +225,15 @@ export default function Navbar() {
         .brand-logo-link {
           display: flex;
           align-items: center;
-          gap: 12px;
+          gap: 14px;
         }
         .brand-logo-img {
-          width: 42px;
-          height: 42px;
-          border-radius: 8px;
-          object-fit: cover;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          width: 52px;
+          height: auto;
+          max-height: 38px;
+          object-fit: contain;
+          background: transparent;
+          border: none;
         }
         .brand-text-block {
           display: flex;
@@ -238,17 +241,17 @@ export default function Navbar() {
         }
         .brand-name {
           font-family: var(--font-heading);
-          font-size: 1.12rem;
-          font-weight: 800;
-          color: #FFFFFF;
+          font-size: 1.15rem;
+          font-weight: 900;
+          color: #0F172A;
           letter-spacing: 0.06em;
           line-height: 1;
         }
         .brand-service {
           font-size: 0.68rem;
-          font-weight: 700;
-          color: #94A3B8;
-          letter-spacing: 0.14em;
+          font-weight: 800;
+          color: #64748B;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
           margin-top: 3px;
         }
@@ -261,13 +264,16 @@ export default function Navbar() {
         .desktop-nav-link {
           font-size: 0.92rem;
           font-weight: 600;
-          color: #CBD5E1;
+          color: #334155;
           transition: color 0.15s ease;
           position: relative;
         }
-        .desktop-nav-link:hover,
+        .desktop-nav-link:hover {
+          color: #D97706;
+        }
         .desktop-nav-link.active {
-          color: #F59E0B;
+          color: #0F172A;
+          font-weight: 800;
         }
         .desktop-nav-link.active::after {
           content: '';
@@ -275,8 +281,8 @@ export default function Navbar() {
           bottom: -28px;
           left: 0;
           right: 0;
-          height: 2px;
-          background: #F59E0B;
+          height: 2.5px;
+          background: #D97706;
           border-radius: 2px;
         }
         .header-actions {
@@ -292,18 +298,18 @@ export default function Navbar() {
         }
         .header-phone-number {
           font-size: 0.95rem;
-          font-weight: 700;
-          color: #FFFFFF;
+          font-weight: 800;
+          color: #0F172A;
           letter-spacing: 0.01em;
           transition: color 0.15s ease;
         }
         .header-phone-number:hover {
-          color: #F59E0B;
+          color: #D97706;
         }
         .header-phone-sub {
           font-size: 0.72rem;
-          color: #94A3B8;
-          font-weight: 500;
+          color: #64748B;
+          font-weight: 600;
         }
         .header-gold-btn {
           display: inline-flex;
@@ -311,7 +317,7 @@ export default function Navbar() {
           gap: 8px;
           background: #F59E0B;
           color: #0F172A;
-          font-weight: 700;
+          font-weight: 800;
           font-size: 0.88rem;
           padding: 10px 18px;
           border-radius: 8px;
@@ -325,7 +331,7 @@ export default function Navbar() {
         .header-hamburger-btn {
           display: none;
           padding: 8px;
-          color: #FFFFFF;
+          color: #0F172A;
         }
 
         /* Mobile Drawer */
@@ -334,10 +340,10 @@ export default function Navbar() {
           top: 76px;
           left: 0;
           right: 0;
-          background: #0A1118;
-          border-bottom: 2px solid rgba(255, 255, 255, 0.1);
+          background: #FFFFFF;
+          border-bottom: 2px solid #E2E8F0;
           padding: 24px;
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+          box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
           display: flex;
           flex-direction: column;
           gap: 20px;
@@ -351,7 +357,7 @@ export default function Navbar() {
         .mobile-links-list a {
           font-size: 1.1rem;
           font-weight: 700;
-          color: #FFFFFF;
+          color: #0F172A;
           padding: 6px 0;
         }
         .mobile-drawer-footer {
@@ -359,11 +365,12 @@ export default function Navbar() {
           flex-direction: column;
           gap: 12px;
           padding-top: 14px;
-          border-top: 1px solid rgba(255, 255, 255, 0.1);
+          border-top: 1px solid #E2E8F0;
         }
         .mobile-phone {
           text-align: center;
           padding: 6px 0;
+          color: #0F172A;
         }
         .mobile-full {
           width: 100%;

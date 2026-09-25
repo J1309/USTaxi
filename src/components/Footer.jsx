@@ -45,7 +45,7 @@ export default function Footer() {
             <div className="footer-brand-header">
               <a href="/" onClick={handleHomeNav} style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
                 <img
-                  src="/images/logo_lavender.jpg"
+                  src="/images/logo_lavender_transparent.png"
                   alt="Lavender Taxi Service"
                   className="footer-brand-logo"
                 />
@@ -204,11 +204,12 @@ export default function Footer() {
           gap: 12px;
         }
         .footer-brand-logo {
-          width: 44px;
-          height: 44px;
-          border-radius: 8px;
-          object-fit: cover;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          width: 52px;
+          height: auto;
+          max-height: 38px;
+          object-fit: contain;
+          background: transparent;
+          border: none;
         }
         .footer-brand-title {
           font-family: var(--font-heading);
