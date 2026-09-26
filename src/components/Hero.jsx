@@ -1,6 +1,7 @@
 import React from 'react';
-import { ArrowRight, Phone } from 'lucide-react';
+import { ArrowRight, Phone, ChevronDown } from 'lucide-react';
 import { openBooking } from '../utils/bookingModal';
+import { smoothScrollTo } from '../hooks/useLenis';
 import { OWNER_PHONE_DISPLAY, OWNER_PHONE_RAW } from '../utils/whatsapp';
 import BookingWidget from './BookingWidget';
 
@@ -64,6 +65,27 @@ export default function Hero({ onSelectVehicle }) {
               <span className="desktop-call-text">{OWNER_PHONE_DISPLAY}</span>
             </a>
           </div>
+        </div>
+
+        {/* Mobile View Bottom Anchor: Eliminates emptiness in lower part */}
+        <div className="hero-mobile-bottom-dock">
+          <div className="hero-vehicle-glass-pill">
+            <span className="fleet-pill-dot" />
+            <span className="fleet-pill-model">Chevrolet Suburban High Country</span>
+            <span className="fleet-pill-sep">·</span>
+            <span className="fleet-pill-badge">Flagship SUV</span>
+          </div>
+          <a 
+            href="#services" 
+            className="hero-mobile-scroll-hint" 
+            onClick={(e) => {
+              e.preventDefault();
+              smoothScrollTo('#services');
+            }}
+          >
+            <span>Scroll to explore</span>
+            <ChevronDown size={14} className="bounce-arrow" />
+          </a>
         </div>
       </div>
 
@@ -213,6 +235,10 @@ export default function Hero({ onSelectVehicle }) {
           background: #FFFFFF;
         }
 
+        .hero-mobile-bottom-dock {
+          display: none;
+        }
+
         /* Floating Booking Dock */
         .hero-booking-dock {
           position: relative;
@@ -227,15 +253,16 @@ export default function Hero({ onSelectVehicle }) {
             inset: 0;
             background: linear-gradient(
               180deg,
-              rgba(254, 251, 243, 0.4) 0%,
-              rgba(18, 5, 4, 0.22) 28%,
-              rgba(18, 5, 4, 0.88) 100%
+              rgba(18, 5, 4, 0.65) 0%,
+              rgba(18, 5, 4, 0.35) 30%,
+              rgba(18, 5, 4, 0.15) 55%,
+              rgba(18, 5, 4, 0.65) 100%
             );
             pointer-events: none;
             z-index: 2;
           }
           .hero-bg-img {
-            object-position: 55% center !important;
+            object-position: 46% 62% !important;
           }
           .desktop-heading {
             display: none;
@@ -254,26 +281,30 @@ export default function Hero({ onSelectVehicle }) {
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
           }
           .hero-editorial-section {
-            min-height: 72vh;
-            min-height: 72dvh;
-            padding-top: 96px;
-            padding-bottom: 24px;
+            min-height: calc(100vh - 70px);
+            min-height: calc(100dvh - 70px);
+            padding-top: 86px;
+            padding-bottom: 74px;
             overflow-x: clip;
             width: 100%;
             display: flex;
             flex-direction: column;
-            justify-content: flex-start;
+            justify-content: space-between;
           }
           .hero-content-container {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            flex-grow: 1;
             margin-bottom: 0;
+            position: relative;
+            z-index: 5;
           }
           .hero-cta-buttons-row {
             display: none !important;
           }
           .hero-booking-dock {
-            margin-top: 0 !important;
-            margin-bottom: 0 !important;
-            height: 0 !important;
+            display: none !important;
           }
           .hero-main-heading {
             font-size: clamp(2.2rem, 7.5vw, 2.75rem);
@@ -281,13 +312,96 @@ export default function Hero({ onSelectVehicle }) {
           }
           .hero-sub-description {
             font-size: 0.92rem;
-            margin-bottom: 16px;
+            margin-bottom: 0;
             color: #FFFFFF !important;
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
             opacity: 0.95;
           }
           .desktop-call-text {
             display: none;
+          }
+
+          /* Mobile Bottom Anchor Styles */
+          .hero-mobile-bottom-dock {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+            width: 100%;
+            padding-top: 24px;
+            padding-bottom: 6px;
+            text-align: center;
+          }
+
+          .hero-vehicle-glass-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(254, 251, 243, 0.92);
+            border: 1.5px solid rgba(232, 140, 43, 0.3);
+            border-radius: 9999px;
+            padding: 7px 16px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+          }
+
+          .fleet-pill-dot {
+            width: 7px;
+            height: 7px;
+            border-radius: 50%;
+            background: #E88C2B;
+            box-shadow: 0 0 8px #E88C2B;
+            flex-shrink: 0;
+          }
+
+          .fleet-pill-model {
+            font-size: 0.78rem;
+            font-weight: 800;
+            color: #4E0401;
+            letter-spacing: 0.02em;
+          }
+
+          .fleet-pill-sep {
+            color: rgba(78, 4, 1, 0.3);
+            font-size: 0.75rem;
+          }
+
+          .fleet-pill-badge {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #E88C2B;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+          }
+
+          .hero-mobile-scroll-hint {
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            color: #FFFFFF;
+            font-size: 0.72rem;
+            font-weight: 700;
+            letter-spacing: 0.08em;
+            text-transform: uppercase;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
+            opacity: 0.9;
+            text-decoration: none;
+            transition: all 0.18s ease;
+          }
+
+          .hero-mobile-scroll-hint:hover {
+            opacity: 1;
+            color: #E88C2B;
+          }
+
+          .bounce-arrow {
+            animation: bounceSoft 1.8s infinite ease-in-out;
+          }
+
+          @keyframes bounceSoft {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(3px); }
           }
         }
       `}</style>
