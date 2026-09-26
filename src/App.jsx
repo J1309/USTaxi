@@ -3,6 +3,7 @@ import { BrowserRouter, Routes, Route, useLocation } from 'react-router-dom';
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import MobileStickyBar from './components/MobileStickyBar';
+import Preloader from './components/Preloader';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import { useLenis, smoothScrollTo } from './hooks/useLenis';
@@ -43,6 +44,9 @@ function AppContent() {
 
   return (
     <div className="app-layout">
+      {/* Premium Luxury Minimal Preloader */}
+      <Preloader />
+
       {/* Scroll Position & Anchor Controller */}
       <ScrollHandler />
 
