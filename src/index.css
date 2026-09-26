@@ -119,8 +119,25 @@ h1, h2, h3, h4, h5, h6 {
   color: var(--text-main);
   font-weight: 800;
   line-height: 1.15;
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
   text-align: left;
+  -webkit-text-stroke: 0.42px currentColor;
+  text-rendering: optimizeLegibility;
+}
+
+h1 {
+  -webkit-text-stroke: 0.5px currentColor;
+  font-weight: 900;
+}
+
+h2 {
+  -webkit-text-stroke: 0.45px currentColor;
+  font-weight: 850;
+}
+
+h3, h4, h5, h6 {
+  -webkit-text-stroke: 0.35px currentColor;
+  font-weight: 800;
 }
 
 p {
@@ -181,12 +198,14 @@ input, select, textarea {
 }
 
 .section-title-large {
-  font-size: clamp(2.35rem, 3.5vw, 3.2rem);
-  font-weight: 800;
+  font-size: clamp(2.75rem, 4.0vw, 3.65rem);
+  font-weight: 850;
   color: var(--text-main);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.015em;
   line-height: 1.15;
   text-align: left;
+  -webkit-text-stroke: 0.45px currentColor;
+  text-rendering: optimizeLegibility;
 }
 
 .section-desc-sub {

@@ -176,12 +176,14 @@ export default function ChildSafetySection() {
 
         .child-safety-main-title {
           font-family: var(--font-heading);
-          font-size: clamp(2.3rem, 3.4vw, 2.95rem);
+          font-size: clamp(2.6rem, 3.75vw, 3.35rem);
           font-weight: 900;
           color: #0F172A;
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin: 8px 0 14px 0;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .child-safety-intro-text {
@@ -228,11 +230,13 @@ export default function ChildSafetySection() {
 
         .safety-pillar-title {
           font-family: var(--font-heading);
-          font-size: 0.94rem;
+          font-size: 1.04rem;
           font-weight: 800;
           color: #0F172A;
           margin: 0;
           line-height: 1.25;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .safety-pillar-desc {

@@ -158,12 +158,14 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
         .fleet-title-dark {
           font-family: var(--font-heading);
-          font-size: clamp(2.35rem, 3.5vw, 3.15rem);
+          font-size: clamp(2.65rem, 3.85vw, 3.45rem);
           font-weight: 900;
           color: #0F172A;
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin: 0 0 8px 0;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .fleet-subtitle-gray {
@@ -268,11 +270,13 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
         .fleet-card-type {
           font-family: var(--font-heading);
-          font-size: 1.25rem;
+          font-size: 1.36rem;
           font-weight: 900;
           color: #0F172A;
           letter-spacing: -0.01em;
           margin: 0;
+          -webkit-text-stroke: 0.35px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .fleet-card-model {

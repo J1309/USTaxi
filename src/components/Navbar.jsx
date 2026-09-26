@@ -241,11 +241,13 @@ export default function Navbar() {
         }
         .brand-name {
           font-family: var(--font-heading);
-          font-size: 1.15rem;
+          font-size: 1.22rem;
           font-weight: 900;
           color: #0F172A;
           letter-spacing: 0.06em;
           line-height: 1;
+          -webkit-text-stroke: 0.35px currentColor;
+          text-rendering: optimizeLegibility;
         }
         .brand-service {
           font-size: 0.68rem;

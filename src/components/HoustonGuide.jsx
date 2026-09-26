@@ -122,10 +122,12 @@ export default function HoustonGuide() {
 
         .block-title {
           font-family: var(--font-heading);
-          font-size: 1.15rem;
+          font-size: 1.25rem;
           font-weight: 800;
           color: #0F172A;
           margin: 0;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .block-sub {

@@ -108,12 +108,14 @@ export default function ServicesSection() {
 
         .airport-heading-text {
           font-family: var(--font-heading);
-          font-size: clamp(2rem, 3vw, 2.6rem);
+          font-size: clamp(2.35rem, 3.4vw, 3.05rem);
           font-weight: 900;
           color: #0F172A;
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin: 8px 0 14px 0;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .airport-desc-text {
@@ -189,11 +191,13 @@ export default function ServicesSection() {
 
         .airport-card-title {
           font-family: var(--font-heading);
-          font-size: 1rem;
+          font-size: 1.1rem;
           font-weight: 800;
           color: #0F172A;
           line-height: 1.25;
           margin: 0;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .airport-checklist {

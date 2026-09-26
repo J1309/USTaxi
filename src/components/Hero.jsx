@@ -140,12 +140,14 @@ export default function Hero() {
 
         .hero-main-heading {
           font-family: var(--font-heading);
-          font-size: clamp(2.95rem, 4.6vw, 4.3rem);
+          font-size: clamp(3.3rem, 5.0vw, 4.75rem);
           font-weight: 900;
           color: #0F172A;
           line-height: 1.08;
           letter-spacing: -0.025em;
           margin-bottom: 16px;
+          -webkit-text-stroke: 0.5px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .gold-text {

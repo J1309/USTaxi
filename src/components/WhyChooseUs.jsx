@@ -238,12 +238,14 @@ export default function WhyChooseUs() {
 
         .bento-title {
           font-family: var(--font-heading);
-          font-size: clamp(1.35rem, 1.7vw, 1.65rem);
+          font-size: clamp(1.48rem, 1.85vw, 1.8rem);
           font-weight: 800;
           color: #FFFFFF;
           line-height: 1.25;
           letter-spacing: -0.02em;
           text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+          -webkit-text-stroke: 0.38px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .bento-card-bottom {

@@ -137,11 +137,13 @@ export default function CtaBanner() {
 
         .why-choose-title {
           font-family: var(--font-heading);
-          font-size: clamp(1.8rem, 2.5vw, 2.3rem);
+          font-size: clamp(2.05rem, 2.8vw, 2.55rem);
           font-weight: 900;
           color: #FFFFFF;
           margin: 0 0 32px 0;
           letter-spacing: -0.01em;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .why-choose-features-grid {
@@ -176,10 +178,12 @@ export default function CtaBanner() {
 
         .why-feat-title {
           font-family: var(--font-heading);
-          font-size: 1.05rem;
+          font-size: 1.15rem;
           font-weight: 800;
           color: #FFFFFF;
           margin: 0;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .why-feat-desc {
@@ -241,11 +245,13 @@ export default function CtaBanner() {
 
         .ready-main-title {
           font-family: var(--font-heading);
-          font-size: clamp(1.8rem, 2.6vw, 2.3rem);
+          font-size: clamp(2.05rem, 2.9vw, 2.55rem);
           font-weight: 900;
           color: #FFFFFF;
           margin: 0 0 6px 0;
           letter-spacing: -0.01em;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .ready-sub-text {

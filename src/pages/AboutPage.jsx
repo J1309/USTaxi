@@ -125,10 +125,12 @@ export default function AboutPage() {
 
         .about-cta-text h3 {
           font-family: var(--font-heading);
-          font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+          font-size: clamp(1.55rem, 2.4vw, 2.1rem);
           font-weight: 900;
           color: #FFFFFF;
           margin-bottom: 8px;
+          -webkit-text-stroke: 0.42px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .about-cta-text p {

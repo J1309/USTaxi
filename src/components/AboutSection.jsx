@@ -416,12 +416,14 @@ export default function AboutSection() {
 
         .about-main-title {
           font-family: var(--font-heading);
-          font-size: clamp(2.35rem, 3.5vw, 3.2rem);
+          font-size: clamp(2.65rem, 3.85vw, 3.45rem);
           font-weight: 900;
           color: #0F172A;
           line-height: 1.15;
           letter-spacing: -0.025em;
           margin-bottom: 12px;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .about-sub-title {
@@ -533,10 +535,12 @@ export default function AboutSection() {
 
         .owner-name-heading {
           font-family: var(--font-heading);
-          font-size: 1.35rem;
+          font-size: 1.46rem;
           font-weight: 900;
           color: #0F172A;
           line-height: 1.1;
+          -webkit-text-stroke: 0.38px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .owner-role-text {
@@ -712,11 +716,13 @@ export default function AboutSection() {
 
         .pane-lead-title {
           font-family: var(--font-heading);
-          font-size: 1.35rem;
+          font-size: 1.46rem;
           font-weight: 800;
           color: #0F172A;
           line-height: 1.3;
           margin-bottom: 16px;
+          -webkit-text-stroke: 0.35px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .pane-lead-text {
@@ -772,10 +778,12 @@ export default function AboutSection() {
 
         .bento-card-title {
           font-family: var(--font-heading);
-          font-size: 0.96rem;
+          font-size: 1.05rem;
           font-weight: 800;
           color: #0F172A;
           margin-bottom: 6px;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .bento-card-desc {
@@ -820,10 +828,12 @@ export default function AboutSection() {
 
         .pillar-title {
           font-family: var(--font-heading);
-          font-size: 0.96rem;
+          font-size: 1.05rem;
           font-weight: 800;
           color: #0F172A;
           margin-bottom: 6px;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .pillar-desc {
@@ -964,12 +974,14 @@ export default function AboutSection() {
 
         .metric-big-num {
           font-family: var(--font-heading);
-          font-size: 2.2rem;
+          font-size: 2.38rem;
           font-weight: 900;
           color: #0F172A;
           display: block;
           line-height: 1;
           margin-bottom: 6px;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .metric-label {

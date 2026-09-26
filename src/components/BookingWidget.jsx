@@ -329,10 +329,12 @@ export default function BookingWidget({ preselectedVehicle }) {
         }
         .booking-heading-text {
           font-family: var(--font-heading);
-          font-size: 1.35rem;
+          font-size: 1.48rem;
           font-weight: 900;
           color: #0F172A;
           margin: 0 0 4px 0;
+          -webkit-text-stroke: 0.38px currentColor;
+          text-rendering: optimizeLegibility;
         }
         .booking-sub-text {
           font-size: 0.8rem;

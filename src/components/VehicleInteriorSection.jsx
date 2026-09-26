@@ -326,12 +326,14 @@ export default function VehicleInteriorSection() {
 
         .interior-main-title {
           font-family: var(--font-heading);
-          font-size: clamp(2.35rem, 3.5vw, 3.15rem);
+          font-size: clamp(2.65rem, 3.85vw, 3.45rem);
           font-weight: 900;
           color: #0F172A;
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin-bottom: 10px;
+          -webkit-text-stroke: 0.45px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .interior-sub-title {
@@ -604,20 +606,24 @@ export default function VehicleInteriorSection() {
 
         .card-creative-title {
           font-family: var(--font-heading);
-          font-size: 1.35rem;
+          font-size: 1.46rem;
           font-weight: 800;
           color: #0F172A;
           line-height: 1.25;
           margin-bottom: 14px;
+          -webkit-text-stroke: 0.35px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .card-medium-title {
           font-family: var(--font-heading);
-          font-size: 1.05rem;
+          font-size: 1.15rem;
           font-weight: 800;
           color: #0F172A;
           margin: 10px 0 8px 0;
           line-height: 1.3;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .card-icon-pill {
