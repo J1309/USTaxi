@@ -18,7 +18,6 @@ export default function Hero({ onSelectVehicle }) {
           alt="Lavender Taxi Luxury Chevrolet Suburban High Country Airport Chauffeur Service"
           className="hero-bg-img"
         />
-        <div className="hero-bg-overlay" />
       </div>
 
       <div className="container hero-content-container">
@@ -92,19 +91,6 @@ export default function Hero({ onSelectVehicle }) {
           height: 100%;
           object-fit: cover;
           object-position: right 30%;
-        }
-
-        .hero-bg-overlay {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            90deg,
-            rgba(254, 251, 243, 0.96) 0%,
-            rgba(254, 251, 243, 0.90) 36%,
-            rgba(254, 251, 243, 0.55) 58%,
-            rgba(254, 251, 243, 0.15) 85%,
-            rgba(254, 251, 243, 0.0) 100%
-          );
         }
 
         .hero-content-container {
@@ -217,14 +203,6 @@ export default function Hero({ onSelectVehicle }) {
             padding-top: 50px;
             padding-bottom: 40px;
             min-height: auto;
-          }
-          .hero-bg-overlay {
-            background: linear-gradient(
-              180deg,
-              rgba(254, 251, 243, 0.95) 0%,
-              rgba(254, 251, 243, 0.92) 50%,
-              rgba(254, 251, 243, 0.97) 100%
-            );
           }
         }
       `}</style>
