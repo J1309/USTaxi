@@ -221,11 +221,37 @@ export default function Hero({ onSelectVehicle }) {
         }
 
         @media (max-width: 768px) {
+          .hero-bg-media::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+              180deg,
+              rgba(18, 5, 4, 0.75) 0%,
+              rgba(18, 5, 4, 0.36) 42%,
+              rgba(18, 5, 4, 0.88) 100%
+            );
+            pointer-events: none;
+            z-index: 2;
+          }
+          .hero-bg-img {
+            object-position: 55% center !important;
+          }
           .desktop-heading {
             display: none;
           }
           .mobile-heading {
             display: block;
+            color: #FFFFFF !important;
+            text-shadow: 0 3px 16px rgba(0, 0, 0, 0.9);
+          }
+          .mobile-heading .orange-accent {
+            color: #E88C2B !important;
+          }
+          .hero-kicker-tag span {
+            color: #E88C2B;
+            font-weight: 800;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
           }
           .hero-editorial-section {
             min-height: auto;
@@ -245,6 +271,9 @@ export default function Hero({ onSelectVehicle }) {
           .hero-sub-description {
             font-size: 0.92rem;
             margin-bottom: 16px;
+            color: #FFFFFF !important;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
+            opacity: 0.95;
           }
           .desktop-call-text {
             display: none;

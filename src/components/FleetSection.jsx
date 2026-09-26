@@ -283,103 +283,74 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             ===================================================================== */}
         <div className="mobile-fleet-wrapper">
           
-          {/* SCREEN 5: One vehicle card at a time with Prev/Next Navigation */}
+          {/* SCREEN 5: Swipeable / Scrollable Vehicle Cards (No count, smooth swipe) */}
           {!mobileViewingInterior && (
-            <div className="mobile-vehicle-carousel-card">
-              
-              {/* Photo Box with Badge & Carousel Arrows */}
-              <div className="mobile-veh-photo-box">
-                <img
-                  src={currentVeh.image}
-                  alt={currentVeh.name}
-                  className="mobile-veh-img"
-                />
-                <span className="mobile-veh-badge">{currentVeh.badge}</span>
-
-                {/* Left / Right Nav Arrows */}
-                <button
-                  type="button"
-                  onClick={handlePrev}
-                  className="mobile-nav-arrow-btn left"
-                  aria-label="Previous vehicle"
-                >
-                  <ChevronLeft size={18} />
-                </button>
-                <button
-                  type="button"
-                  onClick={handleNext}
-                  className="mobile-nav-arrow-btn right"
-                  aria-label="Next vehicle"
-                >
-                  <ChevronRight size={18} />
-                </button>
-              </div>
-
-              {/* Body */}
-              <div className="mobile-veh-body">
-                <h3 className="mobile-veh-title">{currentVeh.name}</h3>
-
-                {/* Specs */}
-                <div className="mobile-specs-row">
-                  <div className="mob-spec-item">
-                    <Users size={14} color="#E88C2B" />
-                    <span>{currentVeh.passengers}</span>
-                  </div>
-                  <div className="mob-spec-item">
-                    <Briefcase size={14} color="#E88C2B" />
-                    <span>{currentVeh.luggage}</span>
-                  </div>
-                </div>
-
-                {/* Checklist with checkmarks */}
-                <ul className="mobile-checklist">
-                  {currentVeh.mobileChecklist.map((item, i) => (
-                    <li key={i} className="mob-check-item">
-                      <Check size={14} color="#E88C2B" strokeWidth={2.5} />
-                      <span>{item}</span>
-                    </li>
-                  ))}
-                </ul>
-
-                {/* Action Buttons */}
-                <div className="mobile-veh-actions">
-                  <button
-                    type="button"
-                    onClick={() => handleSelect(currentVeh.id)}
-                    className="btn-reserve-mobile"
-                  >
-                    <span>Reserve Ride</span>
-                    <ArrowRight size={14} />
-                  </button>
-
-                  <button
-                    type="button"
-                    onClick={() => {
-                      setMobileViewingInterior(true);
-                      setMobileInteriorIndex(0);
-                    }}
-                    className="btn-interior-mobile"
-                  >
-                    <Eye size={14} />
-                    <span>View Interior</span>
-                  </button>
-                </div>
-
-                {/* Pagination Indicator (01 / 02) */}
-                <div className="mobile-veh-pagination">
-                  <span className="pagination-text">
-                    0{activeVehicleIndex + 1} / 0{VEHICLES.length}
-                  </span>
-                  <div className="pagination-track">
-                    <div 
-                      className="pagination-fill" 
-                      style={{ width: `${((activeVehicleIndex + 1) / VEHICLES.length) * 100}%` }}
+            <div className="mobile-fleet-scroll-track">
+              {VEHICLES.map((v) => (
+                <div key={v.id} className="mobile-vehicle-swipe-card">
+                  {/* Photo Box with Badge */}
+                  <div className="mobile-veh-photo-box">
+                    <img
+                      src={v.image}
+                      alt={v.name}
+                      className="mobile-veh-img"
                     />
+                    <span className="mobile-veh-badge">{v.badge}</span>
+                  </div>
+
+                  {/* Body */}
+                  <div className="mobile-veh-body">
+                    <h3 className="mobile-veh-title">{v.name}</h3>
+
+                    {/* Specs */}
+                    <div className="mobile-specs-row">
+                      <div className="mob-spec-item">
+                        <Users size={14} color="#E88C2B" />
+                        <span>{v.passengers}</span>
+                      </div>
+                      <div className="mob-spec-item">
+                        <Briefcase size={14} color="#E88C2B" />
+                        <span>{v.luggage}</span>
+                      </div>
+                    </div>
+
+                    {/* Checklist with checkmarks */}
+                    <ul className="mobile-checklist">
+                      {v.mobileChecklist.map((item, i) => (
+                        <li key={i} className="mob-check-item">
+                          <Check size={14} color="#E88C2B" strokeWidth={2.5} />
+                          <span>{item}</span>
+                        </li>
+                      ))}
+                    </ul>
+
+                    {/* Action Buttons */}
+                    <div className="mobile-veh-actions">
+                      <button
+                        type="button"
+                        onClick={() => handleSelect(v.id)}
+                        className="btn-reserve-mobile"
+                      >
+                        <span>Reserve Ride</span>
+                        <ArrowRight size={14} />
+                      </button>
+
+                      <button
+                        type="button"
+                        onClick={() => {
+                          setActiveVehicleIndex(VEHICLES.findIndex((item) => item.id === v.id));
+                          setMobileViewingInterior(true);
+                          setMobileInteriorIndex(0);
+                        }}
+                        className="btn-interior-mobile"
+                      >
+                        <Eye size={14} />
+                        <span>View Interior</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
-
-              </div>
-
+              ))}
             </div>
           )}
 
@@ -1308,32 +1279,32 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             cursor: pointer;
           }
 
-          .mobile-veh-pagination {
+          .mobile-fleet-scroll-track {
             display: flex;
-            align-items: center;
-            gap: 10px;
-            padding-top: 10px;
-            border-top: 1px solid rgba(78, 4, 1, 0.06);
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            gap: 16px;
+            padding: 4px 16px 20px 16px;
+            margin: 0 -16px;
+            scrollbar-width: none;
           }
 
-          .pagination-text {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: #786C6A;
+          .mobile-fleet-scroll-track::-webkit-scrollbar {
+            display: none;
           }
 
-          .pagination-track {
-            flex-grow: 1;
-            height: 3px;
-            background: rgba(78, 4, 1, 0.08);
-            border-radius: 9999px;
+          .mobile-vehicle-swipe-card {
+            min-width: 86%;
+            max-width: 86%;
+            flex-shrink: 0;
+            scroll-snap-align: center;
+            background: #FFFFFF;
+            border-radius: 20px;
             overflow: hidden;
-          }
-
-          .pagination-fill {
-            height: 100%;
-            background: #E88C2B;
-            transition: width 0.25s ease;
+            border: 1px solid rgba(78, 4, 1, 0.08);
+            box-shadow: 0 8px 30px rgba(78, 4, 1, 0.06);
+            text-align: left;
           }
 
           /* Screen 6: Detailed Interior View */

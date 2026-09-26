@@ -485,10 +485,8 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
         <div className="bottom-sheet-backdrop" onClick={() => setMobileSheetOpen(false)}>
           <div className="bottom-sheet-content" onClick={(e) => e.stopPropagation()}>
             
-            {/* Drag Handle */}
+            {/* Drag Handle & Header */}
             <div className="sheet-drag-handle" />
-
-            {/* Header */}
             <div className="sheet-header">
               <h3 className="sheet-title">Book Your Ride</h3>
               <button 
@@ -501,239 +499,245 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
               </button>
             </div>
 
-            {/* Sheet Form */}
-            <form onSubmit={handleBookNow} className="sheet-form-stack" noValidate>
-              
-              {/* FIELD 1: PICKUP LOCATION */}
-              <div 
-                className={`sheet-field-box ${activePopover === 'sheet-pickup' ? 'active' : ''} ${pickupError ? 'error' : ''}`}
-                onClick={() => {
-                  setActivePopover('sheet-pickup');
-                  setPickupError(false);
-                }}
-              >
-                <div className="field-icon-col">
-                  <MapPin size={18} color="#E88C2B" />
-                </div>
-                <div className="field-text-col">
-                  <span className="sheet-field-label">Pickup Location</span>
-                  <input
-                    type="text"
-                    placeholder="Airport, address or hotel"
-                    value={pickupLocation}
-                    onChange={(e) => {
-                      setPickupLocation(e.target.value);
-                      setPickupError(false);
+            {/* Scrollable Form Body (Allows free scroll to all fields anytime) */}
+            <div className="sheet-scroll-body">
+              <form onSubmit={handleBookNow} className="sheet-form-stack" noValidate>
+                
+                {/* FIELD 1: PICKUP LOCATION */}
+                <div className={`sheet-field-box ${activePopover === 'sheet-pickup' ? 'active' : ''} ${pickupError ? 'error' : ''}`}>
+                  <div className="field-icon-col">
+                    <MapPin size={18} color="#E88C2B" />
+                  </div>
+                  <div className="field-text-col">
+                    <span className="sheet-field-label">Pickup Location</span>
+                    <input
+                      type="text"
+                      placeholder="Airport, address or hotel"
+                      value={pickupLocation}
+                      onFocus={() => setPickupError(false)}
+                      onChange={(e) => {
+                        setPickupLocation(e.target.value);
+                        setPickupError(false);
+                      }}
+                      className="sheet-field-input"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="sheet-crosshair-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActivePopover(activePopover === 'sheet-pickup' ? null : 'sheet-pickup');
                     }}
-                    className="sheet-field-input"
-                  />
+                    title="Popular Pickup Locations"
+                  >
+                    <Crosshair size={16} color={activePopover === 'sheet-pickup' ? '#E88C2B' : '#786C6A'} />
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  className="sheet-crosshair-btn"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setActivePopover(activePopover === 'sheet-pickup' ? null : 'sheet-pickup');
-                  }}
-                  title="Popular Pickup Locations"
+
+                {/* Suggestions for Pickup in Sheet */}
+                {activePopover === 'sheet-pickup' && (
+                  <div className="sheet-suggestions-dropdown">
+                    <div className="dropdown-title">Popular Houston Hubs</div>
+                    {TOP_PICKUPS.map((item, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className="sheet-suggestion-item"
+                        onClick={() => {
+                          setPickupLocation(item.name);
+                          setActivePopover(null); // Cleanly close options immediately!
+                        }}
+                      >
+                        <MapPin size={13} color="#E88C2B" />
+                        <span className="sugg-text">{item.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* FIELD 2: DROP-OFF LOCATION */}
+                <div className={`sheet-field-box ${activePopover === 'sheet-dropoff' ? 'active' : ''}`}>
+                  <div className="field-icon-col">
+                    <MapPin size={18} color="#786C6A" />
+                  </div>
+                  <div className="field-text-col">
+                    <span className="sheet-field-label">Drop-off Location</span>
+                    <input
+                      type="text"
+                      placeholder="Destination or airport"
+                      value={dropoffLocation}
+                      onChange={(e) => setDropoffLocation(e.target.value)}
+                      className="sheet-field-input"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="sheet-crosshair-btn"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      setActivePopover(activePopover === 'sheet-dropoff' ? null : 'sheet-dropoff');
+                    }}
+                    title="Top Destinations"
+                  >
+                    <ChevronDown size={16} color={activePopover === 'sheet-dropoff' ? '#E88C2B' : '#786C6A'} />
+                  </button>
+                </div>
+
+                {/* Suggestions for Dropoff in Sheet */}
+                {activePopover === 'sheet-dropoff' && (
+                  <div className="sheet-suggestions-dropdown">
+                    <div className="dropdown-title">Top Destinations</div>
+                    {TOP_DROPOFFS.map((item, idx) => (
+                      <button
+                        key={idx}
+                        type="button"
+                        className="sheet-suggestion-item"
+                        onClick={() => {
+                          setDropoffLocation(item.name);
+                          setActivePopover(null); // Cleanly close options immediately!
+                        }}
+                      >
+                        <MapPin size={13} color="#786C6A" />
+                        <span className="sugg-text">{item.name}</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* FIELD 3: DATE & TIME */}
+                <div 
+                  className={`sheet-field-box ${activePopover === 'sheet-datetime' ? 'active' : ''}`}
+                  onClick={() => setActivePopover(activePopover === 'sheet-datetime' ? null : 'sheet-datetime')}
                 >
-                  <Crosshair size={16} color="#786C6A" />
+                  <div className="field-icon-col">
+                    <Calendar size={18} color="#E88C2B" />
+                  </div>
+                  <div className="field-text-col">
+                    <span className="sheet-field-label">Date & Time</span>
+                    <span className="sheet-val-text">{formatDateTimeDisplay()}</span>
+                  </div>
+                  <ChevronDown size={16} color="#786C6A" />
+                </div>
+
+                {/* Date & Time Picker inside Sheet */}
+                {activePopover === 'sheet-datetime' && (
+                  <div className="sheet-native-pickers-box">
+                    <div className="sheet-picker-row">
+                      <label className="picker-lbl">Date</label>
+                      <input
+                        type="date"
+                        min={todayStr}
+                        value={pickupDate}
+                        onChange={(e) => setPickupDate(e.target.value)}
+                        className="sheet-input-element"
+                      />
+                    </div>
+                    <div className="sheet-picker-row">
+                      <label className="picker-lbl">Time</label>
+                      <input
+                        type="time"
+                        value={pickupTime}
+                        onChange={(e) => setPickupTime(e.target.value)}
+                        className="sheet-input-element"
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className="sheet-picker-done-btn"
+                      onClick={() => setActivePopover(null)}
+                    >
+                      Confirm Date & Time
+                    </button>
+                  </div>
+                )}
+
+                {/* FIELD 4: VEHICLE & GUESTS */}
+                <div 
+                  className={`sheet-field-box ${activePopover === 'sheet-guests' ? 'active' : ''}`}
+                  onClick={() => setActivePopover(activePopover === 'sheet-guests' ? null : 'sheet-guests')}
+                >
+                  <div className="field-icon-col">
+                    <Car size={18} color="#E88C2B" />
+                  </div>
+                  <div className="field-text-col">
+                    <span className="sheet-field-label">Vehicle & Guests</span>
+                    <span className="sheet-val-text">{formatVehicleGuestsDisplay()}</span>
+                  </div>
+                  <ChevronDown size={18} color="#786C6A" />
+                </div>
+
+                {/* Vehicle Options & Guest Stepper inside Sheet */}
+                {activePopover === 'sheet-guests' && (
+                  <div className="sheet-guests-picker-box">
+                    <div className="sheet-veh-options-col">
+                      <div 
+                        className={`sheet-veh-row ${vehicle === 'suburban' ? 'selected' : ''}`}
+                        onClick={() => handleSelectVehicle('suburban')}
+                      >
+                        <div>
+                          <div className="sheet-veh-title">Chevrolet Suburban High Country</div>
+                          <div className="sheet-veh-sub">Up to 7 Guests · 6 Bags</div>
+                        </div>
+                        {vehicle === 'suburban' && <Check size={16} color="#E88C2B" />}
+                      </div>
+
+                      <div 
+                        className={`sheet-veh-row ${vehicle === 'lexus' ? 'selected' : ''}`}
+                        onClick={() => handleSelectVehicle('lexus')}
+                      >
+                        <div>
+                          <div className="sheet-veh-title">Lexus Luxury Sedan</div>
+                          <div className="sheet-veh-sub">Up to 4 Guests · 3 Bags</div>
+                        </div>
+                        {vehicle === 'lexus' && <Check size={16} color="#E88C2B" />}
+                      </div>
+                    </div>
+
+                    <div className="sheet-pax-stepper">
+                      <span className="sheet-stepper-title">Number of Guests</span>
+                      <div className="sheet-stepper-controls">
+                        <button
+                          type="button"
+                          onClick={handleDecrementGuests}
+                          disabled={passengers <= 1}
+                          className="stepper-circle-btn"
+                        >
+                          −
+                        </button>
+                        <span className="stepper-number">{passengers}</span>
+                        <button
+                          type="button"
+                          onClick={handleIncrementGuests}
+                          className="stepper-circle-btn"
+                        >
+                          +
+                        </button>
+                      </div>
+                    </div>
+
+                    <button
+                      type="button"
+                      className="sheet-picker-done-btn"
+                      onClick={() => setActivePopover(null)}
+                    >
+                      Done
+                    </button>
+                  </div>
+                )}
+
+                {/* ACTION: BOOK NOW */}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="sheet-submit-btn"
+                >
+                  <span>{isSubmitting ? 'CONNECTING...' : 'Book Now'}</span>
+                  <ArrowRight size={18} />
                 </button>
-              </div>
 
-              {/* Suggestions for Pickup in Sheet */}
-              {activePopover === 'sheet-pickup' && (
-                <div className="sheet-suggestions-dropdown">
-                  <div className="dropdown-title">Popular Houston Hubs</div>
-                  {TOP_PICKUPS.map((item, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className="sheet-suggestion-item"
-                      onClick={() => {
-                        setPickupLocation(item.name);
-                        setActivePopover('sheet-dropoff');
-                      }}
-                    >
-                      <MapPin size={13} color="#E88C2B" />
-                      <span className="sugg-text">{item.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* FIELD 2: DROP-OFF LOCATION */}
-              <div 
-                className={`sheet-field-box ${activePopover === 'sheet-dropoff' ? 'active' : ''}`}
-                onClick={() => setActivePopover('sheet-dropoff')}
-              >
-                <div className="field-icon-col">
-                  <MapPin size={18} color="#786C6A" />
-                </div>
-                <div className="field-text-col">
-                  <span className="sheet-field-label">Drop-off Location</span>
-                  <input
-                    type="text"
-                    placeholder="Destination or airport"
-                    value={dropoffLocation}
-                    onChange={(e) => setDropoffLocation(e.target.value)}
-                    className="sheet-field-input"
-                  />
-                </div>
-              </div>
-
-              {/* Suggestions for Dropoff in Sheet */}
-              {activePopover === 'sheet-dropoff' && (
-                <div className="sheet-suggestions-dropdown">
-                  <div className="dropdown-title">Top Destinations</div>
-                  {TOP_DROPOFFS.map((item, idx) => (
-                    <button
-                      key={idx}
-                      type="button"
-                      className="sheet-suggestion-item"
-                      onClick={() => {
-                        setDropoffLocation(item.name);
-                        setActivePopover('sheet-datetime');
-                      }}
-                    >
-                      <MapPin size={13} color="#786C6A" />
-                      <span className="sugg-text">{item.name}</span>
-                    </button>
-                  ))}
-                </div>
-              )}
-
-              {/* FIELD 3: DATE & TIME */}
-              <div 
-                className={`sheet-field-box ${activePopover === 'sheet-datetime' ? 'active' : ''}`}
-                onClick={() => setActivePopover(activePopover === 'sheet-datetime' ? null : 'sheet-datetime')}
-              >
-                <div className="field-icon-col">
-                  <Calendar size={18} color="#E88C2B" />
-                </div>
-                <div className="field-text-col">
-                  <span className="sheet-field-label">Date & Time</span>
-                  <span className="sheet-val-text">{formatDateTimeDisplay()}</span>
-                </div>
-              </div>
-
-              {/* Date & Time Picker inside Sheet */}
-              {activePopover === 'sheet-datetime' && (
-                <div className="sheet-native-pickers-box">
-                  <div className="sheet-picker-row">
-                    <label className="picker-lbl">Date</label>
-                    <input
-                      type="date"
-                      min={todayStr}
-                      value={pickupDate}
-                      onChange={(e) => setPickupDate(e.target.value)}
-                      className="sheet-input-element"
-                    />
-                  </div>
-                  <div className="sheet-picker-row">
-                    <label className="picker-lbl">Time</label>
-                    <input
-                      type="time"
-                      value={pickupTime}
-                      onChange={(e) => setPickupTime(e.target.value)}
-                      className="sheet-input-element"
-                    />
-                  </div>
-                  <button
-                    type="button"
-                    className="sheet-picker-done-btn"
-                    onClick={() => setActivePopover(null)}
-                  >
-                    Confirm Time
-                  </button>
-                </div>
-              )}
-
-              {/* FIELD 4: VEHICLE & GUESTS */}
-              <div 
-                className={`sheet-field-box ${activePopover === 'sheet-guests' ? 'active' : ''}`}
-                onClick={() => setActivePopover(activePopover === 'sheet-guests' ? null : 'sheet-guests')}
-              >
-                <div className="field-icon-col">
-                  <Car size={18} color="#E88C2B" />
-                </div>
-                <div className="field-text-col">
-                  <span className="sheet-field-label">Vehicle & Guests</span>
-                  <span className="sheet-val-text">{formatVehicleGuestsDisplay()}</span>
-                </div>
-                <ChevronDown size={18} color="#786C6A" />
-              </div>
-
-              {/* Vehicle Options & Guest Stepper inside Sheet */}
-              {activePopover === 'sheet-guests' && (
-                <div className="sheet-guests-picker-box">
-                  <div className="sheet-veh-options-col">
-                    <div 
-                      className={`sheet-veh-row ${vehicle === 'suburban' ? 'selected' : ''}`}
-                      onClick={() => handleSelectVehicle('suburban')}
-                    >
-                      <div>
-                        <div className="sheet-veh-title">Chevrolet Suburban High Country</div>
-                        <div className="sheet-veh-sub">Up to 7 Guests · 6 Bags</div>
-                      </div>
-                      {vehicle === 'suburban' && <Check size={16} color="#E88C2B" />}
-                    </div>
-
-                    <div 
-                      className={`sheet-veh-row ${vehicle === 'lexus' ? 'selected' : ''}`}
-                      onClick={() => handleSelectVehicle('lexus')}
-                    >
-                      <div>
-                        <div className="sheet-veh-title">Lexus Luxury Sedan</div>
-                        <div className="sheet-veh-sub">Up to 4 Guests · 3 Bags</div>
-                      </div>
-                      {vehicle === 'lexus' && <Check size={16} color="#E88C2B" />}
-                    </div>
-                  </div>
-
-                  <div className="sheet-pax-stepper">
-                    <span className="sheet-stepper-title">Number of Guests</span>
-                    <div className="sheet-stepper-controls">
-                      <button
-                        type="button"
-                        onClick={handleDecrementGuests}
-                        disabled={passengers <= 1}
-                        className="stepper-circle-btn"
-                      >
-                        −
-                      </button>
-                      <span className="stepper-number">{passengers}</span>
-                      <button
-                        type="button"
-                        onClick={handleIncrementGuests}
-                        className="stepper-circle-btn"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-
-                  <button
-                    type="button"
-                    className="sheet-picker-done-btn"
-                    onClick={() => setActivePopover(null)}
-                  >
-                    Done
-                  </button>
-                </div>
-              )}
-
-              {/* ACTION: BOOK NOW */}
-              <button
-                type="submit"
-                disabled={isSubmitting}
-                className="sheet-submit-btn"
-              >
-                <span>{isSubmitting ? 'CONNECTING...' : 'Book Now'}</span>
-                <ArrowRight size={18} />
-              </button>
-
-            </form>
+              </form>
+            </div>
           </div>
         </div>
       )}
@@ -1270,12 +1274,23 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           max-width: 500px;
           background: #FFFFFF;
           border-radius: 24px 24px 0 0;
-          padding: 12px 20px 28px 20px;
-          max-height: 90vh;
-          overflow-y: auto;
+          padding: 12px 18px 16px 18px;
+          max-height: 88dvh;
+          height: auto;
+          display: flex;
+          flex-direction: column;
           box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.25);
           animation: sheetSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
           text-align: left;
+        }
+
+        .sheet-scroll-body {
+          flex: 1;
+          overflow-y: auto;
+          -webkit-overflow-scrolling: touch;
+          touch-action: pan-y;
+          overscroll-behavior: contain;
+          padding: 2px 2px 20px 2px;
         }
 
         @keyframes sheetSlideUp {
