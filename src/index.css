@@ -3,6 +3,15 @@
    Full-Bleed Widescreen Architecture & Pristine Light Luxury Design System
    ========================================================================== */
 
+@font-face {
+  font-family: 'Attera';
+  src: url('/fonts/Attera.woff2') format('woff2'),
+       url('/fonts/Attera.otf') format('opentype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
 :root {
   /* Surfaces */
   --bg-page: #FFFFFF;
@@ -58,8 +67,8 @@
   --radius-xl: 20px;
   --radius-full: 9999px;
 
-  /* Fonts */
-  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  /* Fonts: Attera Luxury Serif + Plus Jakarta Sans Editorial Pairing */
+  --font-heading: 'Attera', 'Playfair Display', Georgia, serif;
   --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
 
   /* Transitions */
