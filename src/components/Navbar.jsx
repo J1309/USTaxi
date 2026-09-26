@@ -160,38 +160,64 @@ export default function Navbar() {
 
       {/* Mobile Drawer */}
       {mobileMenuOpen && (
-        <div className="mobile-nav-drawer">
+        <div className="mobile-nav-drawer" data-lenis-prevent>
           <ul className="mobile-links-list">
-            <li>
-              <a href="/" onClick={handleHomeNav}>
-                Home
+            <li className="mobile-nav-item">
+              <a 
+                href="/" 
+                onClick={handleHomeNav}
+                className={`mobile-nav-link ${location.pathname === '/' ? 'active' : ''}`}
+              >
+                <span>Home</span>
+                <ArrowRight size={16} className="mobile-link-arrow" />
               </a>
             </li>
-            <li>
-              <a href="/about" onClick={handleAboutNav}>
-                About Symanthan & Our Story
+            <li className="mobile-nav-item">
+              <a 
+                href="/about" 
+                onClick={handleAboutNav}
+                className={`mobile-nav-link ${location.pathname === '/about' ? 'active' : ''}`}
+              >
+                <span>About</span>
+                <ArrowRight size={16} className="mobile-link-arrow" />
               </a>
             </li>
-            <li>
-              <a href="#services" onClick={(e) => handleSectionNav(e, '#services')}>
-                Services
+            <li className="mobile-nav-item">
+              <a 
+                href="#services" 
+                onClick={(e) => handleSectionNav(e, '#services')}
+                className="mobile-nav-link"
+              >
+                <span>Services</span>
+                <ArrowRight size={16} className="mobile-link-arrow" />
               </a>
             </li>
-            <li>
-              <a href="#fleet" onClick={(e) => handleSectionNav(e, '#fleet')}>
-                Fleet (Suburban & Lexus)
+            <li className="mobile-nav-item">
+              <a 
+                href="#fleet" 
+                onClick={(e) => handleSectionNav(e, '#fleet')}
+                className="mobile-nav-link"
+              >
+                <span>Fleet</span>
+                <ArrowRight size={16} className="mobile-link-arrow" />
               </a>
             </li>
-            <li>
-              <a href="#contact" onClick={(e) => handleSectionNav(e, '#contact')}>
-                Contact & 24/7 Dispatch
+            <li className="mobile-nav-item">
+              <a 
+                href="#contact" 
+                onClick={(e) => handleSectionNav(e, '#contact')}
+                className="mobile-nav-link"
+              >
+                <span>Contact</span>
+                <ArrowRight size={16} className="mobile-link-arrow" />
               </a>
             </li>
           </ul>
 
           <div className="mobile-drawer-footer">
-            <a href={`tel:+${OWNER_PHONE_RAW}`} className="header-phone-number mobile-phone">
-              +1 (832) 879-8685 (Call Anytime)
+            <a href={`tel:+${OWNER_PHONE_RAW}`} className="mobile-phone-call-btn">
+              <span>+1 (832) 879-8685</span>
+              <span className="mobile-call-sub">· Call Anytime</span>
             </a>
             <button
               type="button"
@@ -339,41 +365,98 @@ export default function Navbar() {
         /* Mobile Drawer */
         .mobile-nav-drawer {
           position: absolute;
-          top: 76px;
+          top: 70px;
           left: 0;
           right: 0;
-          background: #FFFFFF;
-          border-bottom: 2px solid #E2E8F0;
-          padding: 24px;
-          box-shadow: 0 16px 36px rgba(15, 23, 42, 0.12);
+          background: #FEFBF3;
+          border-bottom: 2px solid rgba(78, 4, 1, 0.12);
+          padding: 16px 22px 24px 22px;
+          box-shadow: 0 16px 40px rgba(78, 4, 1, 0.14);
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 18px;
+          animation: drawerSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
+
+        @keyframes drawerSlideDown {
+          from { opacity: 0; transform: translateY(-8px); }
+          to { opacity: 1; transform: translateY(0); }
+        }
+
         .mobile-links-list {
           list-style: none;
           display: flex;
           flex-direction: column;
-          gap: 14px;
         }
-        .mobile-links-list a {
-          font-size: 1.1rem;
-          font-weight: 700;
-          color: #0F172A;
-          padding: 6px 0;
+
+        .mobile-nav-item {
+          border-bottom: 1px solid rgba(78, 4, 1, 0.07);
         }
+
+        .mobile-nav-link {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          font-family: var(--font-heading);
+          font-size: 1.25rem;
+          font-weight: 800;
+          color: #4E0401;
+          padding: 14px 0;
+          transition: all 0.15s ease;
+          text-decoration: none;
+          -webkit-text-stroke: 0.25px currentColor;
+        }
+
+        .mobile-nav-link.active,
+        .mobile-nav-link:hover {
+          color: #E88C2B;
+        }
+
+        .mobile-link-arrow {
+          color: #E88C2B;
+          opacity: 0.85;
+          transition: transform 0.15s ease;
+        }
+
+        .mobile-nav-link:hover .mobile-link-arrow {
+          transform: translateX(4px);
+        }
+
         .mobile-drawer-footer {
           display: flex;
           flex-direction: column;
-          gap: 12px;
-          padding-top: 14px;
-          border-top: 1px solid #E2E8F0;
+          gap: 10px;
+          padding-top: 4px;
         }
-        .mobile-phone {
-          text-align: center;
-          padding: 6px 0;
-          color: #0F172A;
+
+        .mobile-phone-call-btn {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 12px 16px;
+          border-radius: 9999px;
+          background: #FFFFFF;
+          border: 1.5px solid rgba(78, 4, 1, 0.12);
+          font-size: 0.9rem;
+          font-weight: 800;
+          color: #4E0401;
+          text-decoration: none;
+          transition: all 0.18s ease;
+          box-shadow: 0 2px 8px rgba(78, 4, 1, 0.04);
         }
+
+        .mobile-phone-call-btn:hover {
+          border-color: #E88C2B;
+          color: #E88C2B;
+        }
+
+        .mobile-call-sub {
+          font-size: 0.74rem;
+          color: #786C6A;
+          font-weight: 600;
+        }
+
         .mobile-full {
           width: 100%;
           justify-content: center;
@@ -408,7 +491,7 @@ export default function Navbar() {
           }
 
           .site-header.menu-open {
-            background: #FFFFFF !important;
+            background: #FEFBF3 !important;
             box-shadow: 0 4px 20px rgba(78, 4, 1, 0.08) !important;
           }
 

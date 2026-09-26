@@ -490,26 +490,25 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
       </div>
 
       {/* =========================================================================
-          MOBILE VIEW: Booking Bottom Sheet Modal (Screen 2 from Mockup)
+          MOBILE VIEW: Minimal Luxury Booking Popup Modal
           ========================================================================= */}
       {mobileSheetOpen && (
         <div 
-          className="bottom-sheet-backdrop" 
+          className="mobile-booking-popup-backdrop" 
           onClick={() => setMobileSheetOpen(false)}
           data-lenis-prevent
         >
           <div 
-            className="bottom-sheet-content" 
+            className="mobile-booking-popup-card" 
             onClick={(e) => e.stopPropagation()}
             data-lenis-prevent
           >
-            {/* Drag Handle & Header */}
-            <div className="sheet-drag-handle" />
-            <div className="sheet-header">
-              <h3 className="sheet-title">Book Your Ride</h3>
+            {/* Header */}
+            <div className="popup-modal-header">
+              <h3 className="popup-modal-title">Book Your Ride</h3>
               <button 
                 type="button" 
-                className="sheet-close-btn" 
+                className="popup-modal-close-btn" 
                 onClick={() => setMobileSheetOpen(false)}
                 aria-label="Close booking form"
               >
@@ -517,309 +516,165 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
               </button>
             </div>
 
-            {/* Scrollable Form Body with zero scroll traps */}
-            <div className="sheet-scroll-body" data-lenis-prevent>
-              <form onSubmit={handleBookNow} className="sheet-form-stack" noValidate>
-                
-                {/* FIELD 1: PICKUP LOCATION */}
-                <div className={`sheet-field-card ${pickupError ? 'error-card' : ''}`}>
-                  <div className="sheet-field-main-row">
-                    <div className="sheet-field-icon">
-                      <MapPin size={18} color="#E88C2B" />
-                    </div>
-                    <div className="sheet-field-text">
-                      <span className="sheet-field-label">Pickup Location</span>
-                      <input
-                        type="text"
-                        placeholder="Airport, address or hotel"
-                        value={pickupLocation}
-                        onChange={(e) => {
-                          setPickupLocation(e.target.value);
-                          setPickupError(false);
-                        }}
-                        className="sheet-field-input"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      className="sheet-gps-btn"
-                      onClick={() => {
-                        setPickupLocation('Current Location (Houston, TX)');
-                        setPickupError(false);
-                      }}
-                      title="Use Current Location"
-                      aria-label="Use Current Location"
-                    >
-                      <Crosshair size={17} color="#E88C2B" />
-                    </button>
-                  </div>
+            {/* Form */}
+            <form onSubmit={handleBookNow} className="popup-form-stack" noValidate>
+              
+              {/* FIELD 1: PICKUP LOCATION */}
+              <div className={`popup-field-card ${pickupError ? 'error-card' : ''}`}>
+                <div className="popup-field-icon">
+                  <MapPin size={17} color="#E88C2B" />
+                </div>
+                <div className="popup-field-body">
+                  <label className="popup-field-label">Pickup Location</label>
+                  <input
+                    type="text"
+                    placeholder="Airport, address or hotel"
+                    value={pickupLocation}
+                    onChange={(e) => {
+                      setPickupLocation(e.target.value);
+                      setPickupError(false);
+                    }}
+                    className="popup-field-input"
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="popup-quick-btn"
+                  onClick={() => {
+                    setPickupLocation('Bush Intercontinental Airport (IAH)');
+                    setPickupError(false);
+                  }}
+                  title="Quick Fill IAH Airport"
+                  aria-label="Quick Fill IAH Airport"
+                >
+                  <Crosshair size={16} color="#E88C2B" />
+                </button>
+              </div>
 
-                  {/* Horizontal Quick-Select Hub Chips */}
-                  <div className="sheet-quick-chips-row">
-                    <span className="quick-chips-tag">Popular:</span>
-                    <button
-                      type="button"
-                      className={`quick-chip ${pickupLocation.includes('IAH') ? 'active' : ''}`}
-                      onClick={() => {
-                        setPickupLocation('Bush Intercontinental Airport (IAH)');
-                        setPickupError(false);
-                      }}
-                    >
-                      ✈ IAH Airport
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${pickupLocation.includes('HOU') || pickupLocation.includes('Hobby') ? 'active' : ''}`}
-                      onClick={() => {
-                        setPickupLocation('William P. Hobby Airport (HOU)');
-                        setPickupError(false);
-                      }}
-                    >
-                      ✈ Hobby Airport
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${pickupLocation.includes('Downtown') ? 'active' : ''}`}
-                      onClick={() => {
-                        setPickupLocation('Downtown Houston (Hotels & Convention)');
-                        setPickupError(false);
-                      }}
-                    >
-                      🏢 Downtown
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${pickupLocation.includes('Galleria') ? 'active' : ''}`}
-                      onClick={() => {
-                        setPickupLocation('The Galleria / Post Oak Hotel');
-                        setPickupError(false);
-                      }}
-                    >
-                      🛍 The Galleria
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${pickupLocation.includes('TMC') ? 'active' : ''}`}
-                      onClick={() => {
-                        setPickupLocation('Texas Medical Center (TMC)');
-                        setPickupError(false);
-                      }}
-                    >
-                      🏥 Medical Center
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${pickupLocation.includes('Galveston') ? 'active' : ''}`}
-                      onClick={() => {
-                        setPickupLocation('Galveston Cruise Terminal');
-                        setPickupError(false);
-                      }}
-                    >
-                      🚢 Galveston Port
-                    </button>
+              {/* FIELD 2: DROP-OFF LOCATION */}
+              <div className="popup-field-card">
+                <div className="popup-field-icon">
+                  <MapPin size={17} color="#786C6A" />
+                </div>
+                <div className="popup-field-body">
+                  <label className="popup-field-label">Drop-off Location</label>
+                  <input
+                    type="text"
+                    placeholder="Destination or airport"
+                    value={dropoffLocation}
+                    onChange={(e) => setDropoffLocation(e.target.value)}
+                    className="popup-field-input"
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="popup-quick-btn"
+                  onClick={handleSwap}
+                  title="Swap locations"
+                  aria-label="Swap locations"
+                >
+                  <ArrowLeftRight size={14} color="#786C6A" />
+                </button>
+              </div>
+
+              {/* FIELD 3: DATE & TIME */}
+              <div className="popup-field-card popup-datetime-card">
+                <div className="popup-field-top">
+                  <div className="popup-field-icon">
+                    <Calendar size={17} color="#E88C2B" />
+                  </div>
+                  <div className="popup-field-body">
+                    <label className="popup-field-label">Date & Time</label>
+                    <span className="popup-preview-val">{formatDateTimeDisplay()}</span>
+                  </div>
+                </div>
+                <div className="popup-dual-pickers">
+                  <input
+                    type="date"
+                    min={todayStr}
+                    value={pickupDate}
+                    onChange={(e) => setPickupDate(e.target.value)}
+                    className="popup-native-input"
+                  />
+                  <input
+                    type="time"
+                    value={pickupTime}
+                    onChange={(e) => setPickupTime(e.target.value)}
+                    className="popup-native-input"
+                  />
+                </div>
+              </div>
+
+              {/* FIELD 4: VEHICLE & GUESTS */}
+              <div className="popup-field-card popup-vehicle-card">
+                <div className="popup-field-top">
+                  <div className="popup-field-icon">
+                    <Car size={17} color="#E88C2B" />
+                  </div>
+                  <div className="popup-field-body">
+                    <label className="popup-field-label">Vehicle & Guests</label>
+                    <span className="popup-preview-val">{formatVehicleGuestsDisplay()}</span>
                   </div>
                 </div>
 
-                {/* FIELD 2: DROP-OFF LOCATION */}
-                <div className="sheet-field-card">
-                  <div className="sheet-field-main-row">
-                    <div className="sheet-field-icon">
-                      <MapPin size={18} color="#786C6A" />
-                    </div>
-                    <div className="sheet-field-text">
-                      <span className="sheet-field-label">Drop-off Location</span>
-                      <input
-                        type="text"
-                        placeholder="Destination or airport"
-                        value={dropoffLocation}
-                        onChange={(e) => setDropoffLocation(e.target.value)}
-                        className="sheet-field-input"
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      className="sheet-swap-btn"
-                      onClick={handleSwap}
-                      title="Swap pickup and dropoff"
-                      aria-label="Swap pickup and dropoff"
-                    >
-                      <ArrowLeftRight size={15} color="#786C6A" />
-                    </button>
-                  </div>
-
-                  {/* Horizontal Quick-Select Destination Chips */}
-                  <div className="sheet-quick-chips-row">
-                    <span className="quick-chips-tag">Popular:</span>
-                    <button
-                      type="button"
-                      className={`quick-chip ${dropoffLocation.includes('Galveston') || dropoffLocation.includes('Cruise') ? 'active' : ''}`}
-                      onClick={() => setDropoffLocation('Galveston Cruise Terminal (Pier 25 & 10)')}
-                    >
-                      🚢 Galveston Port
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${dropoffLocation.includes('IAH') ? 'active' : ''}`}
-                      onClick={() => setDropoffLocation('Bush Intercontinental Airport (IAH)')}
-                    >
-                      ✈ IAH Airport
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${dropoffLocation.includes('HOU') || dropoffLocation.includes('Hobby') ? 'active' : ''}`}
-                      onClick={() => setDropoffLocation('William P. Hobby Airport (HOU)')}
-                    >
-                      ✈ Hobby Airport
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${dropoffLocation.includes('Downtown') ? 'active' : ''}`}
-                      onClick={() => setDropoffLocation('Downtown Houston (Hotels / Toyota Center)')}
-                    >
-                      🏢 Downtown
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${dropoffLocation.includes('Galleria') ? 'active' : ''}`}
-                      onClick={() => setDropoffLocation('The Galleria / Uptown Houston')}
-                    >
-                      🛍 The Galleria
-                    </button>
-                    <button
-                      type="button"
-                      className={`quick-chip ${dropoffLocation.includes('NASA') ? 'active' : ''}`}
-                      onClick={() => setDropoffLocation('Space Center Houston (NASA)')}
-                    >
-                      🚀 NASA Space Center
-                    </button>
-                  </div>
-                </div>
-
-                {/* FIELD 3: DATE & TIME */}
-                <div className="sheet-field-card sheet-datetime-card">
-                  <div className="sheet-field-main-row">
-                    <div className="sheet-field-icon">
-                      <Calendar size={18} color="#E88C2B" />
-                    </div>
-                    <div className="sheet-field-text">
-                      <span className="sheet-field-label">Date & Time</span>
-                      <span className="sheet-val-text">{formatDateTimeDisplay()}</span>
-                    </div>
-                  </div>
-
-                  {/* Clean Dual Native Pickers */}
-                  <div className="sheet-datetime-inputs-grid">
-                    <div className="sheet-mini-picker">
-                      <label className="mini-picker-lbl">Date</label>
-                      <input
-                        type="date"
-                        min={todayStr}
-                        value={pickupDate}
-                        onChange={(e) => setPickupDate(e.target.value)}
-                        className="sheet-native-input"
-                      />
-                    </div>
-                    <div className="sheet-mini-picker">
-                      <label className="mini-picker-lbl">Time</label>
-                      <input
-                        type="time"
-                        value={pickupTime}
-                        onChange={(e) => setPickupTime(e.target.value)}
-                        className="sheet-native-input"
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* FIELD 4: VEHICLE & GUESTS */}
-                <div className="sheet-field-card sheet-vehicle-card">
-                  <div className="sheet-field-main-row">
-                    <div className="sheet-field-icon">
-                      <Car size={18} color="#E88C2B" />
-                    </div>
-                    <div className="sheet-field-text">
-                      <span className="sheet-field-label">Vehicle & Guests</span>
-                      <span className="sheet-val-text">{formatVehicleGuestsDisplay()}</span>
-                    </div>
-                  </div>
-
-                  {/* Segmented 2-Card Vehicle Selector */}
-                  <div className="sheet-veh-segmented-grid">
-                    <button
-                      type="button"
-                      className={`sheet-veh-card-btn ${vehicle === 'suburban' ? 'selected' : ''}`}
-                      onClick={() => handleSelectVehicle('suburban')}
-                    >
-                      <div className="veh-card-top">
-                        <span className="veh-card-name">Chevrolet Suburban</span>
-                        {vehicle === 'suburban' && <Check size={14} color="#E88C2B" strokeWidth={3} />}
-                      </div>
-                      <span className="veh-card-sub">SUV · Up to 7 Guests · 6 Bags</span>
-                    </button>
-
-                    <button
-                      type="button"
-                      className={`sheet-veh-card-btn ${vehicle === 'lexus' ? 'selected' : ''}`}
-                      onClick={() => handleSelectVehicle('lexus')}
-                    >
-                      <div className="veh-card-top">
-                        <span className="veh-card-name">Lexus Luxury Sedan</span>
-                        {vehicle === 'lexus' && <Check size={14} color="#E88C2B" strokeWidth={3} />}
-                      </div>
-                      <span className="veh-card-sub">Sedan · Up to 4 Guests · 3 Bags</span>
-                    </button>
-                  </div>
-
-                  {/* Guest Stepper */}
-                  <div className="sheet-guest-counter-row">
-                    <div className="guest-counter-label-wrap">
-                      <Users size={15} color="#786C6A" />
-                      <span className="guest-counter-label">Number of Guests</span>
-                    </div>
-                    <div className="guest-stepper-wrap">
-                      <button
-                        type="button"
-                        onClick={handleDecrementGuests}
-                        disabled={passengers <= 1}
-                        className="stepper-action-btn"
-                        aria-label="Decrease guests"
-                      >
-                        −
-                      </button>
-                      <span className="stepper-count-val">{passengers}</span>
-                      <button
-                        type="button"
-                        onClick={handleIncrementGuests}
-                        className="stepper-action-btn"
-                        aria-label="Increase guests"
-                      >
-                        +
-                      </button>
-                    </div>
-                  </div>
-                </div>
-
-                {/* Primary Action Button */}
-                <div className="sheet-bottom-action-dock">
+                {/* 2-Segment Vehicle Selector */}
+                <div className="popup-veh-selector-grid">
                   <button
-                    type="submit"
-                    disabled={isSubmitting}
-                    className="sheet-submit-btn"
+                    type="button"
+                    className={`popup-veh-tab ${vehicle === 'suburban' ? 'selected' : ''}`}
+                    onClick={() => handleSelectVehicle('suburban')}
                   >
-                    <span>{isSubmitting ? 'CONNECTING...' : 'Book Now'}</span>
-                    <ArrowRight size={18} />
+                    <span className="veh-tab-name">Suburban SUV</span>
+                    <span className="veh-tab-tag">Up to 7 Guests</span>
                   </button>
-                  <div className="sheet-sub-guarantee">
-                    <span>✓ On-Time Guarantee</span>
-                    <span>•</span>
-                    <span>✓ Upfront Flat Pricing</span>
-                    <span>•</span>
-                    <span>✓ Zero Hidden Fees</span>
-                  </div>
+
+                  <button
+                    type="button"
+                    className={`popup-veh-tab ${vehicle === 'lexus' ? 'selected' : ''}`}
+                    onClick={() => handleSelectVehicle('lexus')}
+                  >
+                    <span className="veh-tab-name">Lexus Sedan</span>
+                    <span className="veh-tab-tag">Up to 4 Guests</span>
+                  </button>
                 </div>
 
-              </form>
-            </div>
+                {/* Minimal Guest Stepper */}
+                <div className="popup-stepper-row">
+                  <span className="popup-stepper-title">Guests:</span>
+                  <div className="popup-stepper-buttons">
+                    <button
+                      type="button"
+                      onClick={handleDecrementGuests}
+                      disabled={passengers <= 1}
+                      className="popup-step-btn"
+                      aria-label="Decrease guests"
+                    >
+                      −
+                    </button>
+                    <span className="popup-step-count">{passengers}</span>
+                    <button
+                      type="button"
+                      onClick={handleIncrementGuests}
+                      className="popup-step-btn"
+                      aria-label="Increase guests"
+                    >
+                      +
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Action Button */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="popup-submit-btn"
+              >
+                <span>{isSubmitting ? 'CONNECTING...' : 'Book Now'}</span>
+                <ArrowRight size={17} />
+              </button>
+
+            </form>
           </div>
         </div>
       )}
@@ -1331,138 +1186,136 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
         }
 
         /* ==========================================================================
-           MOBILE BOTTOM SHEET MODAL (Screen 2 from Mockup)
+           MOBILE MINIMAL POPUP MODAL
            ========================================================================== */
-        .bottom-sheet-backdrop {
+        .mobile-booking-popup-backdrop {
           position: fixed;
           inset: 0;
           z-index: 3000;
-          background: rgba(20, 5, 4, 0.68);
+          background: rgba(18, 5, 4, 0.72);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
           display: flex;
-          align-items: flex-end;
+          align-items: center;
           justify-content: center;
-          animation: sheetBackdropFade 0.25s ease-out;
+          padding: 16px;
+          animation: popupBackdropFade 0.2s ease-out;
           touch-action: pan-y;
         }
 
-        @keyframes sheetBackdropFade {
+        @keyframes popupBackdropFade {
           from { opacity: 0; }
           to { opacity: 1; }
         }
 
-        .bottom-sheet-content {
+        .mobile-booking-popup-card {
           width: 100%;
-          max-width: 500px;
+          max-width: 375px;
           background: #FFFFFF;
-          border-radius: 24px 24px 0 0;
-          padding: 12px 18px 20px 18px;
-          max-height: 88dvh;
-          height: auto;
+          border-radius: 20px;
+          border: 1px solid rgba(78, 4, 1, 0.12);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+          padding: 18px 18px 20px 18px;
           display: flex;
           flex-direction: column;
-          box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.25);
-          animation: sheetSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+          gap: 12px;
+          animation: popupCardScale 0.22s cubic-bezier(0.16, 1, 0.3, 1);
           text-align: left;
-          overscroll-behavior: contain;
-        }
-
-        .sheet-scroll-body {
-          flex: 1;
+          max-height: 88vh;
           overflow-y: auto;
           -webkit-overflow-scrolling: touch;
-          touch-action: pan-y;
           overscroll-behavior: contain;
-          padding: 2px 2px 20px 2px;
         }
 
-        @keyframes sheetSlideUp {
-          from { transform: translateY(100%); }
-          to { transform: translateY(0); }
+        @keyframes popupCardScale {
+          from { transform: scale(0.93) translateY(12px); opacity: 0; }
+          to { transform: scale(1) translateY(0); opacity: 1; }
         }
 
-        .sheet-drag-handle {
-          width: 42px;
-          height: 4.5px;
-          border-radius: 9999px;
-          background: #E4DDD6;
-          margin: 0 auto 12px auto;
-          flex-shrink: 0;
-        }
-
-        .sheet-header {
+        .popup-modal-header {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 14px;
-          flex-shrink: 0;
+          padding-bottom: 4px;
         }
 
-        .sheet-title {
+        .popup-modal-title {
           font-family: var(--font-heading);
-          font-size: 1.38rem;
+          font-size: 1.35rem;
           font-weight: 900;
           color: #4E0401;
           margin: 0;
           -webkit-text-stroke: 0.3px currentColor;
         }
 
-        .sheet-close-btn {
+        .popup-modal-close-btn {
           width: 32px;
           height: 32px;
           border-radius: 50%;
           background: #FEFBF3;
-          border: 1px solid rgba(78, 4, 1, 0.10);
+          border: 1px solid rgba(78, 4, 1, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
           color: #4E0401;
           cursor: pointer;
+          transition: all 0.15s ease;
         }
 
-        .sheet-form-stack {
+        .popup-modal-close-btn:hover {
+          background: #FDF3E7;
+          color: #E88C2B;
+        }
+
+        .popup-form-stack {
           display: flex;
           flex-direction: column;
           gap: 10px;
         }
 
-        .sheet-field-card {
+        .popup-field-card {
           background: #FFFFFF;
           border: 1.5px solid rgba(78, 4, 1, 0.11);
-          border-radius: 14px;
-          padding: 10px 14px;
+          border-radius: 12px;
+          padding: 10px 12px;
           display: flex;
-          flex-direction: column;
-          gap: 8px;
+          align-items: center;
+          gap: 10px;
           transition: all 0.15s ease;
         }
 
-        .sheet-field-card:focus-within {
+        .popup-field-card:focus-within {
           border-color: #E88C2B;
           box-shadow: 0 0 0 3px rgba(232, 140, 43, 0.12);
         }
 
-        .sheet-field-card.error-card {
+        .popup-field-card.error-card {
           border-color: #EF4444;
           background: #FEF2F2;
         }
 
-        .sheet-field-main-row {
+        .popup-datetime-card,
+        .popup-vehicle-card {
+          flex-direction: column;
+          align-items: stretch;
+          gap: 8px;
+        }
+
+        .popup-field-top {
           display: flex;
           align-items: center;
           gap: 10px;
         }
 
-        .sheet-field-icon {
+        .popup-field-icon {
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          width: 22px;
+          width: 20px;
         }
 
-        .sheet-field-text {
+        .popup-field-body {
           display: flex;
           flex-direction: column;
           gap: 2px;
@@ -1470,160 +1323,87 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           min-width: 0;
         }
 
-        .sheet-field-label {
+        .popup-field-label {
           font-size: 0.68rem;
           font-weight: 800;
-          letter-spacing: 0.06em;
+          letter-spacing: 0.05em;
           text-transform: uppercase;
           color: #786C6A;
         }
 
-        .sheet-field-input {
+        .popup-field-input {
           border: none;
           outline: none;
           background: transparent;
           font-family: inherit;
-          font-size: 0.94rem;
+          font-size: 0.92rem;
           font-weight: 700;
           color: #1C0C0B;
           padding: 0;
           width: 100%;
         }
 
-        .sheet-field-input::placeholder {
+        .popup-field-input::placeholder {
           color: #A39694;
           font-weight: 500;
-          font-size: 0.88rem;
+          font-size: 0.86rem;
         }
 
-        .sheet-gps-btn,
-        .sheet-swap-btn {
+        .popup-quick-btn {
           background: transparent;
           border: none;
-          padding: 6px;
+          padding: 4px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
           border-radius: 50%;
-          transition: background 0.15s ease;
         }
 
-        .sheet-gps-btn:hover,
-        .sheet-swap-btn:hover {
-          background: #FDF3E7;
-        }
-
-        .sheet-quick-chips-row {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          overflow-x: auto;
-          -webkit-overflow-scrolling: touch;
-          overscroll-behavior-x: contain;
-          scrollbar-width: none;
-          padding: 2px 0 2px 0;
-          margin-top: 2px;
-        }
-
-        .sheet-quick-chips-row::-webkit-scrollbar {
-          display: none;
-        }
-
-        .quick-chips-tag {
-          font-size: 0.68rem;
-          font-weight: 700;
-          color: #786C6A;
-          flex-shrink: 0;
-          margin-right: 2px;
-        }
-
-        .quick-chip {
-          background: #FEFBF3;
-          color: #4E0401;
-          border: 1px solid rgba(78, 4, 1, 0.14);
-          font-family: inherit;
-          font-size: 0.74rem;
-          font-weight: 700;
-          padding: 4px 10px;
-          border-radius: 9999px;
-          white-space: nowrap;
-          flex-shrink: 0;
-          cursor: pointer;
-          transition: all 0.15s ease;
-        }
-
-        .quick-chip:hover {
-          border-color: #E88C2B;
-          color: #E88C2B;
-          background: #FDF3E7;
-        }
-
-        .quick-chip.active {
-          background: #E88C2B;
-          color: #FFFFFF;
-          border-color: #E88C2B;
-          box-shadow: 0 2px 8px rgba(232, 140, 43, 0.35);
-        }
-
-        .sheet-val-text {
-          font-size: 0.92rem;
+        .popup-preview-val {
+          font-size: 0.88rem;
           font-weight: 700;
           color: #1C0C0B;
         }
 
-        .sheet-datetime-inputs-grid {
+        .popup-dual-pickers {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 8px;
-          padding-top: 6px;
-          border-top: 1px solid rgba(78, 4, 1, 0.06);
+          padding-top: 4px;
         }
 
-        .sheet-mini-picker {
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
-        }
-
-        .mini-picker-lbl {
-          font-size: 0.68rem;
-          font-weight: 700;
-          color: #786C6A;
-        }
-
-        .sheet-native-input {
+        .popup-native-input {
           background: #FEFBF3;
           border: 1px solid rgba(78, 4, 1, 0.12);
           border-radius: 8px;
-          padding: 6px 8px;
+          padding: 7px 8px;
           font-family: inherit;
-          font-size: 0.86rem;
+          font-size: 0.84rem;
           font-weight: 600;
           color: #1C0C0B;
           outline: none;
           width: 100%;
         }
 
-        .sheet-native-input:focus {
+        .popup-native-input:focus {
           border-color: #E88C2B;
         }
 
-        .sheet-veh-segmented-grid {
+        .popup-veh-selector-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 8px;
-          padding-top: 6px;
-          border-top: 1px solid rgba(78, 4, 1, 0.06);
+          padding-top: 2px;
         }
 
-        .sheet-veh-card-btn {
-          background: #FFFFFF;
+        .popup-veh-tab {
+          background: #FEFBF3;
           border: 1.5px solid rgba(78, 4, 1, 0.10);
-          border-radius: 10px;
-          padding: 8px 10px;
-          text-align: left;
+          border-radius: 8px;
+          padding: 7px 8px;
+          text-align: center;
           cursor: pointer;
           display: flex;
           flex-direction: column;
@@ -1631,130 +1411,98 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           transition: all 0.15s ease;
         }
 
-        .sheet-veh-card-btn.selected {
+        .popup-veh-tab.selected {
           background: #FDF3E7;
           border-color: #E88C2B;
           box-shadow: 0 0 0 1px #E88C2B;
         }
 
-        .veh-card-top {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 4px;
-        }
-
-        .veh-card-name {
-          font-size: 0.8rem;
+        .veh-tab-name {
+          font-size: 0.78rem;
           font-weight: 800;
           color: #4E0401;
-          line-height: 1.15;
         }
 
-        .veh-card-sub {
-          font-size: 0.68rem;
+        .veh-tab-tag {
+          font-size: 0.66rem;
           color: #786C6A;
           font-weight: 600;
-          line-height: 1.2;
         }
 
-        .sheet-guest-counter-row {
+        .popup-stepper-row {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          padding: 6px 10px;
+          padding: 5px 8px;
           background: #FEFBF3;
-          border-radius: 8px;
+          border-radius: 6px;
           border: 1px solid rgba(78, 4, 1, 0.08);
-          margin-top: 4px;
+          margin-top: 2px;
         }
 
-        .guest-counter-label-wrap {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-
-        .guest-counter-label {
-          font-size: 0.78rem;
+        .popup-stepper-title {
+          font-size: 0.74rem;
           font-weight: 700;
           color: #4E0401;
         }
 
-        .guest-stepper-wrap {
+        .popup-stepper-buttons {
           display: flex;
           align-items: center;
           gap: 8px;
         }
 
-        .stepper-action-btn {
-          width: 26px;
-          height: 26px;
+        .popup-step-btn {
+          width: 24px;
+          height: 24px;
           border-radius: 50%;
           background: #FFFFFF;
-          border: 1px solid rgba(78, 4, 1, 0.15);
+          border: 1px solid rgba(78, 4, 1, 0.14);
           color: #4E0401;
-          font-size: 1rem;
+          font-size: 0.95rem;
           font-weight: 700;
           display: flex;
           align-items: center;
           justify-content: center;
           cursor: pointer;
-          transition: all 0.15s ease;
         }
 
-        .stepper-action-btn:disabled {
+        .popup-step-btn:disabled {
           opacity: 0.35;
           cursor: not-allowed;
         }
 
-        .stepper-count-val {
-          font-size: 0.94rem;
+        .popup-step-count {
+          font-size: 0.88rem;
           font-weight: 800;
           color: #4E0401;
-          min-width: 16px;
+          min-width: 14px;
           text-align: center;
         }
 
-        .sheet-bottom-action-dock {
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-          margin-top: 6px;
-        }
-
-        .sheet-submit-btn {
+        .popup-submit-btn {
           width: 100%;
-          height: 50px;
+          height: 48px;
           background: #E88C2B;
           color: #FFFFFF;
           border: none;
           border-radius: 12px;
           font-family: inherit;
-          font-size: 0.98rem;
+          font-size: 0.96rem;
           font-weight: 800;
           letter-spacing: 0.03em;
           display: flex;
           align-items: center;
           justify-content: center;
-          gap: 10px;
+          gap: 8px;
           cursor: pointer;
           box-shadow: 0 6px 20px rgba(232, 140, 43, 0.35);
+          margin-top: 4px;
           transition: background 0.18s ease;
         }
 
-        .sheet-submit-btn:hover {
+        .popup-submit-btn:hover {
           background: #D2791C;
-        }
-
-        .sheet-sub-guarantee {
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          gap: 6px;
-          font-size: 0.7rem;
-          font-weight: 700;
-          color: #786C6A;
         }
 
         /* Responsive Breakpoints - Strictly mobile only (<= 768px) */
