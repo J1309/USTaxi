@@ -4,18 +4,17 @@ import React, { useState, useEffect } from 'react';
  * Premium Luxury Minimal Preloader for Lavender Taxi & Chauffeur
  * 
  * Design Philosophy:
- * - Rich imperial burgundy & obsidian background (#4E0401 -> #150000)
- * - Hardware-accelerated (transform & opacity only)
- * - Brand emblem with soft ambient golden aura
- * - Precision serif typography with generous letter tracking
- * - Ultra-minimalist hairline progress beam
- * - Buttery smooth curtain reveal that unmounts cleanly from DOM
+ * - Serene calming white & warm ivory background (#FEFBF3)
+ * - Deep signature maroon typography (#4E0401) with warm gold subtitle (#E88C2B)
+ * - Transparent brand crest enclosed in a refined circular white medallion
+ * - Minimalist luxury editorial entrance and smooth curtain dissolve
+ * - No loader bar (pure brand poise & elegance)
+ * - Clean unmount from DOM when complete
  * - Respects prefers-reduced-motion
  */
 export default function Preloader() {
   const [mounted, setMounted] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
-  const [progress, setProgress] = useState(0);
 
   useEffect(() => {
     // Check if user prefers reduced motion
@@ -25,30 +24,20 @@ export default function Preloader() {
       return;
     }
 
-    // Step 1: Smooth progress beam animation
-    const startTime = Date.now();
-    const duration = 1200; // 1.2s loading duration
+    // Step 1: Hold the refined brand presentation for 1.1s
+    const exitTimer = setTimeout(() => {
+      setIsExiting(true);
+    }, 1100);
 
-    const interval = setInterval(() => {
-      const elapsed = Date.now() - startTime;
-      const pct = Math.min(100, Math.round((elapsed / duration) * 100));
-      setProgress(pct);
+    // Step 2: Unmount cleanly after the exit fade completes (650ms transition)
+    const unmountTimer = setTimeout(() => {
+      setMounted(false);
+    }, 1750);
 
-      if (elapsed >= duration) {
-        clearInterval(interval);
-        // Step 2: Trigger exit animation
-        setTimeout(() => {
-          setIsExiting(true);
-        }, 150);
-
-        // Step 3: Unmount cleanly after exit transition completes
-        setTimeout(() => {
-          setMounted(false);
-        }, 850);
-      }
-    }, 25);
-
-    return () => clearInterval(interval);
+    return () => {
+      clearTimeout(exitTimer);
+      clearTimeout(unmountTimer);
+    };
   }, []);
 
   if (!mounted) return null;
@@ -61,7 +50,7 @@ export default function Preloader() {
       aria-label="Loading Lavender Taxi & Chauffeur"
     >
       <div className={`preloader-content-cluster ${isExiting ? 'content-exit' : ''}`}>
-        {/* Ambient Warm Golden Halo behind emblem */}
+        {/* Soft Golden Ambient Aura */}
         <div className="emblem-halo-glow" />
 
         {/* Brand Crest / Logo */}
@@ -78,14 +67,6 @@ export default function Preloader() {
           <span className="preloader-brand-title">LAVENDER</span>
           <span className="preloader-brand-sub">TAXI & CHAUFFEUR · HOUSTON</span>
         </div>
-
-        {/* Minimal Luxury Hairline Progress Indicator */}
-        <div className="preloader-track-bar">
-          <div 
-            className="preloader-fill-beam" 
-            style={{ width: `${progress}%` }}
-          />
-        </div>
       </div>
 
       <style>{`
@@ -98,19 +79,19 @@ export default function Preloader() {
           width: 100vw;
           height: 100vh;
           z-index: 999999;
-          background: radial-gradient(circle at 50% 45%, #4E0401 0%, #2A0201 60%, #140000 100%);
+          background: radial-gradient(circle at 50% 48%, #FFFFFF 0%, #FEFBF3 65%, #F7F1E4 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           pointer-events: all;
-          transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1), transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
           overflow: hidden;
         }
 
         .luxury-preloader-backdrop.preloader-exit {
           opacity: 0;
           pointer-events: none;
-          transform: translateY(-8px);
+          transform: translateY(-6px);
         }
 
         .preloader-content-cluster {
@@ -119,53 +100,52 @@ export default function Preloader() {
           flex-direction: column;
           align-items: center;
           text-align: center;
-          padding: 20px;
+          padding: 24px;
           animation: preloaderClusterEnter 0.65s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-          transition: opacity 0.45s ease, transform 0.45s ease;
+          transition: opacity 0.45s cubic-bezier(0.16, 1, 0.3, 1), transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .preloader-content-cluster.content-exit {
           opacity: 0;
-          transform: translateY(-12px) scale(0.97);
+          transform: translateY(-10px) scale(0.97);
         }
 
-        /* Ambient Glowing Aura */
+        /* Subtle Ambient Aura */
         .emblem-halo-glow {
           position: absolute;
-          top: 10px;
+          top: 15px;
           left: 50%;
           transform: translateX(-50%);
-          width: 150px;
-          height: 150px;
+          width: 160px;
+          height: 160px;
           border-radius: 50%;
-          background: radial-gradient(circle, rgba(232, 140, 43, 0.22) 0%, rgba(232, 140, 43, 0) 70%);
-          filter: blur(14px);
+          background: radial-gradient(circle, rgba(232, 140, 43, 0.16) 0%, rgba(232, 140, 43, 0) 70%);
+          filter: blur(12px);
           pointer-events: none;
           animation: preloaderPulseAura 2s ease-in-out infinite alternate;
         }
 
-        /* Emblem Box */
+        /* Circular Emblem Medallion */
         .preloader-emblem-wrap {
           position: relative;
-          width: 76px;
-          height: 76px;
+          width: 80px;
+          height: 80px;
           display: flex;
           align-items: center;
           justify-content: center;
-          margin-bottom: 22px;
+          margin-bottom: 20px;
           border-radius: 50%;
-          background: rgba(255, 255, 255, 0.04);
-          border: 1px solid rgba(232, 140, 43, 0.25);
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.12);
           box-shadow: 
-            0 8px 30px rgba(0, 0, 0, 0.4),
-            0 0 20px rgba(232, 140, 43, 0.15);
+            0 12px 32px rgba(78, 4, 1, 0.08),
+            0 0 0 5px rgba(232, 140, 43, 0.08);
         }
 
         .preloader-logo-img {
-          width: 50px;
-          height: 50px;
+          width: 52px;
+          height: 52px;
           object-fit: contain;
-          filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.5));
           animation: preloaderEmblemBreathe 2.4s ease-in-out infinite alternate;
         }
 
@@ -179,43 +159,22 @@ export default function Preloader() {
 
         .preloader-brand-title {
           font-family: var(--font-heading, 'Attera', serif);
-          font-size: 1.45rem;
+          font-size: 1.55rem;
           font-weight: 900;
-          color: #FFFFFF;
+          color: #4E0401;
           letter-spacing: 0.32em;
-          text-indent: 0.32em; /* Centers tracked out text visually */
+          text-indent: 0.32em; /* Visually balances wide letter tracking */
           line-height: 1.2;
           -webkit-text-stroke: 0.3px currentColor;
-          text-shadow: 0 4px 16px rgba(0, 0, 0, 0.45);
         }
 
         .preloader-brand-sub {
-          font-size: 0.64rem;
-          font-weight: 700;
-          letter-spacing: 0.26em;
-          text-indent: 0.26em;
+          font-size: 0.65rem;
+          font-weight: 800;
+          letter-spacing: 0.28em;
+          text-indent: 0.28em;
           text-transform: uppercase;
           color: #E88C2B;
-          opacity: 0.92;
-        }
-
-        /* Hairline Progress Bar */
-        .preloader-track-bar {
-          width: 140px;
-          height: 2px;
-          background: rgba(255, 255, 255, 0.10);
-          border-radius: 9999px;
-          overflow: hidden;
-          margin-top: 28px;
-          position: relative;
-        }
-
-        .preloader-fill-beam {
-          height: 100%;
-          background: linear-gradient(90deg, #E88C2B 0%, #FFFFFF 85%, #E88C2B 100%);
-          border-radius: 9999px;
-          box-shadow: 0 0 10px rgba(232, 140, 43, 0.7);
-          transition: width 0.05s linear;
         }
 
         /* Keyframe Animations */
@@ -232,18 +191,18 @@ export default function Preloader() {
 
         @keyframes preloaderPulseAura {
           0% {
-            transform: translateX(-50%) scale(0.9);
-            opacity: 0.5;
+            transform: translateX(-50%) scale(0.92);
+            opacity: 0.4;
           }
           100% {
             transform: translateX(-50%) scale(1.15);
-            opacity: 0.9;
+            opacity: 0.85;
           }
         }
 
         @keyframes preloaderEmblemBreathe {
           0% {
-            transform: scale(0.97);
+            transform: scale(0.98);
           }
           100% {
             transform: scale(1.02);
@@ -252,16 +211,16 @@ export default function Preloader() {
 
         @media (max-width: 600px) {
           .preloader-emblem-wrap {
-            width: 68px;
-            height: 68px;
-            margin-bottom: 18px;
+            width: 70px;
+            height: 70px;
+            margin-bottom: 16px;
           }
           .preloader-logo-img {
-            width: 44px;
-            height: 44px;
+            width: 46px;
+            height: 46px;
           }
           .preloader-brand-title {
-            font-size: 1.25rem;
+            font-size: 1.3rem;
             letter-spacing: 0.28em;
             text-indent: 0.28em;
           }
@@ -269,10 +228,6 @@ export default function Preloader() {
             font-size: 0.58rem;
             letter-spacing: 0.22em;
             text-indent: 0.22em;
-          }
-          .preloader-track-bar {
-            width: 120px;
-            margin-top: 24px;
           }
         }
       `}</style>
