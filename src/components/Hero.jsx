@@ -283,7 +283,7 @@ export default function Hero({ onSelectVehicle }) {
           .hero-editorial-section {
             min-height: calc(100vh - 70px);
             min-height: calc(100dvh - 70px);
-            padding-top: 86px;
+            padding-top: 28px;
             padding-bottom: 74px;
             overflow-x: clip;
             width: 100%;
