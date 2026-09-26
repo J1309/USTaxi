@@ -23,7 +23,7 @@ export default function Hero({ onSelectVehicle }) {
 
       <div className="container hero-content-container">
         {/* Left Side: Headlines, CTAs */}
-        <div className="hero-text-block">
+        <div className="hero-text-block reveal-on-scroll">
           <div className="hero-kicker-tag">
             <span>ARRIVE IN STYLE</span>
           </div>
@@ -60,7 +60,7 @@ export default function Hero({ onSelectVehicle }) {
       </div>
 
       {/* Floating Booking Engine Widget overlapping bottom of Hero */}
-      <div className="hero-booking-dock">
+      <div className="hero-booking-dock reveal-on-scroll reveal-delay-1">
         <BookingWidget onSelectVehicle={onSelectVehicle} />
       </div>
 

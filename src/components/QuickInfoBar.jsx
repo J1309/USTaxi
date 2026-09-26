@@ -32,7 +32,7 @@ export default function QuickInfoBar() {
           {HIGHLIGHTS.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div key={idx} className="pillar-column-item">
+              <div key={idx} className={`pillar-column-item reveal-on-scroll reveal-delay-${idx + 1}`}>
                 <div className="pillar-icon-box">
                   <Icon size={24} strokeWidth={1.5} color="#E88C2B" />
                 </div>

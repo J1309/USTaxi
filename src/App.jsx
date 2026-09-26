@@ -6,6 +6,7 @@ import MobileStickyBar from './components/MobileStickyBar';
 import HomePage from './pages/HomePage';
 import AboutPage from './pages/AboutPage';
 import { useLenis, smoothScrollTo } from './hooks/useLenis';
+import { useScrollReveal } from './hooks/useScrollReveal';
 
 /**
  * Handles smooth scrolling to anchor hash on page load/route change,
@@ -30,6 +31,9 @@ function ScrollHandler() {
 function AppContent() {
   // Initialize Lenis smooth scrolling across the entire page
   useLenis();
+
+  // Initialize GPU-accelerated smooth scroll reveal animations
+  useScrollReveal();
 
   const [selectedVehicle, setSelectedVehicle] = useState('suburban');
 

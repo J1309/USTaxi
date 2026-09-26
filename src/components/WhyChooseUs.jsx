@@ -35,7 +35,7 @@ export default function WhyChooseUs() {
       <div className="container">
         <div className="higher-standard-grid">
           {/* Left Column: Passenger Cabin Window Photo */}
-          <div className="higher-standard-media-wrap">
+          <div className="higher-standard-media-wrap reveal-on-scroll">
             <img
               src="/images/passenger_cabin_window.jpg"
               alt="Executive passenger relaxing in luxury chauffeur vehicle looking out window"
@@ -48,7 +48,7 @@ export default function WhyChooseUs() {
           </div>
 
           {/* Right Column: Title & 4 Pillars */}
-          <div className="higher-standard-content">
+          <div className="higher-standard-content reveal-on-scroll reveal-delay-1">
             <span className="standard-kicker">WHY CHOOSE LAVENDER TAXI</span>
             <h2 className="standard-headline">
               A HIGHER<br />
@@ -60,7 +60,7 @@ export default function WhyChooseUs() {
               {PILLARS.map((p, i) => {
                 const Icon = p.icon;
                 return (
-                  <div key={i} className="standard-pillar-row">
+                  <div key={i} className={`standard-pillar-row reveal-on-scroll reveal-delay-${i + 1}`}>
                     <div className="standard-icon-box">
                       <Icon size={20} strokeWidth={1.75} color="#E88C2B" />
                     </div>

@@ -60,7 +60,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
     <section id="fleet" className="fleet-reference-section">
       <div className="container">
         {/* Top Header Row with Title & Controls */}
-        <div className="fleet-top-bar">
+        <div className="fleet-top-bar reveal-on-scroll">
           <div className="fleet-title-block">
             <span className="fleet-kicker">OUR FLEET</span>
             <h2 className="fleet-headline">
@@ -98,8 +98,8 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
         {/* 2 Exclusive Vehicle Cards Matching Reference Grid */}
         <div className="fleet-grid-cards">
-          {VEHICLES.map((v) => (
-            <div key={v.id} className="fleet-vehicle-card">
+          {VEHICLES.map((v, idx) => (
+            <div key={v.id} className={`fleet-vehicle-card reveal-on-scroll reveal-delay-${idx + 1}`}>
               <div className="vehicle-photo-container">
                 <img
                   src={v.image}

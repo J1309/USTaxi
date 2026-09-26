@@ -9,9 +9,9 @@ export default function AboutPage() {
   const navigate = useNavigate();
 
   const handleBookClick = () => {
-    navigate('/#fleet-booking-card');
+    navigate('/#booking-engine');
     setTimeout(() => {
-      smoothScrollTo('#fleet-booking-card');
+      smoothScrollTo('#booking-engine');
     }, 150);
   };
 
@@ -34,7 +34,7 @@ export default function AboutPage() {
       {/* Bottom Callout Banner */}
       <section className="about-bottom-cta">
         <div className="container">
-          <div className="about-cta-card">
+          <div className="about-cta-card reveal-on-scroll">
             <div className="about-cta-text">
               <span className="cta-kicker">PERSONALIZED CHAUFFEUR DISPATCH</span>
               <h3>Have an upcoming flight or private trip in Houston?</h3>

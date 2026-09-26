@@ -52,7 +52,7 @@ export default function Footer() {
   return (
     <footer id="contact" className="site-footer-maroon">
       <div className="container">
-        <div className="footer-top-grid">
+        <div className="footer-top-grid reveal-on-scroll">
           {/* Col 1: Brand & Slogan */}
           <div className="footer-brand-col">
             <a href="/" onClick={handleHomeNav} className="footer-brand-link">

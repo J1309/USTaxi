@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { 
   Phone, 
   MessageCircle, 
@@ -8,7 +9,6 @@ import {
   Sparkles, 
   Award, 
   MapPin, 
-  CheckCircle2, 
   Quote, 
   Calendar,
   Compass,
@@ -21,15 +21,39 @@ import { OWNER_PHONE_DISPLAY, OWNER_PHONE_RAW, getDirectWhatsAppOwnerUrl } from 
 
 export default function AboutSection() {
   const [activeTab, setActiveTab] = useState('story');
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const handleReserveClick = () => {
+    if (location.pathname !== '/') {
+      navigate('/#booking-engine');
+      setTimeout(() => {
+        smoothScrollTo('#booking-engine');
+      }, 150);
+    } else {
+      smoothScrollTo('#booking-engine');
+    }
+  };
+
+  const handleFleetClick = () => {
+    if (location.pathname !== '/') {
+      navigate('/#fleet');
+      setTimeout(() => {
+        smoothScrollTo('#fleet');
+      }, 150);
+    } else {
+      smoothScrollTo('#fleet');
+    }
+  };
 
   return (
     <section id="about" className="about-section-luxury">
       <div className="container">
         
         {/* Section Header */}
-        <div className="about-header-block">
+        <div className="about-header-block reveal-on-scroll">
           <div className="about-tag-pill">
-            <Sparkles size={14} color="#D97706" />
+            <Sparkles size={14} color="#E88C2B" />
             <span>MEET THE FOUNDER & OUR PHILOSOPHY</span>
           </div>
           <h2 className="about-main-title">
@@ -45,7 +69,7 @@ export default function AboutSection() {
         <div className="about-grid-main">
           
           {/* LEFT COLUMN: Executive Owner Showcase Card */}
-          <div className="owner-card-bezel">
+          <div className="owner-card-bezel reveal-on-scroll reveal-delay-1">
             <div className="owner-card-inner">
               
               {/* Portrait Image Frame */}
@@ -71,7 +95,7 @@ export default function AboutSection() {
                     <p className="owner-role-text">Founder & Managing Chauffeur</p>
                   </div>
                   <div className="owner-badge-verified" title="City of Houston Licensed & Permitted Business">
-                    <ShieldCheck size={16} color="#059669" />
+                    <ShieldCheck size={15} color="#E88C2B" />
                     <span>City Permitted</span>
                   </div>
                 </div>
@@ -79,15 +103,15 @@ export default function AboutSection() {
                 {/* Service Credentials Pills */}
                 <div className="owner-credentials-pills">
                   <span className="cred-pill">
-                    <MapPin size={13} color="#D97706" />
+                    <MapPin size={13} color="#E88C2B" />
                     <span>Houston, Texas</span>
                   </span>
                   <span className="cred-pill">
-                    <Calendar size={13} color="#D97706" />
+                    <Calendar size={13} color="#E88C2B" />
                     <span>10+ Yrs Experience</span>
                   </span>
                   <span className="cred-pill">
-                    <Award size={13} color="#D97706" />
+                    <Award size={13} color="#E88C2B" />
                     <span>5,000+ Safe Transfers</span>
                   </span>
                 </div>
@@ -132,7 +156,7 @@ export default function AboutSection() {
           </div>
 
           {/* RIGHT COLUMN: Editorial Story & Chauffeur Philosophy */}
-          <div className="about-editorial-panel">
+          <div className="about-editorial-panel reveal-on-scroll reveal-delay-2">
             
             {/* Interactive Luxury Tab Switcher */}
             <div className="about-tabs-nav" role="tablist">
@@ -192,7 +216,7 @@ export default function AboutSection() {
                 <div className="story-bento-row">
                   <div className="story-bento-card">
                     <div className="bento-icon-circle">
-                      <Clock size={18} color="#D97706" />
+                      <Clock size={18} color="#E88C2B" />
                     </div>
                     <div>
                       <h5 className="bento-card-title">Real-Time Flight Radar Tracking</h5>
@@ -204,7 +228,7 @@ export default function AboutSection() {
 
                   <div className="story-bento-card">
                     <div className="bento-icon-circle">
-                      <ShieldCheck size={18} color="#059669" />
+                      <ShieldCheck size={18} color="#E88C2B" />
                     </div>
                     <div>
                       <h5 className="bento-card-title">Hands-On Owner Accountability</h5>
@@ -285,11 +309,11 @@ export default function AboutSection() {
                   <div className="comparison-row">
                     <span className="col-feature">Vehicle Guarantee</span>
                     <span className="col-brand">
-                      <Check size={15} color="#059669" />
+                      <Check size={16} color="#E88C2B" />
                       Guaranteed Suburban or Lexus
                     </span>
                     <span className="col-others">
-                      <CloseIcon size={14} color="#94A3B8" />
+                      <CloseIcon size={14} color="#A39694" />
                       Random unvetted compact cars
                     </span>
                   </div>
@@ -297,11 +321,11 @@ export default function AboutSection() {
                   <div className="comparison-row">
                     <span className="col-feature">Surge Pricing</span>
                     <span className="col-brand">
-                      <Check size={15} color="#059669" />
+                      <Check size={16} color="#E88C2B" />
                       Zero Surge Ever (Upfront Flat Rate)
                     </span>
                     <span className="col-others">
-                      <CloseIcon size={14} color="#94A3B8" />
+                      <CloseIcon size={14} color="#A39694" />
                       2x - 3.5x Surge in bad weather
                     </span>
                   </div>
@@ -309,11 +333,11 @@ export default function AboutSection() {
                   <div className="comparison-row">
                     <span className="col-feature">Driver Reliability</span>
                     <span className="col-brand">
-                      <Check size={15} color="#059669" />
+                      <Check size={16} color="#E88C2B" />
                       100% Confirmed • Zero Cancellations
                     </span>
                     <span className="col-others">
-                      <CloseIcon size={14} color="#94A3B8" />
+                      <CloseIcon size={14} color="#A39694" />
                       Frequent last-minute cancellations
                     </span>
                   </div>
@@ -321,11 +345,11 @@ export default function AboutSection() {
                   <div className="comparison-row">
                     <span className="col-feature">Customer Support</span>
                     <span className="col-brand">
-                      <Check size={15} color="#059669" />
+                      <Check size={16} color="#E88C2B" />
                       Direct Line to Owner Symanthan
                     </span>
                     <span className="col-others">
-                      <CloseIcon size={14} color="#94A3B8" />
+                      <CloseIcon size={14} color="#A39694" />
                       Automated chatbots & script agents
                     </span>
                   </div>
@@ -337,7 +361,7 @@ export default function AboutSection() {
             <div className="about-bottom-actions">
               <button
                 type="button"
-                onClick={() => smoothScrollTo('#fleet-booking-card')}
+                onClick={handleReserveClick}
                 className="btn-reserve-ride"
               >
                 <span>Reserve Your Private Ride</span>
@@ -346,7 +370,7 @@ export default function AboutSection() {
 
               <button
                 type="button"
-                onClick={() => smoothScrollTo('#fleet')}
+                onClick={handleFleetClick}
                 className="btn-view-fleet"
               >
                 <span>Explore Fleet & Specs</span>
@@ -358,22 +382,22 @@ export default function AboutSection() {
 
         {/* 4 Bottom Trust Milestone Counters */}
         <div className="about-metrics-strip">
-          <div className="metric-box">
+          <div className="metric-box reveal-on-scroll reveal-delay-1">
             <span className="metric-big-num">10+</span>
             <span className="metric-label">Years Serving Houston</span>
             <p className="metric-sub">Deep navigational knowledge of all Texas freeways, bypasses & terminals.</p>
           </div>
-          <div className="metric-box">
+          <div className="metric-box reveal-on-scroll reveal-delay-2">
             <span className="metric-big-num">5,000+</span>
             <span className="metric-label">Airport & Cruise Runs</span>
             <p className="metric-sub">Punctual transfers for IAH, HOU & Galveston Cruise Port.</p>
           </div>
-          <div className="metric-box">
+          <div className="metric-box reveal-on-scroll reveal-delay-3">
             <span className="metric-big-num">100%</span>
             <span className="metric-label">On-Time Guarantee</span>
             <p className="metric-sub">Real-time FAA flight radar tracking ensures we are always waiting curbside.</p>
           </div>
-          <div className="metric-box">
+          <div className="metric-box reveal-on-scroll reveal-delay-4">
             <span className="metric-big-num">Zero</span>
             <span className="metric-label">Surge Surcharges Ever</span>
             <p className="metric-sub">Honest, upfront flat-rate quotes rain or shine with zero surprises.</p>
@@ -384,13 +408,14 @@ export default function AboutSection() {
 
       <style>{`
         /* ==========================================================================
-           ABOUT SECTION — HIGH-END EDITORIAL LUXURY
+           ABOUT SECTION — HIGH-END EDITORIAL LUXURY DESIGN
+           Palette: Calming White #FEFBF3 | Dark Maroon #4E0401 | Orange Grove #E88C2B
            ========================================================================== */
         .about-section-luxury {
-          background: #FFFFFF;
-          padding: 85px 0 95px 0;
-          border-top: 1px solid #E2E8F0;
-          border-bottom: 1px solid #E2E8F0;
+          background: #FEFBF3;
+          padding: 95px 0 105px 0;
+          border-top: 1px solid rgba(78, 4, 1, 0.08);
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
         }
 
         .about-header-block {
@@ -403,32 +428,32 @@ export default function AboutSection() {
           display: inline-flex;
           align-items: center;
           gap: 7px;
-          background: #FEF3C7;
-          border: 1px solid #FDE68A;
-          padding: 4px 12px;
+          background: #FDF3E7;
+          border: 1px solid rgba(232, 140, 43, 0.3);
+          padding: 5px 14px;
           border-radius: 9999px;
           font-size: 0.76rem;
           font-weight: 800;
-          letter-spacing: 0.14em;
-          color: #B45309;
-          margin-bottom: 12px;
+          letter-spacing: 0.16em;
+          color: #E88C2B;
+          margin-bottom: 14px;
         }
 
         .about-main-title {
           font-family: var(--font-heading);
           font-size: clamp(2.65rem, 3.85vw, 3.45rem);
           font-weight: 900;
-          color: #0F172A;
-          line-height: 1.15;
+          color: #4E0401;
+          line-height: 1.12;
           letter-spacing: -0.025em;
-          margin-bottom: 12px;
+          margin-bottom: 14px;
           -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
         .about-sub-title {
           font-size: 1.05rem;
-          color: #475569;
+          color: #786C6A;
           line-height: 1.6;
         }
 
@@ -436,7 +461,7 @@ export default function AboutSection() {
         .about-grid-main {
           display: grid;
           grid-template-columns: 440px 1fr;
-          gap: 40px;
+          gap: 44px;
           align-items: start;
           margin-bottom: 60px;
         }
@@ -445,18 +470,18 @@ export default function AboutSection() {
            LEFT: Double-Bezel Owner Card
            -------------------------------------------------------------------------- */
         .owner-card-bezel {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: #F9F5EC;
+          border: 1px solid rgba(78, 4, 1, 0.10);
           border-radius: 24px;
-          padding: 10px;
-          box-shadow: 0 12px 30px -10px rgba(15, 23, 42, 0.08);
+          padding: 12px;
+          box-shadow: 0 16px 36px -12px rgba(78, 4, 1, 0.08);
           position: sticky;
           top: 96px;
         }
 
         .owner-card-inner {
           background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          border: 1px solid rgba(78, 4, 1, 0.08);
           border-radius: 18px;
           padding: 24px;
           text-align: left;
@@ -467,9 +492,9 @@ export default function AboutSection() {
           width: 100%;
           border-radius: 14px;
           overflow: hidden;
-          background: #F1F5F9;
-          border: 1px solid #E2E8F0;
-          box-shadow: 0 4px 14px rgba(15, 23, 42, 0.06);
+          background: #FDF3E7;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          box-shadow: 0 4px 14px rgba(78, 4, 1, 0.06);
         }
 
         .owner-photo-img {
@@ -490,7 +515,7 @@ export default function AboutSection() {
           bottom: 12px;
           left: 12px;
           right: 12px;
-          background: rgba(15, 23, 42, 0.90);
+          background: rgba(78, 4, 1, 0.92);
           backdrop-filter: blur(8px);
           color: #FFFFFF;
           font-size: 0.74rem;
@@ -501,7 +526,7 @@ export default function AboutSection() {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          border: 1px solid rgba(255, 255, 255, 0.15);
+          border: 1px solid rgba(232, 140, 43, 0.35);
         }
 
         .status-dot-pulse {
@@ -535,17 +560,17 @@ export default function AboutSection() {
 
         .owner-name-heading {
           font-family: var(--font-heading);
-          font-size: 1.46rem;
+          font-size: 1.55rem;
           font-weight: 900;
-          color: #0F172A;
+          color: #4E0401;
           line-height: 1.1;
-          -webkit-text-stroke: 0.38px currentColor;
+          -webkit-text-stroke: 0.42px currentColor;
           text-rendering: optimizeLegibility;
         }
 
         .owner-role-text {
-          font-size: 0.82rem;
-          color: #64748B;
+          font-size: 0.84rem;
+          color: #786C6A;
           font-weight: 600;
           margin-top: 3px;
         }
@@ -554,13 +579,13 @@ export default function AboutSection() {
           display: inline-flex;
           align-items: center;
           gap: 5px;
-          background: #ECFDF5;
-          border: 1px solid #A7F3D0;
-          padding: 4px 9px;
+          background: #FDF3E7;
+          border: 1px solid rgba(232, 140, 43, 0.35);
+          padding: 4px 10px;
           border-radius: 9999px;
           font-size: 0.72rem;
           font-weight: 800;
-          color: #047857;
+          color: #E88C2B;
         }
 
         .owner-credentials-pills {
@@ -573,36 +598,36 @@ export default function AboutSection() {
           display: inline-flex;
           align-items: center;
           gap: 6px;
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.10);
           padding: 5px 10px;
-          border-radius: 6px;
+          border-radius: 8px;
           font-size: 0.74rem;
           font-weight: 700;
-          color: #334155;
+          color: #4E0401;
         }
 
         /* Quote Box */
         .owner-quote-box {
-          background: #FBF9F5;
-          border: 1px solid #EAE4D6;
-          border-left: 3px solid #D97706;
-          border-radius: 0 10px 10px 0;
+          background: #FDFCF7;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          border-left: 3.5px solid #E88C2B;
+          border-radius: 0 12px 12px 0;
           padding: 14px 16px;
           position: relative;
         }
 
         .quote-icon {
-          color: #D97706;
+          color: #E88C2B;
           margin-bottom: 6px;
           display: block;
         }
 
         .quote-text {
-          font-size: 0.86rem;
+          font-size: 0.88rem;
           font-style: italic;
-          color: #334155;
-          line-height: 1.5;
+          color: #4E0401;
+          line-height: 1.55;
         }
 
         .quote-author-row {
@@ -615,12 +640,12 @@ export default function AboutSection() {
         .author-name {
           font-weight: 800;
           font-size: 0.78rem;
-          color: #0F172A;
+          color: #4E0401;
         }
 
         .author-title {
           font-size: 0.72rem;
-          color: #64748B;
+          color: #786C6A;
         }
 
         /* Direct Contact Buttons */
@@ -640,9 +665,9 @@ export default function AboutSection() {
           color: #FFFFFF;
           font-weight: 700;
           font-size: 0.88rem;
-          padding: 10px 16px;
-          border-radius: 8px;
-          box-shadow: 0 2px 8px rgba(37, 211, 102, 0.25);
+          padding: 11px 18px;
+          border-radius: 9999px;
+          box-shadow: 0 3px 10px rgba(37, 211, 102, 0.25);
           transition: all 0.18s ease;
         }
 
@@ -657,19 +682,19 @@ export default function AboutSection() {
           justify-content: center;
           gap: 8px;
           background: #FFFFFF;
-          border: 1.5px solid #E2E8F0;
-          color: #0F172A;
+          border: 1.5px solid rgba(78, 4, 1, 0.18);
+          color: #4E0401;
           font-weight: 700;
           font-size: 0.88rem;
-          padding: 9px 16px;
-          border-radius: 8px;
+          padding: 10px 18px;
+          border-radius: 9999px;
           transition: all 0.18s ease;
         }
 
         .btn-owner-call:hover {
-          border-color: #D97706;
-          color: #D97706;
-          background: #FFFBEB;
+          border-color: #4E0401;
+          color: #FFFFFF;
+          background: #4E0401;
         }
 
         /* --------------------------------------------------------------------------
@@ -682,11 +707,11 @@ export default function AboutSection() {
         .about-tabs-nav {
           display: flex;
           gap: 8px;
-          background: #F1F5F9;
+          background: #F9F5EC;
           padding: 6px;
-          border-radius: 12px;
+          border-radius: 9999px;
           margin-bottom: 28px;
-          border: 1px solid #E2E8F0;
+          border: 1px solid rgba(78, 4, 1, 0.10);
           flex-wrap: wrap;
         }
 
@@ -695,46 +720,56 @@ export default function AboutSection() {
           align-items: center;
           gap: 8px;
           background: transparent;
-          color: #64748B;
+          color: #786C6A;
           font-weight: 700;
           font-size: 0.88rem;
-          padding: 9px 18px;
-          border-radius: 8px;
+          padding: 9px 20px;
+          border-radius: 9999px;
           cursor: pointer;
           transition: all 0.18s ease;
         }
 
-        .about-tab-btn:hover {
-          color: #0F172A;
+        .about-tab-btn:hover:not(.active) {
+          color: #4E0401;
+          background: rgba(78, 4, 1, 0.05);
         }
 
         .about-tab-btn.active {
-          background: #FFFFFF;
-          color: #0F172A;
-          box-shadow: 0 2px 8px rgba(15, 23, 42, 0.08);
+          background: #4E0401;
+          color: #FFFFFF;
+          box-shadow: 0 4px 14px rgba(78, 4, 1, 0.2);
+        }
+
+        .tab-pane-fade {
+          animation: tabFadeIn 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        @keyframes tabFadeIn {
+          from { opacity: 0; transform: translateY(8px); }
+          to { opacity: 1; transform: translateY(0); }
         }
 
         .pane-lead-title {
           font-family: var(--font-heading);
-          font-size: 1.46rem;
-          font-weight: 800;
-          color: #0F172A;
-          line-height: 1.3;
+          font-size: 1.55rem;
+          font-weight: 900;
+          color: #4E0401;
+          line-height: 1.25;
           margin-bottom: 16px;
-          -webkit-text-stroke: 0.35px currentColor;
+          -webkit-text-stroke: 0.4px currentColor;
           text-rendering: optimizeLegibility;
         }
 
         .pane-lead-text {
           font-size: 1.02rem;
-          color: #334155;
+          color: #5A4543;
           line-height: 1.65;
           margin-bottom: 14px;
         }
 
         .pane-body-text {
           font-size: 0.96rem;
-          color: #475569;
+          color: #6E5553;
           line-height: 1.65;
           margin-bottom: 24px;
         }
@@ -743,52 +778,53 @@ export default function AboutSection() {
         .story-bento-row {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 16px;
-          margin-bottom: 28px;
+          gap: 18px;
+          margin-bottom: 32px;
         }
 
         .story-bento-card {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 20px;
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          border-radius: 16px;
+          padding: 22px;
           display: flex;
           gap: 14px;
           align-items: flex-start;
-          transition: transform 0.2s ease, box-shadow 0.2s ease;
+          box-shadow: 0 4px 16px rgba(78, 4, 1, 0.04);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
         }
 
         .story-bento-card:hover {
           transform: translateY(-2px);
-          box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
+          border-color: rgba(232, 140, 43, 0.35);
+          box-shadow: 0 10px 24px rgba(78, 4, 1, 0.08);
         }
 
         .bento-icon-circle {
-          width: 38px;
-          height: 38px;
-          border-radius: 10px;
-          background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          background: #FDF3E7;
+          border: 1px solid rgba(232, 140, 43, 0.3);
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
-          box-shadow: 0 2px 6px rgba(15, 23, 42, 0.04);
         }
 
         .bento-card-title {
           font-family: var(--font-heading);
-          font-size: 1.05rem;
-          font-weight: 800;
-          color: #0F172A;
+          font-size: 1.08rem;
+          font-weight: 850;
+          color: #4E0401;
           margin-bottom: 6px;
-          -webkit-text-stroke: 0.32px currentColor;
+          -webkit-text-stroke: 0.35px currentColor;
           text-rendering: optimizeLegibility;
         }
 
         .bento-card-desc {
-          font-size: 0.84rem;
-          color: #64748B;
+          font-size: 0.85rem;
+          color: #786C6A;
           line-height: 1.5;
         }
 
@@ -796,30 +832,38 @@ export default function AboutSection() {
         .standards-grid-cards {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 16px;
-          margin-bottom: 28px;
+          gap: 18px;
+          margin-bottom: 32px;
         }
 
         .standard-pillar-card {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
-          padding: 20px;
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          border-radius: 16px;
+          padding: 22px;
           display: flex;
           gap: 14px;
           align-items: flex-start;
+          box-shadow: 0 4px 16px rgba(78, 4, 1, 0.04);
+          transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+        }
+
+        .standard-pillar-card:hover {
+          transform: translateY(-2px);
+          border-color: rgba(232, 140, 43, 0.35);
+          box-shadow: 0 10px 24px rgba(78, 4, 1, 0.08);
         }
 
         .pillar-num-badge {
           font-family: var(--font-heading);
-          font-size: 1.1rem;
+          font-size: 1.15rem;
           font-weight: 900;
-          color: #D97706;
-          background: #FEF3C7;
-          border: 1px solid #FDE68A;
-          width: 38px;
-          height: 38px;
-          border-radius: 10px;
+          color: #E88C2B;
+          background: #FDF3E7;
+          border: 1px solid rgba(232, 140, 43, 0.25);
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
           display: flex;
           align-items: center;
           justify-content: center;
@@ -828,52 +872,52 @@ export default function AboutSection() {
 
         .pillar-title {
           font-family: var(--font-heading);
-          font-size: 1.05rem;
-          font-weight: 800;
-          color: #0F172A;
+          font-size: 1.08rem;
+          font-weight: 850;
+          color: #4E0401;
           margin-bottom: 6px;
-          -webkit-text-stroke: 0.32px currentColor;
+          -webkit-text-stroke: 0.35px currentColor;
           text-rendering: optimizeLegibility;
         }
 
         .pillar-desc {
-          font-size: 0.84rem;
-          color: #64748B;
+          font-size: 0.85rem;
+          color: #786C6A;
           line-height: 1.5;
         }
 
         /* Comparison Table Card */
         .comparison-table-card {
           background: #FFFFFF;
-          border: 1px solid #E2E8F0;
-          border-radius: 14px;
+          border: 1px solid rgba(78, 4, 1, 0.10);
+          border-radius: 16px;
           overflow: hidden;
-          margin-bottom: 28px;
-          box-shadow: 0 4px 14px rgba(15, 23, 42, 0.04);
+          margin-bottom: 32px;
+          box-shadow: 0 4px 18px rgba(78, 4, 1, 0.05);
         }
 
         .comparison-header {
           display: grid;
           grid-template-columns: 1.4fr 1.6fr 1.6fr;
-          background: #0F172A;
+          background: #4E0401;
           color: #FFFFFF;
-          padding: 12px 18px;
-          font-size: 0.78rem;
+          padding: 14px 20px;
+          font-size: 0.80rem;
           font-weight: 800;
           letter-spacing: 0.08em;
           text-transform: uppercase;
         }
 
         .comparison-header .col-brand {
-          color: #F59E0B;
+          color: #E88C2B;
         }
 
         .comparison-row {
           display: grid;
           grid-template-columns: 1.4fr 1.6fr 1.6fr;
-          padding: 14px 18px;
-          border-bottom: 1px solid #F1F5F9;
-          font-size: 0.85rem;
+          padding: 15px 20px;
+          border-bottom: 1px solid rgba(78, 4, 1, 0.06);
+          font-size: 0.86rem;
           align-items: center;
         }
 
@@ -883,22 +927,22 @@ export default function AboutSection() {
 
         .comparison-row .col-feature {
           font-weight: 700;
-          color: #0F172A;
+          color: #4E0401;
         }
 
         .comparison-row .col-brand {
           display: flex;
           align-items: center;
-          gap: 6px;
-          color: #0F172A;
-          font-weight: 700;
+          gap: 7px;
+          color: #4E0401;
+          font-weight: 750;
         }
 
         .comparison-row .col-others {
           display: flex;
           align-items: center;
-          gap: 6px;
-          color: #64748B;
+          gap: 7px;
+          color: #8C7B79;
         }
 
         /* Action Row */
@@ -913,19 +957,20 @@ export default function AboutSection() {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: #F59E0B;
-          color: #0F172A;
+          background: #E88C2B;
+          color: #FFFFFF;
           font-weight: 800;
           font-size: 0.94rem;
-          padding: 12px 24px;
+          padding: 13px 28px;
           border-radius: 9999px;
-          box-shadow: 0 4px 14px rgba(245, 158, 11, 0.3);
-          transition: all 0.18s ease;
+          box-shadow: 0 4px 14px rgba(232, 140, 43, 0.3);
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-reserve-ride:hover {
-          background: #D97706;
-          transform: translateY(-1px);
+          background: #D2791C;
+          transform: translateY(-2px);
+          box-shadow: 0 6px 18px rgba(232, 140, 43, 0.4);
         }
 
         .btn-view-fleet {
@@ -933,19 +978,19 @@ export default function AboutSection() {
           align-items: center;
           gap: 8px;
           background: #FFFFFF;
-          border: 1.5px solid #CBD5E1;
-          color: #334155;
-          font-weight: 700;
+          border: 1.5px solid rgba(78, 4, 1, 0.18);
+          color: #4E0401;
+          font-weight: 800;
           font-size: 0.90rem;
-          padding: 11px 22px;
+          padding: 12px 24px;
           border-radius: 9999px;
-          transition: all 0.18s ease;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .btn-view-fleet:hover {
-          border-color: #0F172A;
-          color: #0F172A;
-          background: #F8FAFC;
+          border-color: #4E0401;
+          background: #F9F5EC;
+          transform: translateY(-1px);
         }
 
         /* --------------------------------------------------------------------------
@@ -954,48 +999,50 @@ export default function AboutSection() {
         .about-metrics-strip {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 20px;
+          gap: 22px;
         }
 
         .metric-box {
-          background: #F8FAFC;
-          border: 1px solid #E2E8F0;
-          border-top: 3px solid #D97706;
-          border-radius: 14px;
-          padding: 24px 20px;
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          border-top: 3.5px solid #E88C2B;
+          border-radius: 16px;
+          padding: 26px 22px;
           text-align: left;
+          box-shadow: 0 4px 16px rgba(78, 4, 1, 0.04);
           transition: transform 0.2s ease, box-shadow 0.2s ease;
         }
 
         .metric-box:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 8px 24px rgba(15, 23, 42, 0.06);
+          transform: translateY(-3px);
+          box-shadow: 0 10px 24px rgba(78, 4, 1, 0.08);
         }
 
         .metric-big-num {
           font-family: var(--font-heading);
-          font-size: 2.38rem;
+          font-size: 2.6rem;
           font-weight: 900;
-          color: #0F172A;
+          color: #4E0401;
           display: block;
           line-height: 1;
-          margin-bottom: 6px;
+          margin-bottom: 8px;
           -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
         .metric-label {
-          font-size: 0.88rem;
+          font-size: 0.90rem;
           font-weight: 800;
-          color: #D97706;
+          color: #E88C2B;
           display: block;
           margin-bottom: 6px;
+          letter-spacing: 0.02em;
         }
 
         .metric-sub {
-          font-size: 0.82rem;
-          color: #64748B;
-          line-height: 1.45;
+          font-size: 0.83rem;
+          color: #786C6A;
+          line-height: 1.48;
         }
 
         /* Responsive Breakpoints */

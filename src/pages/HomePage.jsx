@@ -5,7 +5,6 @@ import ServicesSection from '../components/ServicesSection';
 import FleetSection from '../components/FleetSection';
 import DestinationsSection from '../components/DestinationsSection';
 import WhyChooseUs from '../components/WhyChooseUs';
-import Testimonials from '../components/Testimonials';
 
 export default function HomePage({ onSelectVehicle }) {
   return (
@@ -28,10 +27,7 @@ export default function HomePage({ onSelectVehicle }) {
       {/* 6. Why Choose Us ("A HIGHER STANDARD OF TRAVEL" - Passenger Photo & 4 Pillars) */}
       <WhyChooseUs />
 
-      {/* 7. Client Testimonials ("TRUSTED BY TRAVELERS WORLDWIDE" - 3-Part Banner) */}
-      <Testimonials />
-
-      {/* NOTE: App download / phone mockup section is intentionally omitted per client instruction */}
+      {/* Customer reviews and app download intentionally removed from homepage per client instruction */}
     </main>
   );
 }

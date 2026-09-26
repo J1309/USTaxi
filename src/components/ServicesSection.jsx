@@ -37,7 +37,7 @@ export default function ServicesSection() {
       <div className="container">
         <div className="services-reference-layout">
           {/* Left Column: Headlines & CTA */}
-          <div className="services-left-intro">
+          <div className="services-left-intro reveal-on-scroll">
             <span className="services-kicker">OUR SERVICES</span>
             <h2 className="services-main-title">
               TRAVEL<br />
@@ -60,10 +60,10 @@ export default function ServicesSection() {
 
           {/* Right Column: 3 Vertical Photo Cards */}
           <div className="services-cards-trio">
-            {SERVICES.map((item) => (
+            {SERVICES.map((item, idx) => (
               <div
                 key={item.id}
-                className="service-editorial-card"
+                className={`service-editorial-card reveal-on-scroll reveal-delay-${idx + 1}`}
                 onClick={handleCardClick}
                 role="button"
                 tabIndex={0}

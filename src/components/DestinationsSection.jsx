@@ -41,7 +41,7 @@ export default function DestinationsSection() {
       <div className="container destinations-container">
         <div className="destinations-layout-grid">
           {/* Left Column: Heading & Button */}
-          <div className="destinations-left-block">
+          <div className="destinations-left-block reveal-on-scroll">
             <span className="destinations-kicker">POPULAR DESTINATIONS</span>
             <h2 className="destinations-headline">
               EXPLORE<br />
@@ -65,10 +65,10 @@ export default function DestinationsSection() {
 
           {/* Right Column: 4 Vertical Destination Cards */}
           <div className="destinations-cards-quad">
-            {DESTINATIONS.map((d) => (
+            {DESTINATIONS.map((d, idx) => (
               <div
                 key={d.id}
-                className="destination-vertical-card"
+                className={`destination-vertical-card reveal-on-scroll reveal-delay-${idx + 1}`}
                 onClick={handleDestinationClick}
                 role="button"
                 tabIndex={0}
