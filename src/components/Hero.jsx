@@ -98,7 +98,7 @@ export default function Hero({ onSelectVehicle }) {
           position: relative;
           z-index: 2;
           width: 100%;
-          margin-bottom: 38px;
+          margin-bottom: 50px;
         }
 
         .hero-text-block {
@@ -196,7 +196,7 @@ export default function Hero({ onSelectVehicle }) {
         .hero-booking-dock {
           position: relative;
           z-index: 10;
-          margin-top: 24px;
+          margin-top: 40px;
         }
 
         @media (max-width: 900px) {
@@ -206,10 +206,10 @@ export default function Hero({ onSelectVehicle }) {
             padding-bottom: 36px;
           }
           .hero-content-container {
-            margin-bottom: 24px;
+            margin-bottom: 28px;
           }
           .hero-booking-dock {
-            margin-top: 16px;
+            margin-top: 22px;
           }
           .hero-main-heading {
             font-size: clamp(2.0rem, 7.5vw, 2.6rem);
