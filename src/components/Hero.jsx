@@ -254,17 +254,26 @@ export default function Hero({ onSelectVehicle }) {
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
           }
           .hero-editorial-section {
-            min-height: auto;
-            padding-top: 86px;
+            min-height: 72vh;
+            min-height: 72dvh;
+            padding-top: 96px;
             padding-bottom: 24px;
             overflow-x: clip;
             width: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start;
           }
           .hero-content-container {
-            margin-bottom: 20px;
+            margin-bottom: 0;
+          }
+          .hero-cta-buttons-row {
+            display: none !important;
           }
           .hero-booking-dock {
-            margin-top: 14px;
+            margin-top: 0 !important;
+            margin-bottom: 0 !important;
+            height: 0 !important;
           }
           .hero-main-heading {
             font-size: clamp(2.2rem, 7.5vw, 2.75rem);
@@ -279,15 +288,6 @@ export default function Hero({ onSelectVehicle }) {
           }
           .desktop-call-text {
             display: none;
-          }
-          .hero-secondary-btn {
-            width: 44px;
-            height: 44px;
-            padding: 0;
-            border-radius: 50%;
-            background: #FFFFFF;
-            border: 1px solid rgba(78, 4, 1, 0.14);
-            box-shadow: 0 4px 12px rgba(78, 4, 1, 0.08);
           }
         }
       `}</style>

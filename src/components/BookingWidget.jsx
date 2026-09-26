@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { 
   MapPin, 
   Calendar, 
@@ -492,7 +493,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
       {/* =========================================================================
           MOBILE VIEW: Minimal Luxury Booking Popup Modal
           ========================================================================= */}
-      {mobileSheetOpen && (
+      {mobileSheetOpen && typeof document !== 'undefined' && createPortal(
         <div 
           className="mobile-booking-popup-backdrop" 
           onClick={() => setMobileSheetOpen(false)}
@@ -676,7 +677,8 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
 
             </form>
           </div>
-        </div>
+        </div>,
+        document.body
       )}
 
       <style>{`
@@ -1191,7 +1193,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
         .mobile-booking-popup-backdrop {
           position: fixed;
           inset: 0;
-          z-index: 3000;
+          z-index: 99999;
           background: rgba(18, 5, 4, 0.72);
           backdrop-filter: blur(8px);
           -webkit-backdrop-filter: blur(8px);
@@ -1511,7 +1513,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
             display: none !important;
           }
           .mobile-search-pill-wrapper {
-            display: block !important;
+            display: none !important;
           }
         }
       `}</style>
