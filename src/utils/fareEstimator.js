@@ -25,7 +25,7 @@ export const VEHICLE_OPTIONS = [
     capacity: 'Up to 7 Passengers',
     passengersMax: 7,
     luggageMax: 6,
-    image: '/images/suburban_actual.jpg',
+    image: '/images/fleet_suburban.jpg',
     minHours: 2,
     features: [
       '7 Full-Size Leather Executive Seats',
