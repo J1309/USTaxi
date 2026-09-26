@@ -65,7 +65,7 @@ export default function Navbar() {
           className="brand-logo-link"
         >
           <img
-            src="/images/logo_lavender_transparent.png"
+            src="/images/new_logo_transparent.png"
             alt="Lavender Taxi Service"
             className="brand-logo-img"
           />

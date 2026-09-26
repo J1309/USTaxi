@@ -63,7 +63,7 @@ export default function Footer() {
           <div className="footer-brand-col">
             <a href="/" onClick={handleHomeNav} className="footer-brand-link">
               <img
-                src="/images/logo_lavender_transparent.png"
+                src="/images/new_logo_transparent.png"
                 alt="Lavender Taxi Service"
                 className="footer-brand-logo"
               />
@@ -183,7 +183,7 @@ export default function Footer() {
           <div className="mob-footer-brand">
             <a href="/" onClick={handleHomeNav} className="mob-footer-logo-link">
               <img
-                src="/images/logo_lavender_transparent.png"
+                src="/images/new_logo_transparent.png"
                 alt="Lavender Taxi Service"
                 className="mob-footer-logo"
               />
@@ -588,8 +588,9 @@ export default function Footer() {
           }
 
           .mob-footer-logo {
-            width: 44px;
-            height: 44px;
+            width: 50px;
+            height: auto;
+            max-height: 34px;
             object-fit: contain;
           }
 
