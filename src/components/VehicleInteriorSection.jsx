@@ -56,7 +56,7 @@ export default function VehicleInteriorSection() {
           <div className="interior-visual-column">
             <div className="interior-photo-frame">
               <img
-                src="/images/suburban_interior.jpg"
+                src="/images/suburban_second-row.png"
                 alt="Chevrolet Suburban High Country Luxury Cabin Interior"
                 className="interior-panoramic-img"
               />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Users, Briefcase, ArrowRight, ShieldCheck, Sparkles, ChevronLeft, ChevronRight, Eye } from 'lucide-react';
+import { Users, Briefcase, ArrowRight, ShieldCheck, Sparkles, ChevronLeft, ChevronRight, Eye, Check } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
 
 const VEHICLES = [
@@ -7,7 +7,7 @@ const VEHICLES = [
     id: 'suburban',
     name: 'Chevrolet Suburban High Country',
     tagline: 'Flagship Executive Full-Size SUV',
-    image: '/images/fleet_suburban.jpg',
+    image: '/images/suburban_img.png',
     passengers: 'Up to 7 Passengers',
     luggage: '6 Large Suitcases',
     features: [
@@ -23,7 +23,7 @@ const VEHICLES = [
     id: 'lexus',
     name: 'Lexus Luxury Sedan',
     tagline: 'Executive Luxury Sedan',
-    image: '/images/fleet_lexus.jpg',
+    image: '/images/lexus_img.png',
     passengers: 'Up to 4 Passengers',
     luggage: '3 Suitcases',
     features: [
@@ -37,9 +37,75 @@ const VEHICLES = [
   },
 ];
 
+const VEHICLE_INTERIORS = {
+  suburban: {
+    title: 'Chevrolet Suburban High Country',
+    kicker: 'EXECUTIVE SUV CABIN & CARGO',
+    subtitle: 'Handcrafted jet-black leather, spacious 3-row comfort, and vast luggage clearance for up to 7 guests.',
+    gallery: [
+      {
+        src: '/images/suburban_second-row.png',
+        title: 'Executive 2nd-Row Captain Chairs',
+        desc: 'Reclining leather seats with independent armrests and expansive legroom',
+      },
+      {
+        src: '/images/suburban_third_row.png',
+        title: 'Spacious 3rd-Row Seating',
+        desc: 'Comfortable full-size seating for adults with dedicated rear AC climate vents',
+      },
+      {
+        src: '/images/suburban_rear_cargo.png',
+        title: 'Massive Rear Cargo Trunk',
+        desc: 'Easily accommodates 6+ large suitcases and cruise luggage',
+      },
+      {
+        src: '/images/suburban_cockpit.png',
+        title: 'Chauffeur Digital Cockpit',
+        desc: 'Advanced GPS navigation, FAA radar tracking, and Bose premium audio',
+      },
+    ],
+    childSeat: {
+      available: true,
+      image: '/images/child_safety_carseat.jpg',
+      title: 'Certified Child Safety Car Seats',
+      desc: 'Sanitized Infant, Toddler, and Booster car seats pre-installed upon request.',
+    },
+  },
+  lexus: {
+    title: 'Lexus Luxury Sedan',
+    kicker: 'EXECUTIVE SEDAN CABIN & CARGO',
+    subtitle: 'Whisper-quiet acoustic engineering, plush perforated leather, and discreet executive comfort for up to 4 guests.',
+    gallery: [
+      {
+        src: '/images/lexus_rear_seats.png',
+        title: 'Executive Rear Passenger Cabin',
+        desc: 'Whisper-quiet acoustic cabin with plush perforated leather seating',
+      },
+      {
+        src: '/images/lexus_front_seats.png',
+        title: 'Premium Front Passenger Seating',
+        desc: 'Ergonomic heated and ventilated contoured luxury seating',
+      },
+      {
+        src: '/images/lexus_trunk_cargo.png',
+        title: 'Executive Luggage Trunk',
+        desc: 'Deep trunk space comfortably holding up to 3 full-size bags',
+      },
+      {
+        src: '/images/lexus_cockpit.png',
+        title: 'Digital Chauffeur Cockpit',
+        desc: 'Modern intuitive console, tri-zone climate controls, and flight monitoring',
+      },
+    ],
+    childSeat: {
+      available: false,
+    },
+  },
+};
+
 export default function FleetSection({ onSelectVehicleForBooking }) {
   const [activeVehicleIndex, setActiveVehicleIndex] = useState(0);
-  const [showInteriorModal, setShowInteriorModal] = useState(false);
+  const [interiorModalVehicle, setInteriorModalVehicle] = useState(null); // 'suburban' | 'lexus' | null
 
   const handleSelect = (vId) => {
     if (onSelectVehicleForBooking) {
@@ -55,6 +121,8 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
   const handlePrev = () => {
     setActiveVehicleIndex((prev) => (prev - 1 + VEHICLES.length) % VEHICLES.length);
   };
+
+  const activeInterior = interiorModalVehicle ? VEHICLE_INTERIORS[interiorModalVehicle] : null;
 
   return (
     <section id="fleet" className="fleet-reference-section">
@@ -105,6 +173,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
                   src={v.image}
                   alt={v.name}
                   className="vehicle-photo-img"
+                  loading="lazy"
                 />
                 <span className="vehicle-tagline-badge">{v.tagline}</span>
               </div>
@@ -157,16 +226,15 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
                     <ArrowRight size={14} />
                   </button>
 
-                  {v.id === 'suburban' && (
-                    <button
-                      type="button"
-                      onClick={() => setShowInteriorModal(true)}
-                      className="btn-view-interior"
-                    >
-                      <Eye size={14} />
-                      <span>Cabin & Car Seats</span>
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={() => setInteriorModalVehicle(v.id)}
+                    className="btn-view-interior"
+                    title={`View ${v.name} interior & cabin images`}
+                  >
+                    <Eye size={14} />
+                    <span>View Cabin & Interior</span>
+                  </button>
                 </div>
               </div>
             </div>
@@ -174,54 +242,94 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
         </div>
       </div>
 
-      {/* Interior & Child Safety Modal */}
-      {showInteriorModal && (
-        <div className="interior-modal-backdrop" onClick={() => setShowInteriorModal(false)}>
+      {/* High-Resolution Interior & Cabin Gallery Modal */}
+      {interiorModalVehicle && activeInterior && (
+        <div className="interior-modal-backdrop" onClick={() => setInteriorModalVehicle(null)}>
           <div className="interior-modal-content" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Modal Header */}
             <div className="modal-header">
               <div>
-                <span className="modal-kicker">EXECUTIVE CABIN PREVIEW</span>
-                <h3 className="modal-title">Suburban High Country & Child Safety</h3>
+                <span className="modal-kicker">{activeInterior.kicker}</span>
+                <h3 className="modal-title">{activeInterior.title}</h3>
+                <p className="modal-subtitle">{activeInterior.subtitle}</p>
               </div>
               <button
                 type="button"
-                onClick={() => setShowInteriorModal(false)}
+                onClick={() => setInteriorModalVehicle(null)}
                 className="modal-close-btn"
+                aria-label="Close cabin preview"
               >
                 ✕
               </button>
             </div>
 
-            <div className="modal-body-grid">
-              <div className="modal-media-wrap">
-                <img
-                  src="/images/suburban_interior.jpg"
-                  alt="Chevrolet Suburban High Country Interior"
-                  className="modal-img"
-                />
-                <span className="modal-caption">Jet-Black Handcrafted Leather Cabin</span>
-              </div>
-
-              <div className="modal-media-wrap">
-                <img
-                  src="/images/child_safety_carseat.jpg"
-                  alt="Certified Child Car Seat"
-                  className="modal-img"
-                />
-                <span className="modal-caption">Sanitized Certified Car Seats On Request</span>
-              </div>
+            {/* Vehicle Switcher Inside Modal */}
+            <div className="modal-vehicle-tabs">
+              <button
+                type="button"
+                onClick={() => setInteriorModalVehicle('suburban')}
+                className={`modal-veh-tab ${interiorModalVehicle === 'suburban' ? 'active' : ''}`}
+              >
+                <span>Chevrolet Suburban SUV (7 Pax)</span>
+              </button>
+              <button
+                type="button"
+                onClick={() => setInteriorModalVehicle('lexus')}
+                className={`modal-veh-tab ${interiorModalVehicle === 'lexus' ? 'active' : ''}`}
+              >
+                <span>Lexus Luxury Sedan (4 Pax)</span>
+              </button>
             </div>
 
+            {/* 4-Photo Interior Grid */}
+            <div className="modal-body-grid">
+              {activeInterior.gallery.map((item, idx) => (
+                <div key={idx} className="modal-media-wrap">
+                  <img
+                    src={item.src}
+                    alt={item.title}
+                    className="modal-img"
+                    loading="lazy"
+                  />
+                  <div className="modal-caption-box">
+                    <span className="modal-caption-title">{item.title}</span>
+                    <span className="modal-caption-desc">{item.desc}</span>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Child Seat Callout for Suburban */}
+            {activeInterior.childSeat?.available && (
+              <div className="modal-child-seat-bar">
+                <div className="child-seat-thumb">
+                  <img
+                    src={activeInterior.childSeat.image}
+                    alt="Sanitized Child Safety Car Seat"
+                    className="child-seat-img"
+                  />
+                </div>
+                <div className="child-seat-text">
+                  <div className="child-seat-badge">FAMILY COMFORT</div>
+                  <span className="child-seat-title">{activeInterior.childSeat.title}</span>
+                  <span className="child-seat-desc">{activeInterior.childSeat.desc}</span>
+                </div>
+              </div>
+            )}
+
+            {/* Bottom Modal Actions */}
             <div className="modal-actions-bar">
               <button
                 type="button"
                 onClick={() => {
-                  setShowInteriorModal(false);
-                  handleSelect('suburban');
+                  const targetVeh = interiorModalVehicle;
+                  setInteriorModalVehicle(null);
+                  handleSelect(targetVeh);
                 }}
-                className="btn-book-vehicle"
+                className="btn-book-vehicle-modal"
               >
-                <span>Reserve Suburban With Car Seats</span>
+                <span>Book This {interiorModalVehicle === 'suburban' ? 'Suburban SUV' : 'Lexus Sedan'}</span>
                 <ArrowRight size={15} />
               </button>
             </div>
@@ -528,30 +636,35 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           position: fixed;
           inset: 0;
           z-index: 2000;
-          background: rgba(28, 12, 11, 0.75);
+          background: rgba(28, 12, 11, 0.78);
           backdrop-filter: blur(8px);
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 20px;
+          overflow-y: auto;
         }
 
         .interior-modal-content {
           background: #FFFFFF;
-          border-radius: 20px;
-          max-width: 800px;
+          border-radius: 24px;
+          max-width: 860px;
           width: 100%;
+          max-height: 90vh;
+          overflow-y: auto;
           padding: 32px;
-          box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
-          border: 1px solid rgba(232, 140, 43, 0.2);
+          box-shadow: 0 24px 70px rgba(0, 0, 0, 0.35);
+          border: 1.5px solid rgba(232, 140, 43, 0.25);
           text-align: left;
+          position: relative;
         }
 
         .modal-header {
           display: flex;
           align-items: flex-start;
           justify-content: space-between;
-          margin-bottom: 20px;
+          margin-bottom: 18px;
+          gap: 16px;
         }
 
         .modal-kicker {
@@ -564,58 +677,212 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
         .modal-title {
           font-family: var(--font-heading);
-          font-size: 1.5rem;
+          font-size: clamp(1.4rem, 2.5vw, 1.8rem);
           font-weight: 900;
           color: #4E0401;
-          margin: 4px 0 0 0;
+          margin: 4px 0 6px 0;
+          line-height: 1.2;
+        }
+
+        .modal-subtitle {
+          font-size: 0.88rem;
+          color: #786C6A;
+          margin: 0;
+          line-height: 1.5;
         }
 
         .modal-close-btn {
-          width: 32px;
-          height: 32px;
+          width: 36px;
+          height: 36px;
           border-radius: 50%;
-          border: 1px solid #EFE8DC;
+          border: 1.5px solid rgba(78, 4, 1, 0.14);
           background: #FEFBF3;
-          font-size: 1rem;
+          color: #4E0401;
+          font-size: 1.1rem;
+          font-weight: 700;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
+          transition: all 0.18s ease;
+          flex-shrink: 0;
         }
 
+        .modal-close-btn:hover {
+          background: #E88C2B;
+          color: #FFFFFF;
+          border-color: #E88C2B;
+        }
+
+        /* Vehicle Switcher Tabs Inside Modal */
+        .modal-vehicle-tabs {
+          display: flex;
+          gap: 10px;
+          margin-bottom: 20px;
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
+          padding-bottom: 14px;
+        }
+
+        .modal-veh-tab {
+          padding: 8px 16px;
+          border-radius: 9999px;
+          border: 1px solid rgba(78, 4, 1, 0.14);
+          background: #FEFBF3;
+          color: #4E0401;
+          font-family: inherit;
+          font-size: 0.82rem;
+          font-weight: 700;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .modal-veh-tab:hover {
+          border-color: #E88C2B;
+          color: #E88C2B;
+        }
+
+        .modal-veh-tab.active {
+          background: #4E0401;
+          border-color: #4E0401;
+          color: #FFFFFF;
+          box-shadow: 0 4px 12px rgba(78, 4, 1, 0.2);
+        }
+
+        /* 4-Photo Interior Grid */
         .modal-body-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
-          gap: 20px;
-          margin-bottom: 24px;
+          gap: 18px;
+          margin-bottom: 22px;
         }
 
         .modal-media-wrap {
-          border-radius: 12px;
+          border-radius: 14px;
           overflow: hidden;
           background: #F9F5EC;
-          border: 1px solid #EFE8DC;
+          border: 1.5px solid rgba(78, 4, 1, 0.08);
+          display: flex;
+          flex-direction: column;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        .modal-media-wrap:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 20px rgba(78, 4, 1, 0.08);
+          border-color: rgba(232, 140, 43, 0.35);
         }
 
         .modal-img {
           width: 100%;
-          height: 200px;
+          height: 190px;
           object-fit: cover;
           display: block;
         }
 
-        .modal-caption {
-          display: block;
-          padding: 10px 14px;
-          font-size: 0.8rem;
-          font-weight: 700;
-          color: #4E0401;
-          background: #FEFBF3;
+        .modal-caption-box {
+          padding: 12px 14px;
+          background: #FFFFFF;
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
         }
 
+        .modal-caption-title {
+          font-size: 0.86rem;
+          font-weight: 800;
+          color: #4E0401;
+        }
+
+        .modal-caption-desc {
+          font-size: 0.76rem;
+          color: #786C6A;
+          line-height: 1.4;
+        }
+
+        /* Child Seat Callout */
+        .modal-child-seat-bar {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          background: #FEFBF3;
+          border: 1.5px solid rgba(232, 140, 43, 0.3);
+          border-radius: 14px;
+          padding: 14px 18px;
+          margin-bottom: 22px;
+        }
+
+        .child-seat-thumb {
+          width: 64px;
+          height: 64px;
+          border-radius: 10px;
+          overflow: hidden;
+          flex-shrink: 0;
+          border: 1px solid rgba(78, 4, 1, 0.1);
+        }
+
+        .child-seat-img {
+          width: 100%;
+          height: 100%;
+          object-fit: cover;
+        }
+
+        .child-seat-text {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          text-align: left;
+        }
+
+        .child-seat-badge {
+          display: inline-block;
+          font-size: 0.65rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          color: #E88C2B;
+          text-transform: uppercase;
+        }
+
+        .child-seat-title {
+          font-size: 0.88rem;
+          font-weight: 800;
+          color: #4E0401;
+        }
+
+        .child-seat-desc {
+          font-size: 0.78rem;
+          color: #786C6A;
+          line-height: 1.4;
+        }
+
+        /* Modal Actions */
         .modal-actions-bar {
           display: flex;
           justify-content: flex-end;
+          gap: 12px;
+        }
+
+        .btn-book-vehicle-modal {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: #E88C2B;
+          color: #FFFFFF;
+          font-family: inherit;
+          font-size: 0.92rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          padding: 14px 28px;
+          border-radius: 9999px;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 4px 16px rgba(232, 140, 43, 0.35);
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-book-vehicle-modal:hover {
+          background: #D2791C;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(232, 140, 43, 0.45);
         }
 
         @media (max-width: 900px) {
@@ -624,6 +891,12 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           }
           .modal-body-grid {
             grid-template-columns: 1fr;
+          }
+          .modal-vehicle-tabs {
+            flex-wrap: wrap;
+          }
+          .interior-modal-content {
+            padding: 22px 18px;
           }
         }
       `}</style>

@@ -14,7 +14,7 @@ export default function Hero({ onSelectVehicle }) {
       {/* Background Image: Our Chevrolet Suburban High Country at Airport Terminal */}
       <div className="hero-bg-media">
         <img
-          src="/images/hero_suburban_light.jpg"
+          src="/images/hero_new.png"
           alt="Lavender Taxi Luxury Chevrolet Suburban High Country Airport Chauffeur Service"
           className="hero-bg-img"
         />
