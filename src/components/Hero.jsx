@@ -227,8 +227,8 @@ export default function Hero({ onSelectVehicle }) {
             inset: 0;
             background: linear-gradient(
               180deg,
-              rgba(18, 5, 4, 0.75) 0%,
-              rgba(18, 5, 4, 0.36) 42%,
+              rgba(254, 251, 243, 0.4) 0%,
+              rgba(18, 5, 4, 0.22) 28%,
               rgba(18, 5, 4, 0.88) 100%
             );
             pointer-events: none;
@@ -255,8 +255,10 @@ export default function Hero({ onSelectVehicle }) {
           }
           .hero-editorial-section {
             min-height: auto;
-            padding-top: 24px;
+            padding-top: 86px;
             padding-bottom: 24px;
+            overflow-x: clip;
+            width: 100%;
           }
           .hero-content-container {
             margin-bottom: 20px;

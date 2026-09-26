@@ -338,7 +338,7 @@ export default function ServicesSection() {
 
           .services-cards-trio-wrapper {
             width: 100%;
-            overflow: visible;
+            overflow: hidden;
           }
 
           .services-cards-trio {
@@ -346,9 +346,10 @@ export default function ServicesSection() {
             overflow-x: auto !important;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain;
             gap: 16px;
-            padding: 4px 16px 14px 16px;
-            margin: 0 -16px;
+            padding: 4px 0 14px 0;
+            margin: 0;
             scrollbar-width: none;
           }
 
@@ -357,10 +358,10 @@ export default function ServicesSection() {
           }
 
           .service-editorial-card {
-            min-width: 82% !important;
-            max-width: 82% !important;
+            min-width: 88% !important;
+            max-width: 88% !important;
             flex-shrink: 0 !important;
-            scroll-snap-align: start;
+            scroll-snap-align: center;
           }
 
           .services-mobile-dots {

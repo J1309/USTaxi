@@ -103,6 +103,9 @@
 }
 
 html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
   font-family: var(--font-body);
   background-color: var(--bg-page);
   color: var(--text-main);
@@ -126,9 +129,20 @@ html.lenis, html.lenis body {
 }
 
 body {
+  width: 100%;
+  max-width: 100%;
   min-height: 100vh;
   overflow-x: hidden;
+  position: relative;
   background-color: var(--bg-page);
+}
+
+#root, .app-layout {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: clip;
+  overflow-x: hidden;
+  position: relative;
 }
 
 h1, h2, h3, h4, h5, h6 {
@@ -428,9 +442,22 @@ input, select, textarea {
 }
 
 @media (max-width: 768px) {
+  html, body {
+    overflow-x: hidden !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+    position: relative;
+  }
+  #root, .app-layout {
+    overflow-x: clip !important;
+    width: 100% !important;
+    max-width: 100vw !important;
+  }
   .container {
     padding-left: 18px;
     padding-right: 18px;
+    max-width: 100%;
+    box-sizing: border-box;
   }
   .section-spacing {
     padding-top: 48px;

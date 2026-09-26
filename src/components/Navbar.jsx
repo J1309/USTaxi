@@ -56,7 +56,7 @@ export default function Navbar() {
   };
 
   return (
-    <header className="site-header">
+    <header className={`site-header ${mobileMenuOpen ? 'menu-open' : ''}`}>
       <div className="container header-container">
         {/* Brand Logo & Name */}
         <a
@@ -386,7 +386,69 @@ export default function Navbar() {
             display: none;
           }
           .header-hamburger-btn {
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+        }
+
+        @media (max-width: 768px) {
+          .site-header {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            z-index: 1000;
+            background: transparent !important;
+            border-bottom: none !important;
+            box-shadow: none !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+          }
+
+          .site-header.menu-open {
+            background: #FFFFFF !important;
+            box-shadow: 0 4px 20px rgba(78, 4, 1, 0.08) !important;
+          }
+
+          .header-container {
+            height: 70px;
+          }
+
+          .brand-logo-img {
+            width: 44px;
+            max-height: 32px;
+          }
+
+          .brand-name {
+            font-size: 1.15rem;
+            color: #4E0401;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+          }
+
+          .brand-service {
+            font-size: 0.64rem;
+            color: #4A3E3D;
+            text-shadow: 0 1px 3px rgba(255, 255, 255, 0.6);
+          }
+
+          .header-hamburger-btn {
+            color: #4E0401;
+            background: rgba(255, 255, 255, 0.75);
+            border: 1px solid rgba(78, 4, 1, 0.12);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            padding: 0;
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            box-shadow: 0 2px 8px rgba(78, 4, 1, 0.08);
+            cursor: pointer;
+          }
+
+          .mobile-nav-drawer {
+            top: 70px;
           }
         }
       `}</style>

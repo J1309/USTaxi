@@ -164,6 +164,13 @@ export default function AboutPage() {
             justify-content: center;
           }
         }
+
+        @media (max-width: 768px) {
+          .about-breadcrumb-bar {
+            padding-top: 86px;
+            padding-bottom: 18px;
+          }
+        }
       `}</style>
     </div>
   );

@@ -1115,6 +1115,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           .mobile-fleet-wrapper {
             display: block;
             width: 100%;
+            overflow: hidden;
           }
 
           /* Screen 5: Carousel Card */
@@ -1284,9 +1285,10 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
+            overscroll-behavior-x: contain;
             gap: 16px;
-            padding: 4px 16px 20px 16px;
-            margin: 0 -16px;
+            padding: 4px 0 20px 0;
+            margin: 0;
             scrollbar-width: none;
           }
 
@@ -1295,8 +1297,8 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           }
 
           .mobile-vehicle-swipe-card {
-            min-width: 86%;
-            max-width: 86%;
+            min-width: 90%;
+            max-width: 90%;
             flex-shrink: 0;
             scroll-snap-align: center;
             background: #FFFFFF;
