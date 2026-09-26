@@ -67,12 +67,14 @@ export default function Hero({ onSelectVehicle }) {
         .hero-editorial-section {
           position: relative;
           width: 100%;
+          min-height: calc(100vh - 76px);
+          min-height: calc(100dvh - 76px);
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
           background: #FEFBF3;
-          padding-top: 36px;
-          padding-bottom: 36px;
+          padding-top: 48px;
+          padding-bottom: 50px;
           overflow: visible;
         }
 
