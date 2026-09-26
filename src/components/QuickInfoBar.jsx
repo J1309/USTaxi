@@ -1,45 +1,43 @@
 import React from 'react';
-import { Plane, MapPin, Briefcase, Calendar } from 'lucide-react';
+import { Gem, Clock, ShieldCheck, Headphones } from 'lucide-react';
 
 const HIGHLIGHTS = [
   {
-    icon: Plane,
-    title: 'Airport Transfers',
-    description: 'IAH & HOU airport pickup and drop-off.',
+    icon: Gem,
+    title: 'LUXURY FLEET',
+    description: 'High Country Suburban & Lexus Sedan for a superior experience.',
   },
   {
-    icon: MapPin,
-    title: 'Local Transportation',
-    description: 'Reliable rides throughout Houston.',
+    icon: Clock,
+    title: 'ON-TIME, ALWAYS',
+    description: 'Punctual and reliable service with FAA flight radar tracking.',
   },
   {
-    icon: Briefcase,
-    title: 'Corporate Transportation',
-    description: 'Professional transportation for business travelers.',
+    icon: ShieldCheck,
+    title: 'SAFE & SECURE',
+    description: 'Sanitized executive cabins & certified child car seats available.',
   },
   {
-    icon: Calendar,
-    title: 'Private & Hourly Rides',
-    description: 'Flexible transportation for events, appointments and more.',
+    icon: Headphones,
+    title: '24/7 SUPPORT',
+    description: "Direct line to owner Symanthan whenever you need us.",
   },
 ];
 
 export default function QuickInfoBar() {
   return (
-    <section className="services-highlight-strip">
+    <section className="luxury-pillars-bar">
       <div className="container">
-        <div className="highlight-strip-grid">
+        <div className="pillars-grid-4">
           {HIGHLIGHTS.map((item, idx) => {
             const Icon = item.icon;
             return (
-              <div key={idx} className="highlight-strip-item">
-                <div className="highlight-icon-circle">
-                  <Icon size={20} color="#D97706" />
+              <div key={idx} className="pillar-column-item">
+                <div className="pillar-icon-box">
+                  <Icon size={24} strokeWidth={1.5} color="#E88C2B" />
                 </div>
-                <div className="highlight-text-wrap">
-                  <h3 className="highlight-item-title">{item.title}</h3>
-                  <p className="highlight-item-desc">{item.description}</p>
-                </div>
+                <h3 className="pillar-item-title">{item.title}</h3>
+                <p className="pillar-item-desc">{item.description}</p>
               </div>
             );
           })}
@@ -47,85 +45,95 @@ export default function QuickInfoBar() {
       </div>
 
       <style>{`
-        .services-highlight-strip {
-          background: #FFFFFF;
-          padding: 24px 0;
-          border-bottom: 1px solid #E2E8F0;
-          box-shadow: 0 4px 14px rgba(15, 23, 42, 0.03);
+        .luxury-pillars-bar {
+          background: #FEFBF3;
+          padding: 55px 0;
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
         }
 
-        .highlight-strip-grid {
+        .pillars-grid-4 {
           display: grid;
           grid-template-columns: repeat(4, 1fr);
-          gap: 28px;
-          align-items: center;
+          gap: 32px;
+          align-items: flex-start;
         }
 
-        .highlight-strip-item {
+        .pillar-column-item {
           display: flex;
+          flex-direction: column;
           align-items: center;
-          gap: 14px;
-          text-align: left;
+          text-align: center;
+          padding: 0 16px;
+          position: relative;
         }
 
-        .highlight-strip-item:not(:last-child) {
-          border-right: 1px solid #F1F5F9;
-          padding-right: 20px;
+        .pillar-column-item:not(:last-child)::after {
+          content: '';
+          position: absolute;
+          right: -16px;
+          top: 15%;
+          height: 70%;
+          width: 1px;
+          background: rgba(78, 4, 1, 0.08);
         }
 
-        .highlight-icon-circle {
-          width: 46px;
-          height: 46px;
+        .pillar-icon-box {
+          width: 48px;
+          height: 48px;
           border-radius: 50%;
-          background: #FEF3C7;
-          border: 1px solid #FDE68A;
+          background: #FDF3E7;
           display: flex;
           align-items: center;
           justify-content: center;
-          flex-shrink: 0;
+          margin-bottom: 16px;
+          box-shadow: 0 4px 12px rgba(232, 140, 43, 0.15);
+          transition: transform 0.2s ease;
         }
 
-        .highlight-text-wrap {
-          display: flex;
-          flex-direction: column;
-          gap: 3px;
+        .pillar-column-item:hover .pillar-icon-box {
+          transform: translateY(-2px);
+          background: #E88C2B;
         }
 
-        .highlight-item-title {
-          font-family: var(--font-heading);
-          font-size: 0.96rem;
+        .pillar-column-item:hover .pillar-icon-box svg {
+          stroke: #FFFFFF;
+        }
+
+        .pillar-item-title {
+          font-family: inherit;
+          font-size: 0.88rem;
           font-weight: 800;
-          color: #0F172A;
-          line-height: 1.2;
-          margin: 0;
+          letter-spacing: 0.14em;
+          text-transform: uppercase;
+          color: #4E0401;
+          margin: 0 0 8px 0;
         }
 
-        .highlight-item-desc {
-          font-size: 0.78rem;
-          color: #64748B;
-          line-height: 1.35;
+        .pillar-item-desc {
+          font-size: 0.84rem;
+          color: #786C6A;
+          line-height: 1.5;
           margin: 0;
+          max-width: 250px;
         }
 
-        @media (max-width: 1024px) {
-          .highlight-strip-grid {
+        @media (max-width: 900px) {
+          .pillars-grid-4 {
             grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
+            gap: 36px;
           }
-          .highlight-strip-item:nth-child(2) {
-            border-right: none;
-            padding-right: 0;
+          .pillar-column-item:not(:last-child)::after {
+            display: none;
           }
         }
 
-        @media (max-width: 600px) {
-          .highlight-strip-grid {
+        @media (max-width: 540px) {
+          .pillars-grid-4 {
             grid-template-columns: 1fr;
-            gap: 16px;
+            gap: 28px;
           }
-          .highlight-strip-item {
-            border-right: none;
-            padding-right: 0;
+          .luxury-pillars-bar {
+            padding: 40px 0;
           }
         }
       `}</style>

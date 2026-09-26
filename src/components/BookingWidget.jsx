@@ -1,587 +1,498 @@
-import React, { useState, useMemo } from 'react';
-import {
-  MapPin,
-  Calendar,
-  Clock,
-  Users,
-  Car,
-  Plane,
-  ArrowRight,
-  MessageCircle,
-  PhoneCall,
-  Check,
-  Info,
-} from 'lucide-react';
-import { HOUSTON_PRESETS, VEHICLE_OPTIONS, calculateFareEstimate } from '../utils/fareEstimator';
-import { buildWhatsAppBookingUrl, OWNER_PHONE_DISPLAY, OWNER_PHONE_RAW } from '../utils/whatsapp';
-import confetti from 'canvas-confetti';
+import React, { useState } from 'react';
+import { MapPin, Calendar, Users, ArrowRight, Plane, Clock, ShieldCheck, Check } from 'lucide-react';
+import { OWNER_PHONE_RAW } from '../utils/whatsapp';
 
-export default function BookingWidget({ preselectedVehicle }) {
-  const [tripType, setTripType] = useState('One Way'); // 'One Way' | 'Hourly Rental'
+export default function BookingWidget({ preselectedVehicle = 'suburban', onSelectVehicle }) {
+  const [activeTab, setActiveTab] = useState('Book a Ride');
   const [pickupLocation, setPickupLocation] = useState('');
-  const [destination, setDestination] = useState('');
-  const [hours, setHours] = useState('3');
-  const [pickupDate, setPickupDate] = useState(() => {
-    const today = new Date();
-    return today.toISOString().split('T')[0];
-  });
-  const [pickupTime, setPickupTime] = useState('10:00');
-  const [passengers, setPassengers] = useState(1);
-  const [vehicleId, setVehicleId] = useState(preselectedVehicle || 'suburban');
-  const [flightNumber, setFlightNumber] = useState('');
-  const [customerName, setCustomerName] = useState('');
-  const [customerPhone, setCustomerPhone] = useState('');
+  const [dropoffLocation, setDropoffLocation] = useState('');
+  const [pickupDate, setPickupDate] = useState('');
+  const [pickupTime, setPickupTime] = useState('');
+  const [passengers, setPassengers] = useState('1');
+  const [vehicle, setVehicle] = useState(preselectedVehicle || 'suburban');
   const [isSubmitting, setIsSubmitting] = useState(false);
 
+  // Sync if preselectedVehicle changes
   React.useEffect(() => {
     if (preselectedVehicle) {
-      setVehicleId(preselectedVehicle);
+      setVehicle(preselectedVehicle);
     }
   }, [preselectedVehicle]);
 
-  const fareResult = useMemo(() => {
-    return calculateFareEstimate({
-      tripType,
-      pickupLocation,
-      destination,
-      hours,
-      vehicleId,
-    });
-  }, [tripType, pickupLocation, destination, hours, vehicleId]);
+  const TABS = [
+    'Book a Ride',
+    'Airport Transfer',
+    'Hourly Hire',
+    'Corporate Travel',
+  ];
 
-  const selectedVehicleObj = VEHICLE_OPTIONS.find((v) => v.id === vehicleId) || VEHICLE_OPTIONS[0];
+  const handleQuickAirport = (loc) => {
+    setPickupLocation(loc);
+  };
 
-  const handleBookViaWhatsApp = (e) => {
-    e.preventDefault();
+  const handleBookNow = (e) => {
+    if (e) e.preventDefault();
+    if (!pickupLocation) {
+      alert('Please enter a pickup location.');
+      return;
+    }
+
     setIsSubmitting(true);
 
-    try {
-      confetti({
-        particleCount: 70,
-        spread: 60,
-        origin: { y: 0.7 },
-        colors: ['#0284C7', '#F97316', '#25D366', '#1E293B'],
-      });
-    } catch (err) {}
+    const vehicleName =
+      vehicle === 'suburban'
+        ? 'Chevrolet Suburban High Country (SUV)'
+        : 'Lexus Luxury Sedan';
 
-    const bookingData = {
-      tripType,
-      pickupLocation: pickupLocation.trim() || 'Houston, TX',
-      destination: tripType === 'Hourly Rental' ? `${hours} Hours Rental` : destination.trim() || 'Houston Destination',
-      hours,
-      pickupDate,
-      pickupTime,
-      passengers,
-      luggage: selectedVehicleObj.luggageMax,
-      vehicle: `${selectedVehicleObj.name} (${selectedVehicleObj.capacity})`,
-      flightNumber,
-      customerName,
-      customerPhone,
-      estimatedFare: fareResult.displayText,
-    };
+    const messageLines = [
+      `*NEW RIDE INQUIRY - LAVENDER TAXI*`,
+      `━━━━━━━━━━━━━━━━━━━━`,
+      `*Service Type:* ${activeTab}`,
+      `*Selected Vehicle:* ${vehicleName}`,
+      `*Pickup Location:* ${pickupLocation}`,
+      `*Drop-off Location:* ${dropoffLocation || 'To be specified'}`,
+      `*Date:* ${pickupDate || 'Today / ASAP'}`,
+      `*Time:* ${pickupTime || 'Immediate'}`,
+      `*Passengers:* ${passengers}`,
+      `━━━━━━━━━━━━━━━━━━━━`,
+      `_Please confirm availability and dispatch details._`,
+    ];
 
-    const targetUrl = buildWhatsAppBookingUrl(bookingData);
+    const encodedText = encodeURIComponent(messageLines.join('\n'));
+    const targetUrl = `https://wa.me/${OWNER_PHONE_RAW}?text=${encodedText}`;
 
     setTimeout(() => {
       setIsSubmitting(false);
       window.open(targetUrl, '_blank', 'noopener,noreferrer');
-    }, 400);
+    }, 350);
   };
 
   return (
-    <div id="booking-section" className="booking-card-light">
-      <div className="booking-header-block">
-        <h3 className="booking-heading-text">Book Your Ride</h3>
-        <p className="booking-sub-text">
-          Get a ride in minutes. Fill in the details and we will confirm your booking.
-        </p>
-      </div>
+    <div className="floating-booking-wrapper" id="booking-engine">
+      <div className="booking-card-floating">
+        {/* Top Tabs Row */}
+        <div className="booking-tabs-header">
+          {TABS.map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              className={`booking-nav-tab ${activeTab === tab ? 'active' : ''}`}
+              onClick={() => setActiveTab(tab)}
+            >
+              {tab}
+            </button>
+          ))}
+        </div>
 
-      {/* Top Tabs: One Way vs Hourly Rental */}
-      <div className="booking-tabs-row">
-        <button
-          type="button"
-          className={`booking-tab-pill ${tripType === 'One Way' ? 'active' : ''}`}
-          onClick={() => setTripType('One Way')}
-        >
-          One Way
-        </button>
-        <button
-          type="button"
-          className={`booking-tab-pill ${tripType === 'Hourly Rental' ? 'active' : ''}`}
-          onClick={() => setTripType('Hourly Rental')}
-        >
-          Hourly Rental
-        </button>
-      </div>
-
-      <form onSubmit={handleBookViaWhatsApp} className="booking-form-clean">
-        {/* Pickup & Destination Fields */}
-        <div className="form-fields-grid-2">
-          <div className="form-field-unit">
-            <label className="field-label-text" htmlFor="pickup-input-light">
-              <MapPin size={13} color="#0284C7" />
-              Pickup Location
+        {/* Horizontal Form Row */}
+        <form onSubmit={handleBookNow} className="booking-horizontal-form">
+          {/* 1. Pickup Location */}
+          <div className="booking-field-col">
+            <label className="field-top-label" htmlFor="floating-pickup">
+              <MapPin size={14} color="#E88C2B" />
+              <span>Pickup Location</span>
             </label>
             <input
-              id="pickup-input-light"
+              id="floating-pickup"
               type="text"
               required
-              placeholder="Enter pickup location (e.g. IAH Airport)"
+              placeholder="Enter pickup location"
               value={pickupLocation}
               onChange={(e) => setPickupLocation(e.target.value)}
-              className="field-input-text"
+              className="field-text-input"
             />
-            {/* Quick airport chips */}
-            <div className="quick-airports-row">
+            <div className="field-chips-row">
               <button
                 type="button"
-                className="airport-chip-btn"
-                onClick={() => setPickupLocation('George Bush Intercontinental Airport (IAH)')}
+                className="chip-tag"
+                onClick={() => handleQuickAirport('IAH Airport (Bush)')}
               >
-                IAH Airport
+                IAH
               </button>
               <button
                 type="button"
-                className="airport-chip-btn"
-                onClick={() => setPickupLocation('William P. Hobby Airport (HOU)')}
+                className="chip-tag"
+                onClick={() => handleQuickAirport('Hobby Airport (HOU)')}
               >
-                Hobby (HOU)
+                HOU
               </button>
             </div>
           </div>
 
-          {tripType === 'Hourly Rental' ? (
-            <div className="form-field-unit">
-              <label className="field-label-text" htmlFor="hours-select-light">
-                <Clock size={13} color="#0284C7" />
-                Charter Duration
-              </label>
-              <select
-                id="hours-select-light"
-                value={hours}
-                onChange={(e) => setHours(e.target.value)}
-                className="field-input-text"
+          {/* 2. Drop-off Location */}
+          <div className="booking-field-col">
+            <label className="field-top-label" htmlFor="floating-dropoff">
+              <MapPin size={14} color="#786C6A" />
+              <span>Drop-off Location</span>
+            </label>
+            <input
+              id="floating-dropoff"
+              type="text"
+              placeholder="Enter destination"
+              value={dropoffLocation}
+              onChange={(e) => setDropoffLocation(e.target.value)}
+              className="field-text-input"
+            />
+            <div className="field-chips-row">
+              <button
+                type="button"
+                className="chip-tag"
+                onClick={() => setDropoffLocation('Downtown Houston')}
               >
-                <option value="2">2 Hours (Minimum Charter)</option>
-                <option value="3">3 Hours (Recommended)</option>
-                <option value="4">4 Hours (Half Day)</option>
-                <option value="6">6 Hours (As Directed)</option>
-                <option value="8">8 Hours (Full Day VIP)</option>
-              </select>
-              <span className="field-hint-text">Unlimited stops • Driver on-site</span>
+                Downtown
+              </button>
+              <button
+                type="button"
+                className="chip-tag"
+                onClick={() => setDropoffLocation('Galveston Cruise Port')}
+              >
+                Galveston
+              </button>
             </div>
-          ) : (
-            <div className="form-field-unit">
-              <label className="field-label-text" htmlFor="dropoff-input-light">
-                <MapPin size={13} color="#F97316" />
-                Destination
-              </label>
+          </div>
+
+          {/* 3. Date & Time */}
+          <div className="booking-field-col">
+            <label className="field-top-label" htmlFor="floating-date">
+              <Calendar size={14} color="#786C6A" />
+              <span>Date & Time</span>
+            </label>
+            <div className="date-time-dual-inputs">
               <input
-                id="dropoff-input-light"
-                type="text"
-                required
-                placeholder="Enter destination (e.g. Galveston / Downtown)"
-                value={destination}
-                onChange={(e) => setDestination(e.target.value)}
-                className="field-input-text"
+                id="floating-date"
+                type="date"
+                value={pickupDate}
+                onChange={(e) => setPickupDate(e.target.value)}
+                className="field-text-input date-input"
               />
-              {/* Quick destination chips */}
-              <div className="quick-airports-row">
-                <button
-                  type="button"
-                  className="airport-chip-btn"
-                  onClick={() => setDestination('Port of Galveston Cruise Terminal')}
-                >
-                  Galveston Cruise
-                </button>
-                <button
-                  type="button"
-                  className="airport-chip-btn"
-                  onClick={() => setDestination('Space Center Houston / NASA')}
-                >
-                  NASA Center
-                </button>
-              </div>
+              <input
+                type="time"
+                value={pickupTime}
+                onChange={(e) => setPickupTime(e.target.value)}
+                className="field-text-input time-input"
+              />
             </div>
-          )}
-        </div>
-
-        {/* Date, Time, Passengers */}
-        <div className="form-fields-grid-3">
-          <div className="form-field-unit">
-            <label className="field-label-text" htmlFor="date-input-light">
-              <Calendar size={13} color="#0284C7" />
-              Pickup Date
-            </label>
-            <input
-              id="date-input-light"
-              type="date"
-              value={pickupDate}
-              onChange={(e) => setPickupDate(e.target.value)}
-              className="field-input-text"
-            />
           </div>
 
-          <div className="form-field-unit">
-            <label className="field-label-text" htmlFor="time-input-light">
-              <Clock size={13} color="#0284C7" />
-              Pickup Time
-            </label>
-            <input
-              id="time-input-light"
-              type="time"
-              value={pickupTime}
-              onChange={(e) => setPickupTime(e.target.value)}
-              className="field-input-text"
-            />
-          </div>
-
-          <div className="form-field-unit">
-            <label className="field-label-text" htmlFor="passengers-select-light">
-              <Users size={13} color="#0284C7" />
-              Passengers
+          {/* 4. Passengers & Vehicle */}
+          <div className="booking-field-col">
+            <label className="field-top-label" htmlFor="floating-passengers">
+              <Users size={14} color="#786C6A" />
+              <span>Passengers</span>
             </label>
             <select
-              id="passengers-select-light"
+              id="floating-passengers"
               value={passengers}
-              onChange={(e) => setPassengers(Number(e.target.value))}
-              className="field-input-text"
+              onChange={(e) => {
+                setPassengers(e.target.value);
+                if (parseInt(e.target.value, 10) > 4) {
+                  setVehicle('suburban');
+                  if (onSelectVehicle) onSelectVehicle('suburban');
+                }
+              }}
+              className="field-text-input select-input"
             >
-              {[1, 2, 3, 4, 5, 6, 7, 8].map((n) => (
-                <option key={n} value={n}>
-                  {n} {n === 1 ? 'Passenger' : 'Passengers'}
-                </option>
-              ))}
+              <option value="1">1 Passenger</option>
+              <option value="2">2 Passengers</option>
+              <option value="3">3 Passengers</option>
+              <option value="4">4 Passengers</option>
+              <option value="5">5 Passengers (Suburban)</option>
+              <option value="6">6 Passengers (Suburban)</option>
+              <option value="7">7 Passengers (Suburban)</option>
             </select>
           </div>
-        </div>
 
-        {/* Vehicle Selection Row */}
-        <div className="vehicle-choice-row">
-          <span className="field-label-text" style={{ marginBottom: '6px' }}>
-            <Car size={13} color="#0284C7" />
-            Select Your Vehicle
-          </span>
-          <div className="vehicle-pills-duo">
-            {VEHICLE_OPTIONS.map((v) => {
-              const isSelected = vehicleId === v.id;
-              return (
-                <div
-                  key={v.id}
-                  onClick={() => setVehicleId(v.id)}
-                  className={`vehicle-choice-pill ${isSelected ? 'active' : ''}`}
-                >
-                  <img src={v.image} alt={v.name} className="vehicle-choice-thumb" />
-                  <div className="vehicle-choice-meta">
-                    <span className="vehicle-choice-title">{v.name}</span>
-                    <span className="vehicle-choice-sub">{v.capacity}</span>
-                  </div>
-                  {isSelected && <Check size={16} color="#0284C7" className="vehicle-check-icon" />}
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Fare Estimate & CTA Buttons */}
-        <div className="booking-footer-clean">
-          <div className="fare-badge-clean">
-            <span className="fare-badge-label">Pricing Guarantee:</span>
-            <span className="fare-badge-price">{fareResult.displayText}</span>
-          </div>
-
-          <div className="cta-buttons-duo">
+          {/* 5. Submit Button */}
+          <div className="booking-submit-col">
             <button
               type="submit"
               disabled={isSubmitting}
-              className="btn-quote-gold"
+              className="booking-action-btn-gold"
             >
-              <span>{isSubmitting ? 'Opening WhatsApp...' : 'Request a Ride'}</span>
+              <span>{isSubmitting ? 'Connecting...' : 'BOOK NOW'}</span>
               <ArrowRight size={16} />
             </button>
+          </div>
+        </form>
 
-            <button
-              type="button"
-              onClick={handleBookViaWhatsApp}
-              className="btn-whatsapp-outline"
-              title="Send booking directly to WhatsApp"
-            >
-              <MessageCircle size={17} color="#25D366" />
-              <span>WhatsApp</span>
-            </button>
+        {/* Bottom Micro Trust Indicators */}
+        <div className="booking-trust-footnote">
+          <div className="footnote-item">
+            <Check size={12} color="#E88C2B" />
+            <span>FAA Flight Radar Tracking</span>
+          </div>
+          <div className="footnote-item">
+            <Check size={12} color="#E88C2B" />
+            <span>Guaranteed Flat Upfront Rates</span>
+          </div>
+          <div className="footnote-item">
+            <Check size={12} color="#E88C2B" />
+            <span>Child Car Seats Available</span>
+          </div>
+          <div className="footnote-item">
+            <Check size={12} color="#E88C2B" />
+            <span>Direct Dispatch with Owner Symanthan</span>
           </div>
         </div>
-      </form>
+      </div>
 
       <style>{`
-        .booking-card-light {
-          background: #FFFFFF;
-          border-radius: 16px;
-          border: 1px solid #E2E8F0;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-          padding: 24px;
+        .floating-booking-wrapper {
           width: 100%;
+          max-width: 1240px;
+          margin: 0 auto;
+          position: relative;
+          z-index: 20;
+          padding: 0 16px;
         }
-        .booking-header-block {
-          margin-bottom: 16px;
+
+        .booking-card-floating {
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          border-radius: 20px;
+          box-shadow: 0 20px 50px -10px rgba(78, 4, 1, 0.12), 0 8px 24px rgba(0, 0, 0, 0.04);
+          padding: 0;
+          overflow: hidden;
+          transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+
+        /* Top Tabs Row */
+        .booking-tabs-header {
+          display: flex;
+          align-items: center;
+          background: #F9F5EC;
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
+          overflow-x: auto;
+          scrollbar-width: none;
+        }
+
+        .booking-tabs-header::-webkit-scrollbar {
+          display: none;
+        }
+
+        .booking-nav-tab {
+          padding: 16px 28px;
+          font-family: inherit;
+          font-size: 0.88rem;
+          font-weight: 700;
+          color: #786C6A;
+          background: transparent;
+          border: none;
+          cursor: pointer;
+          transition: all 0.18s ease;
+          white-space: nowrap;
+          border-right: 1px solid rgba(78, 4, 1, 0.06);
+          position: relative;
+        }
+
+        .booking-nav-tab:hover {
+          color: #4E0401;
+          background: rgba(254, 251, 243, 0.6);
+        }
+
+        .booking-nav-tab.active {
+          background: #FFFFFF;
+          color: #4E0401;
+          font-weight: 800;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        }
+
+        .booking-nav-tab.active::after {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          height: 3px;
+          background: #E88C2B;
+        }
+
+        /* Horizontal Form Row */
+        .booking-horizontal-form {
+          display: grid;
+          grid-template-columns: 1.25fr 1.25fr 1.2fr 1fr auto;
+          gap: 20px;
+          padding: 24px 28px;
+          align-items: center;
+        }
+
+        .booking-field-col {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
           text-align: left;
+          border-right: 1px solid rgba(78, 4, 1, 0.06);
+          padding-right: 16px;
         }
-        .booking-heading-text {
-          font-family: var(--font-heading);
-          font-size: 1.48rem;
-          font-weight: 900;
-          color: #0F172A;
-          margin: 0 0 4px 0;
-          -webkit-text-stroke: 0.38px currentColor;
-          text-rendering: optimizeLegibility;
+
+        .field-top-label {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.76rem;
+          font-weight: 800;
+          text-transform: uppercase;
+          letter-spacing: 0.08em;
+          color: #786C6A;
         }
-        .booking-sub-text {
-          font-size: 0.8rem;
-          color: #64748B;
-          margin: 0;
-          line-height: 1.35;
+
+        .field-text-input {
+          width: 100%;
+          border: none;
+          outline: none;
+          font-family: inherit;
+          font-size: 0.95rem;
+          font-weight: 600;
+          color: #1C0C0B;
+          background: transparent;
+          padding: 4px 0;
         }
-        .btn-quote-gold {
+
+        .field-text-input::placeholder {
+          color: #A39694;
+          font-weight: 500;
+        }
+
+        .field-text-input:focus {
+          color: #4E0401;
+        }
+
+        .date-time-dual-inputs {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .date-input {
+          flex: 1.4;
+          font-size: 0.88rem;
+        }
+
+        .time-input {
           flex: 1;
+          font-size: 0.88rem;
+        }
+
+        .select-input {
+          cursor: pointer;
+          background: transparent;
+          font-weight: 600;
+        }
+
+        .field-chips-row {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          margin-top: 2px;
+        }
+
+        .chip-tag {
+          font-size: 0.68rem;
+          font-weight: 700;
+          background: #FDF3E7;
+          color: #E88C2B;
+          border: 1px solid rgba(232, 140, 43, 0.3);
+          border-radius: 4px;
+          padding: 2px 7px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .chip-tag:hover {
+          background: #E88C2B;
+          color: #FFFFFF;
+        }
+
+        /* Submit Button */
+        .booking-submit-col {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        }
+
+        .booking-action-btn-gold {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 8px;
-          background: #F59E0B;
-          color: #0F172A;
-          font-weight: 800;
-          font-size: 0.95rem;
-          padding: 13px 20px;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(245, 158, 11, 0.28);
-          transition: background 0.18s ease;
-        }
-        .btn-quote-gold:hover {
-          background: #D97706;
-        }
-        .booking-tabs-row {
-          display: flex;
-          background: #F1F5F9;
-          border-radius: var(--radius-full);
-          padding: 4px;
-          margin-bottom: 20px;
-          gap: 4px;
-        }
-        .booking-tab-pill {
-          flex: 1;
-          padding: 10px 18px;
-          border-radius: var(--radius-full);
-          font-size: 0.92rem;
-          font-weight: 700;
-          color: var(--text-muted);
-          transition: all 0.2s ease;
-          text-align: center;
-        }
-        .booking-tab-pill.active {
-          background: #0284C7;
+          gap: 10px;
+          background: #E88C2B;
           color: #FFFFFF;
-          box-shadow: 0 2px 8px rgba(2, 132, 199, 0.35);
-        }
-        .booking-form-clean {
-          display: flex;
-          flex-direction: column;
-          gap: 16px;
-        }
-        .form-fields-grid-2 {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 14px;
-        }
-        .form-fields-grid-3 {
-          display: grid;
-          grid-template-columns: 1fr 1fr 1fr;
-          gap: 12px;
-        }
-        .form-field-unit {
-          display: flex;
-          flex-direction: column;
-          gap: 5px;
-        }
-        .field-label-text {
-          font-size: 0.76rem;
-          font-weight: 700;
-          color: var(--text-muted);
-          text-transform: uppercase;
-          letter-spacing: 0.05em;
-          display: flex;
-          align-items: center;
-          gap: 6px;
-        }
-        .field-input-text {
-          width: 100%;
-          border: 1px solid #CBD5E1;
-          background: #FFFFFF;
-          border-radius: 8px;
-          padding: 10px 12px;
+          font-family: inherit;
           font-size: 0.92rem;
-          color: var(--text-main);
-          font-weight: 500;
-          outline: none;
-          transition: border-color 0.15s ease, box-shadow 0.15s ease;
-        }
-        .field-input-text:focus {
-          border-color: #0284C7;
-          box-shadow: 0 0 0 3px rgba(2, 132, 199, 0.15);
-        }
-        .quick-airports-row {
-          display: flex;
-          gap: 6px;
-          margin-top: 4px;
-        }
-        .airport-chip-btn {
-          font-size: 0.72rem;
-          font-weight: 600;
-          background: #F1F5F9;
-          border: 1px solid #E2E8F0;
-          color: #0284C7;
-          padding: 2px 8px;
-          border-radius: 4px;
-        }
-        .airport-chip-btn:hover {
-          background: #E0F2FE;
-        }
-        .field-hint-text {
-          font-size: 0.72rem;
-          color: var(--text-muted);
-          margin-top: 3px;
-        }
-        .vehicle-choice-row {
-          display: flex;
-          flex-direction: column;
-        }
-        .vehicle-pills-duo {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 10px;
-        }
-        .vehicle-choice-pill {
-          display: flex;
-          align-items: center;
-          gap: 10px;
-          padding: 8px 12px;
-          border: 1.5px solid #E2E8F0;
-          background: #F8FAFC;
-          border-radius: 10px;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          padding: 16px 28px;
+          border-radius: 12px;
+          border: none;
           cursor: pointer;
-          transition: all 0.18s ease;
-        }
-        .vehicle-choice-pill:hover {
-          border-color: #0284C7;
-          background: #F0F9FF;
-        }
-        .vehicle-choice-pill.active {
-          border-color: #0284C7;
-          background: #F0F9FF;
-          box-shadow: 0 0 0 1px #0284C7;
-        }
-        .vehicle-choice-thumb {
-          width: 44px;
-          height: 30px;
-          border-radius: 4px;
-          object-fit: cover;
-        }
-        .vehicle-choice-meta {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-        }
-        .vehicle-choice-title {
-          font-size: 0.85rem;
-          font-weight: 700;
-          color: var(--text-main);
-          line-height: 1.2;
-        }
-        .vehicle-choice-sub {
-          font-size: 0.72rem;
-          color: var(--text-muted);
-        }
-        .booking-footer-clean {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          padding-top: 14px;
-          border-top: 1px solid #F1F5F9;
-          gap: 14px;
-          flex-wrap: wrap;
-        }
-        .fare-badge-clean {
-          display: flex;
-          flex-direction: column;
-        }
-        .fare-badge-label {
-          font-size: 0.72rem;
-          font-weight: 700;
-          color: var(--text-muted);
-          text-transform: uppercase;
-        }
-        .fare-badge-price {
-          font-family: var(--font-heading);
-          font-size: 1.25rem;
-          font-weight: 800;
-          color: #0F172A;
-        }
-        .cta-buttons-duo {
-          display: flex;
-          align-items: center;
-          gap: 8px;
-        }
-        .btn-quote-orange {
-          display: inline-flex;
-          align-items: center;
-          gap: 8px;
-          background: #F97316;
-          color: #FFFFFF;
-          font-weight: 700;
-          font-size: 0.94rem;
-          padding: 11px 22px;
-          border-radius: 8px;
-          box-shadow: 0 3px 10px rgba(249, 115, 22, 0.35);
-        }
-        .btn-quote-orange:hover {
-          background: #EA580C;
-        }
-        .btn-whatsapp-outline {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: #F0FDF4;
-          border: 1px solid #86EFAC;
-          color: #166534;
-          font-weight: 700;
-          font-size: 0.88rem;
-          padding: 10px 14px;
-          border-radius: 8px;
-        }
-        .btn-whatsapp-outline:hover {
-          background: #DCFCE7;
+          white-space: nowrap;
+          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.38);
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        @media (max-width: 600px) {
-          .booking-card-light {
-            padding: 18px;
+        .booking-action-btn-gold:hover {
+          background: #D2791C;
+          transform: translateY(-2px);
+          box-shadow: 0 10px 24px rgba(232, 140, 43, 0.45);
+        }
+
+        .booking-action-btn-gold:active {
+          transform: translateY(0);
+        }
+
+        /* Footnote */
+        .booking-trust-footnote {
+          display: flex;
+          align-items: center;
+          justify-content: space-around;
+          padding: 12px 28px;
+          background: #FEFBF3;
+          border-top: 1px solid rgba(78, 4, 1, 0.05);
+          flex-wrap: wrap;
+          gap: 12px;
+        }
+
+        .footnote-item {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          font-size: 0.76rem;
+          font-weight: 700;
+          color: #4A3E3D;
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1080px) {
+          .booking-horizontal-form {
+            grid-template-columns: 1fr 1fr;
+            gap: 18px;
           }
-          .form-fields-grid-2,
-          .form-fields-grid-3,
-          .vehicle-pills-duo {
-            grid-template-columns: 1fr;
+          .booking-field-col {
+            border-right: none;
+            border-bottom: 1px solid rgba(78, 4, 1, 0.06);
+            padding-bottom: 12px;
+            padding-right: 0;
           }
-          .booking-footer-clean {
-            flex-direction: column;
-            align-items: stretch;
+          .booking-submit-col {
+            grid-column: span 2;
           }
-          .cta-buttons-duo {
+          .booking-action-btn-gold {
             width: 100%;
           }
-          .btn-quote-orange,
-          .btn-whatsapp-outline {
-            flex: 1;
-            justify-content: center;
+        }
+
+        @media (max-width: 640px) {
+          .booking-horizontal-form {
+            grid-template-columns: 1fr;
+            padding: 18px;
+          }
+          .booking-submit-col {
+            grid-column: span 1;
+          }
+          .booking-trust-footnote {
+            justify-content: flex-start;
+            flex-direction: column;
+            align-items: flex-start;
           }
         }
       `}</style>

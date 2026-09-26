@@ -13,46 +13,63 @@
 }
 
 :root {
-  /* Surfaces */
-  --bg-page: #FFFFFF;
-  --bg-subtle: #F8FAFC;
+  /* User-Specified Luxury Tri-Color Palette */
+  --color-orange-grove: #E88C2B;
+  --color-orange-grove-hover: #D2791C;
+  --color-orange-grove-light: #FDF3E7;
+  --color-orange-grove-glow: rgba(232, 140, 43, 0.32);
+
+  --color-calming-white: #FEFBF3;
+  --color-calming-white-card: #FFFFFF;
+  --color-calming-white-soft: #F9F5EC;
+  --color-calming-white-border: #EFE8DC;
+
+  --color-dark-maroon: #4E0401;
+  --color-dark-maroon-deep: #3A0200;
+  --color-dark-maroon-darkest: #250100;
+  --color-dark-maroon-card: #5C0805;
+  --color-dark-maroon-border: rgba(232, 140, 43, 0.24);
+
+  /* Semantic Aliases */
+  --bg-page: #FEFBF3;
+  --bg-subtle: #F9F5EC;
   --bg-card: #FFFFFF;
-  --bg-card-alt: #F1F5F9;
+  --bg-card-alt: #F4EFE6;
 
   /* Executive Brand Colors */
-  --primary-navy: #0F172A;
-  --primary-slate: #1E293B;
-  --dark-navy: #0A1118;
-  --dark-navy-card: #111A24;
-  --dark-navy-border: #1E293B;
-  --brand-blue: #0284C7;
-  --brand-blue-hover: #0369A1;
-  --brand-blue-dark: #075985;
-  --brand-lavender: #4F46E5;
-  --brand-lavender-light: #EEF2FF;
+  --primary-navy: #4E0401;
+  --primary-slate: #2A0402;
+  --dark-navy: #3A0200;
+  --dark-navy-card: #4E0401;
+  --dark-navy-border: rgba(232, 140, 43, 0.2);
+  --brand-blue: #E88C2B;
+  --brand-blue-hover: #D2791C;
+  --brand-blue-dark: #B35E0D;
+  --brand-lavender: #4E0401;
+  --brand-lavender-light: #FDF3E7;
 
-  /* Reference Design Accent (Warm Gold / Amber) */
-  --accent-gold: #F59E0B;
-  --accent-gold-hover: #D97706;
-  --accent-gold-light: #FEF3C7;
-  --accent-gold-text: #0F172A;
-  --accent-cta: #F59E0B;
-  --accent-cta-hover: #D97706;
-  --accent-cta-glow: rgba(245, 158, 11, 0.28);
+  /* Accent (Orange Grove #E88C2B) */
+  --accent-gold: #E88C2B;
+  --accent-gold-hover: #D2791C;
+  --accent-gold-light: #FDF3E7;
+  --accent-gold-text: #FFFFFF;
+  --accent-cta: #E88C2B;
+  --accent-cta-hover: #D2791C;
+  --accent-cta-glow: rgba(232, 140, 43, 0.32);
 
   /* WhatsApp */
   --whatsapp-green: #25D366;
   --whatsapp-hover: #1EBE5D;
 
   /* Typography Colors */
-  --text-main: #0F172A;
-  --text-body: #334155;
-  --text-muted: #64748B;
-  --text-light: #94A3B8;
+  --text-main: #1C0C0B;
+  --text-body: #4A3E3D;
+  --text-muted: #786C6A;
+  --text-light: #A39694;
 
   /* Borders & Dividers */
-  --border-subtle: #E2E8F0;
-  --border-medium: #CBD5E1;
+  --border-subtle: #EFE8DC;
+  --border-medium: #E2D7C8;
 
   /* Shadows */
   --shadow-sm: 0 1px 3px rgba(15, 23, 42, 0.05);
@@ -111,7 +128,7 @@ html.lenis, html.lenis body {
 body {
   min-height: 100vh;
   overflow-x: hidden;
-  background-color: #FFFFFF;
+  background-color: var(--bg-page);
 }
 
 h1, h2, h3, h4, h5, h6 {

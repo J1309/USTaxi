@@ -210,11 +210,11 @@ export default function Navbar() {
           position: sticky;
           top: 0;
           z-index: 1000;
-          background: rgba(255, 255, 255, 0.94);
+          background: rgba(254, 251, 243, 0.95);
           backdrop-filter: blur(16px);
           -webkit-backdrop-filter: blur(16px);
-          border-bottom: 1px solid #E2E8F0;
-          box-shadow: 0 4px 20px rgba(15, 23, 42, 0.05);
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
+          box-shadow: 0 4px 20px rgba(78, 4, 1, 0.04);
         }
         .header-container {
           display: flex;
@@ -243,7 +243,7 @@ export default function Navbar() {
           font-family: var(--font-heading);
           font-size: 1.22rem;
           font-weight: 900;
-          color: #0F172A;
+          color: #4E0401;
           letter-spacing: 0.06em;
           line-height: 1;
           -webkit-text-stroke: 0.35px currentColor;
@@ -252,7 +252,7 @@ export default function Navbar() {
         .brand-service {
           font-size: 0.68rem;
           font-weight: 800;
-          color: #64748B;
+          color: #786C6A;
           letter-spacing: 0.16em;
           text-transform: uppercase;
           margin-top: 3px;
@@ -266,15 +266,15 @@ export default function Navbar() {
         .desktop-nav-link {
           font-size: 0.92rem;
           font-weight: 600;
-          color: #334155;
+          color: #4A3E3D;
           transition: color 0.15s ease;
           position: relative;
         }
         .desktop-nav-link:hover {
-          color: #D97706;
+          color: #E88C2B;
         }
         .desktop-nav-link.active {
-          color: #0F172A;
+          color: #4E0401;
           font-weight: 800;
         }
         .desktop-nav-link.active::after {
@@ -284,7 +284,7 @@ export default function Navbar() {
           left: 0;
           right: 0;
           height: 2.5px;
-          background: #D97706;
+          background: #E88C2B;
           border-radius: 2px;
         }
         .header-actions {
@@ -299,41 +299,41 @@ export default function Navbar() {
           line-height: 1.2;
         }
         .header-phone-number {
-          font-size: 0.95rem;
-          font-weight: 800;
-          color: #0F172A;
-          letter-spacing: 0.01em;
+          font-weight: 700;
+          font-size: 0.92rem;
+          color: #4E0401;
           transition: color 0.15s ease;
         }
         .header-phone-number:hover {
-          color: #D97706;
+          color: #E88C2B;
         }
         .header-phone-sub {
           font-size: 0.72rem;
-          color: #64748B;
+          color: #786C6A;
           font-weight: 600;
         }
         .header-gold-btn {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: #F59E0B;
-          color: #0F172A;
+          background: #E88C2B;
+          color: #FFFFFF;
           font-weight: 800;
           font-size: 0.88rem;
-          padding: 10px 18px;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(245, 158, 11, 0.25);
+          padding: 10px 22px;
+          border-radius: 9999px;
+          box-shadow: 0 3px 12px rgba(232, 140, 43, 0.32);
           transition: all 0.18s ease;
         }
         .header-gold-btn:hover {
-          background: #D97706;
+          background: #D2791C;
           transform: translateY(-1px);
+          box-shadow: 0 5px 16px rgba(232, 140, 43, 0.4);
         }
         .header-hamburger-btn {
           display: none;
           padding: 8px;
-          color: #0F172A;
+          color: #4E0401;
         }
 
         /* Mobile Drawer */

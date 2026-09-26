@@ -1,83 +1,95 @@
 import React from 'react';
-import { ArrowRight, Check } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
 
-const AIRPORTS = [
+const SERVICES = [
   {
-    id: 'iah',
-    title: 'George Bush Intercontinental Airport (IAH)',
+    id: 'airport',
+    title: 'Airport Transfer',
     image: '/images/service_airport.jpg',
-    features: [
-      'Airport pickup & drop-off',
-      'Flight monitoring',
-      'Luggage assistance',
-      'Professional drivers',
-    ],
+    description: 'Seamless pickups and drop-offs at IAH and Hobby Airport for a stress-free journey.',
   },
   {
-    id: 'hou',
-    title: 'William P. Hobby Airport (HOU)',
+    id: 'city',
+    title: 'City Rides',
     image: '/images/destination_houston.jpg',
-    features: [
-      'Airport pickup & drop-off',
-      'Flight monitoring',
-      'Luggage assistance',
-      'Professional drivers',
-    ],
+    description: 'Comfortable and stylish travel across Downtown Houston, Galleria, and Memorial.',
+  },
+  {
+    id: 'corporate',
+    title: 'Corporate Travel',
+    image: '/images/service_corporate.jpg',
+    description: 'Professional and discreet executive transport for business meetings and roadshows.',
   },
 ];
 
 export default function ServicesSection() {
-  const handleBookAirport = () => {
-    smoothScrollTo('#fleet-booking-card');
+  const handleExploreClick = () => {
+    smoothScrollTo('#fleet');
+  };
+
+  const handleCardClick = () => {
+    smoothScrollTo('#booking-engine');
   };
 
   return (
-    <section id="services" className="airport-transfers-section">
+    <section id="services" className="services-reference-section">
       <div className="container">
-        <div className="airport-transfers-layout">
+        <div className="services-reference-layout">
           {/* Left Column: Headlines & CTA */}
-          <div className="airport-left-info">
-            <span className="section-tag-small">HOUSTON AIRPORT TRANSPORTATION</span>
-            <h2 className="airport-heading-text">IAH & HOU Airport Transfers</h2>
-            <p className="airport-desc-text">
-              Reliable and on-time airport pickup and drop-off services. We track your flight and ensure a smooth, comfortable ride to or from the airport.
+          <div className="services-left-intro">
+            <span className="services-kicker">OUR SERVICES</span>
+            <h2 className="services-main-title">
+              TRAVEL<br />
+              WITHOUT<br />
+              COMPROMISE
+            </h2>
+            <p className="services-lead-desc">
+              From airport transfers to city rides and private charters, we provide premium executive car services tailored to your exact schedule and comfort.
             </p>
 
             <button
               type="button"
-              onClick={handleBookAirport}
-              className="airport-gold-btn"
+              onClick={handleExploreClick}
+              className="btn-explore-services"
             >
-              <span>Book Airport Transfer</span>
+              <span>EXPLORE SERVICES</span>
               <ArrowRight size={15} />
             </button>
           </div>
 
-          {/* Right Column: The 2 Airport Cards */}
-          <div className="airport-cards-grid">
-            {AIRPORTS.map((airport) => (
-              <div key={airport.id} className="airport-item-card">
-                <div className="airport-card-img-box">
+          {/* Right Column: 3 Vertical Photo Cards */}
+          <div className="services-cards-trio">
+            {SERVICES.map((item) => (
+              <div
+                key={item.id}
+                className="service-editorial-card"
+                onClick={handleCardClick}
+                role="button"
+                tabIndex={0}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    handleCardClick();
+                  }
+                }}
+              >
+                <div className="service-card-media">
                   <img
-                    src={airport.image}
-                    alt={airport.title}
-                    className="airport-img"
+                    src={item.image}
+                    alt={item.title}
+                    className="service-card-img"
                   />
                 </div>
 
-                <div className="airport-card-body">
-                  <h3 className="airport-card-title">{airport.title}</h3>
-                  <ul className="airport-checklist">
-                    {airport.features.map((feat, i) => (
-                      <li key={i} className="airport-check-item">
-                        <span className="check-icon-circle">
-                          <Check size={12} color="#D97706" strokeWidth={3} />
-                        </span>
-                        <span>{feat}</span>
-                      </li>
-                    ))}
-                  </ul>
+                <div className="service-card-content">
+                  <h3 className="service-card-heading">{item.title}</h3>
+                  <p className="service-card-paragraph">{item.description}</p>
+
+                  <div className="service-card-action">
+                    <span className="service-circle-arrow">
+                      <ArrowRight size={14} color="#4E0401" />
+                    </span>
+                  </div>
                 </div>
               </div>
             ))}
@@ -86,169 +98,192 @@ export default function ServicesSection() {
       </div>
 
       <style>{`
-        .airport-transfers-section {
-          background: #FFFFFF;
-          padding: 70px 0;
-          border-bottom: 1px solid #E2E8F0;
+        .services-reference-section {
+          background: #FEFBF3;
+          padding: 85px 0 95px 0;
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
         }
 
-        .airport-transfers-layout {
+        .services-reference-layout {
           display: grid;
-          grid-template-columns: 380px 1fr;
-          gap: 48px;
+          grid-template-columns: 360px 1fr;
+          gap: 50px;
           align-items: center;
         }
 
-        .airport-left-info {
-          text-align: left;
+        /* Left Intro */
+        .services-left-intro {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
+          text-align: left;
         }
 
-        .airport-heading-text {
+        .services-kicker {
+          font-size: 0.8rem;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #E88C2B;
+          margin-bottom: 12px;
+          display: block;
+        }
+
+        .services-main-title {
           font-family: var(--font-heading);
-          font-size: clamp(2.35rem, 3.4vw, 3.05rem);
+          font-size: clamp(2.6rem, 3.8vw, 3.4rem);
           font-weight: 900;
-          color: #0F172A;
-          line-height: 1.15;
+          color: #4E0401;
+          line-height: 1.1;
           letter-spacing: -0.02em;
-          margin: 8px 0 14px 0;
+          margin-bottom: 20px;
           -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
-        .airport-desc-text {
-          font-size: 0.95rem;
-          color: #64748B;
-          line-height: 1.55;
-          margin-bottom: 24px;
+        .services-lead-desc {
+          font-size: 1rem;
+          color: #786C6A;
+          line-height: 1.6;
+          margin-bottom: 32px;
         }
 
-        .airport-gold-btn {
+        .btn-explore-services {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
-          background: #F59E0B;
-          color: #0F172A;
-          font-weight: 800;
-          font-size: 0.92rem;
-          padding: 12px 22px;
-          border-radius: 8px;
-          box-shadow: 0 2px 10px rgba(245, 158, 11, 0.28);
-          transition: background 0.18s ease;
-        }
-
-        .airport-gold-btn:hover {
-          background: #D97706;
-        }
-
-        /* 2 Airport Cards on Right */
-        .airport-cards-grid {
-          display: grid;
-          grid-template-columns: 1fr 1fr;
-          gap: 24px;
-        }
-
-        .airport-item-card {
+          gap: 10px;
           background: #FFFFFF;
-          border: 1px solid #E2E8F0;
+          border: 1px solid rgba(78, 4, 1, 0.18);
+          color: #4E0401;
+          font-family: inherit;
+          font-size: 0.85rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          padding: 13px 26px;
+          border-radius: 9999px;
+          cursor: pointer;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .btn-explore-services:hover {
+          background: #E88C2B;
+          border-color: #E88C2B;
+          color: #FFFFFF;
+          transform: translateY(-2px);
+          box-shadow: 0 4px 14px rgba(232, 140, 43, 0.3);
+        }
+
+        /* Right Cards: 3 Columns */
+        .services-cards-trio {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 22px;
+        }
+
+        .service-editorial-card {
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.08);
           border-radius: 16px;
           overflow: hidden;
-          box-shadow: 0 4px 16px rgba(15, 23, 42, 0.05);
-          display: grid;
-          grid-template-columns: 140px 1fr;
-          align-items: center;
+          display: flex;
+          flex-direction: column;
+          cursor: pointer;
+          box-shadow: 0 4px 16px rgba(78, 4, 1, 0.04);
+          transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
           text-align: left;
-          transition: border-color 0.2s ease, box-shadow 0.2s ease;
         }
 
-        .airport-item-card:hover {
-          border-color: #BAE6FD;
-          box-shadow: 0 8px 24px rgba(2, 132, 199, 0.08);
+        .service-editorial-card:hover {
+          transform: translateY(-5px);
+          border-color: rgba(232, 140, 43, 0.4);
+          box-shadow: 0 16px 32px -8px rgba(78, 4, 1, 0.12);
         }
 
-        .airport-card-img-box {
-          width: 140px;
-          height: 100%;
-          min-height: 170px;
-          background: #E2E8F0;
+        .service-card-media {
+          width: 100%;
+          height: 190px;
+          overflow: hidden;
+          background: #F9F5EC;
         }
 
-        .airport-img {
+        .service-card-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          display: block;
+          transition: transform 0.4s ease;
         }
 
-        .airport-card-body {
-          padding: 20px;
+        .service-editorial-card:hover .service-card-img {
+          transform: scale(1.05);
+        }
+
+        .service-card-content {
+          padding: 22px 20px;
           display: flex;
           flex-direction: column;
-          gap: 10px;
+          flex-grow: 1;
         }
 
-        .airport-card-title {
+        .service-card-heading {
           font-family: var(--font-heading);
-          font-size: 1.1rem;
+          font-size: 1.22rem;
           font-weight: 800;
-          color: #0F172A;
+          color: #4E0401;
+          margin: 0 0 10px 0;
           line-height: 1.25;
-          margin: 0;
-          -webkit-text-stroke: 0.32px currentColor;
+          -webkit-text-stroke: 0.35px currentColor;
           text-rendering: optimizeLegibility;
         }
 
-        .airport-checklist {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 6px;
-          margin: 0;
-          padding: 0;
+        .service-card-paragraph {
+          font-size: 0.88rem;
+          color: #786C6A;
+          line-height: 1.5;
+          margin-bottom: 20px;
+          flex-grow: 1;
         }
 
-        .airport-check-item {
+        .service-card-action {
           display: flex;
-          align-items: center;
-          gap: 8px;
-          font-size: 0.8rem;
-          font-weight: 600;
-          color: #475569;
+          justify-content: flex-start;
         }
 
-        .check-icon-circle {
-          width: 18px;
-          height: 18px;
+        .service-circle-arrow {
+          width: 32px;
+          height: 32px;
           border-radius: 50%;
-          background: #FEF3C7;
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.12);
           display: flex;
           align-items: center;
           justify-content: center;
-          flex-shrink: 0;
+          transition: all 0.18s ease;
         }
 
-        @media (max-width: 1024px) {
-          .airport-transfers-layout {
+        .service-editorial-card:hover .service-circle-arrow {
+          background: #E88C2B;
+          border-color: #E88C2B;
+          transform: translateX(3px);
+        }
+
+        .service-editorial-card:hover .service-circle-arrow svg {
+          stroke: #FFFFFF;
+        }
+
+        @media (max-width: 1080px) {
+          .services-reference-layout {
             grid-template-columns: 1fr;
-            gap: 32px;
+            gap: 36px;
           }
-          .airport-left-info {
+          .services-left-intro {
             max-width: 600px;
           }
         }
 
-        @media (max-width: 680px) {
-          .airport-cards-grid {
+        @media (max-width: 768px) {
+          .services-cards-trio {
             grid-template-columns: 1fr;
-          }
-          .airport-item-card {
-            grid-template-columns: 1fr;
-          }
-          .airport-card-img-box {
-            width: 100%;
-            height: 140px;
+            gap: 20px;
           }
         }
       `}</style>

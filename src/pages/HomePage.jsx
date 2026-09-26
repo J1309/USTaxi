@@ -1,43 +1,37 @@
 import React from 'react';
 import Hero from '../components/Hero';
 import QuickInfoBar from '../components/QuickInfoBar';
-import FleetSection from '../components/FleetSection';
-import VehicleInteriorSection from '../components/VehicleInteriorSection';
-import ChildSafetySection from '../components/ChildSafetySection';
 import ServicesSection from '../components/ServicesSection';
+import FleetSection from '../components/FleetSection';
+import DestinationsSection from '../components/DestinationsSection';
 import WhyChooseUs from '../components/WhyChooseUs';
-import CtaBanner from '../components/CtaBanner';
-import HoustonGuide from '../components/HoustonGuide';
+import Testimonials from '../components/Testimonials';
 
 export default function HomePage({ onSelectVehicle }) {
   return (
     <main id="main-content">
-      {/* 1. Hero Section (Reliable Transportation Across Houston with Suburban image) */}
-      <Hero />
+      {/* 1. Hero Section with Chevrolet Suburban & Floating Horizontal Booking Engine */}
+      <Hero onSelectVehicle={onSelectVehicle} />
 
-      {/* 2. Services Highlight Strip (4 columns with gold circular icons) */}
+      {/* 2. 4-Pillar Luxury Highlights Bar (Luxury Fleet • On-Time • Safe • 24/7 Support) */}
       <QuickInfoBar />
 
-      {/* 3. Our Fleet & Book Your Ride (2 cars: Lexus Sedan & Chevrolet Suburban + Booking Widget on dark navy) */}
-      <FleetSection onSelectVehicleForBooking={onSelectVehicle} />
-
-      {/* 4. First-Class Vehicle Interior Showcase (Executive Cabin Amenities) */}
-      <VehicleInteriorSection />
-
-      {/* 5. Child Safety & Family Travel Section (Certified Car Seats & Safe Standards) */}
-      <ChildSafetySection />
-
-      {/* 6. Houston Airport Transportation (IAH & HOU Airport Transfers with 2 cards) */}
+      {/* 3. Services Section ("TRAVEL WITHOUT COMPROMISE" - 3 Vertical Cards) */}
       <ServicesSection />
 
-      {/* 7. Why Ride With Us (Exact 6-card bento grid preserved 100%) */}
+      {/* 4. Our Fleet ("EXCEPTIONAL VEHICLES FOR EVERY JOURNEY" - Suburban & Lexus Only) */}
+      <FleetSection onSelectVehicleForBooking={onSelectVehicle} />
+
+      {/* 5. Popular Destinations ("EXPLORE THE CITY IN COMFORT" - Dark Maroon Theme) */}
+      <DestinationsSection />
+
+      {/* 6. Why Choose Us ("A HIGHER STANDARD OF TRAVEL" - Passenger Photo & 4 Pillars) */}
       <WhyChooseUs />
 
-      {/* 8. Why Choose Lavender Taxi & Ready for Your Ride? Skyline Banner */}
-      <CtaBanner />
+      {/* 7. Client Testimonials ("TRUSTED BY TRAVELERS WORLDWIDE" - 3-Part Banner) */}
+      <Testimonials />
 
-      {/* 9. Service Areas & Google Customer Reviews (2-column layout matching reference) */}
-      <HoustonGuide />
+      {/* NOTE: App download / phone mockup section is intentionally omitted per client instruction */}
     </main>
   );
 }

@@ -22,7 +22,7 @@ export default function MobileStickyBar() {
 
         <button
           type="button"
-          onClick={() => smoothScrollTo('#booking-section')}
+          onClick={() => smoothScrollTo('#booking-engine')}
           className="mobile-btn quote"
           aria-label="Book Ride"
         >
@@ -53,16 +53,16 @@ export default function MobileStickyBar() {
         }
         .mobile-bar-pill {
           pointer-events: auto;
-          background: rgba(255, 255, 255, 0.96);
+          background: rgba(254, 251, 243, 0.96);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
-          border: 1px solid #CBD5E1;
+          border: 1px solid rgba(78, 4, 1, 0.15);
           border-radius: var(--radius-full);
           padding: 6px;
           display: grid;
           grid-template-columns: 1.2fr 1fr 1fr;
           gap: 6px;
-          box-shadow: 0 10px 25px rgba(15, 23, 42, 0.15);
+          box-shadow: 0 10px 25px rgba(78, 4, 1, 0.15);
         }
         .mobile-btn {
           display: inline-flex;
@@ -76,11 +76,11 @@ export default function MobileStickyBar() {
           border: none;
         }
         .mobile-btn.phone {
-          background: #0284C7;
+          background: #4E0401;
           color: #FFFFFF;
         }
         .mobile-btn.quote {
-          background: #F97316;
+          background: #E88C2B;
           color: #FFFFFF;
         }
         .mobile-btn.wa {

@@ -65,12 +65,12 @@ export default function AboutPage() {
 
       <style>{`
         .about-page-view {
-          background: #FFFFFF;
+          background: #FEFBF3;
         }
 
         .about-breadcrumb-bar {
-          background: #F8FAFC;
-          border-bottom: 1px solid #E2E8F0;
+          background: #F9F5EC;
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
           padding: 14px 0;
         }
 
@@ -83,34 +83,35 @@ export default function AboutPage() {
         }
 
         .breadcrumb-link {
-          color: #64748B;
+          color: #786C6A;
           transition: color 0.15s ease;
         }
 
         .breadcrumb-link:hover {
-          color: #D97706;
+          color: #E88C2B;
         }
 
         .breadcrumb-current {
-          color: #0F172A;
+          color: #4E0401;
           font-weight: 700;
         }
 
         .about-bottom-cta {
-          padding: 60px 0 80px 0;
-          background: #F8FAFC;
-          border-top: 1px solid #E2E8F0;
+          padding: 70px 0 90px 0;
+          background: #FEFBF3;
+          border-top: 1px solid rgba(78, 4, 1, 0.08);
         }
 
         .about-cta-card {
-          background: #0F172A;
+          background: #4E0401;
+          background: linear-gradient(135deg, #4E0401 0%, #350200 60%, #200100 100%);
           border-radius: 20px;
           padding: 44px 48px;
           display: flex;
           align-items: center;
           justify-content: space-between;
           gap: 32px;
-          box-shadow: 0 16px 36px -10px rgba(15, 23, 42, 0.25);
+          box-shadow: 0 16px 36px -10px rgba(78, 4, 1, 0.25);
           text-align: left;
         }
 
@@ -118,7 +119,7 @@ export default function AboutPage() {
           font-size: 0.74rem;
           font-weight: 800;
           letter-spacing: 0.14em;
-          color: #F59E0B;
+          color: #E88C2B;
           display: block;
           margin-bottom: 6px;
         }

@@ -1,311 +1,266 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Gem, Users, Settings, Star, ArrowRight } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
-import { getDirectWhatsAppChatUrl } from '../utils/whatsapp';
 
-const BENTO_CARDS = [
+const PILLARS = [
   {
-    id: 1,
-    colSpan: 'span-2',
-    image: '/images/why/card1.jpg',
-    category: 'EXECUTIVE COMFORT',
-    title: 'Wake Up to Stress-Free Curbside Pickups',
-    pillText: 'Complimentary Amenities',
-    action: 'book',
+    icon: Gem,
+    title: 'Premium Experience',
+    desc: 'Bespoke luxury vehicles, immaculate hand-detailed cabins, chilled bottled water, and fast onboard Wi-Fi.',
   },
   {
-    id: 2,
-    colSpan: 'span-1',
-    image: '/images/why/card2.jpg',
-    category: 'IAH & HOU RADAR',
-    title: 'Real-Time FAA Flight Tracking',
-    pillText: 'Zero Wait Penalty',
-    action: 'book',
+    icon: Users,
+    title: 'Professional Drivers',
+    desc: 'Experienced, courteous, and background-verified chauffeurs with direct personal accountability from owner Symanthan.',
   },
   {
-    id: 3,
-    colSpan: 'span-1',
-    image: '/images/why/card3.jpg',
-    category: 'TRANSPARENT FARES',
-    title: 'Experience Guaranteed Flat Rates',
-    pillText: 'No Surge Pricing',
-    action: 'fleet',
+    icon: Settings,
+    title: 'Tailored Solutions & Child Safety',
+    desc: 'Personalized corporate accounts, flight delay guarantees, and certified sanitized child car seats installed upon request.',
   },
   {
-    id: 4,
-    colSpan: 'span-1',
-    image: '/images/why/card4.jpg',
-    category: 'PRISTINE CABIN',
-    title: 'Spotless & Sanitized Luxury Interiors',
-    pillText: 'Daily Detailing',
-    action: 'fleet',
-  },
-  {
-    id: 5,
-    colSpan: 'span-1',
-    image: '/images/why/card5.jpg',
-    category: 'SAFETY & CARE',
-    title: 'Discreet & Vetted Chauffeurs',
-    pillText: '100% Background Checked',
-    action: 'about',
-  },
-  {
-    id: 6,
-    colSpan: 'span-2',
-    image: '/images/why/card6.jpg',
-    category: 'ALWAYS ON CALL',
-    title: '24/7 Direct Dispatch Across Greater Houston',
-    pillText: 'WhatsApp & Call Dispatch',
-    action: 'whatsapp',
+    icon: Star,
+    title: 'Trusted by Thousands',
+    desc: 'A flawless reputation built on 100% on-time airport arrivals, zero cancellations, and upfront guaranteed flat pricing.',
   },
 ];
 
 export default function WhyChooseUs() {
-  const navigate = useNavigate();
-
-  const handleCardClick = (action) => {
-    if (action === 'book') {
-      smoothScrollTo('#booking-section');
-    } else if (action === 'fleet') {
-      smoothScrollTo('#fleet');
-    } else if (action === 'about') {
-      navigate('/about');
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    } else if (action === 'whatsapp') {
-      window.open(getDirectWhatsAppChatUrl(), '_blank', 'noopener,noreferrer');
-    }
+  const handleReserveClick = () => {
+    smoothScrollTo('#booking-engine');
   };
 
   return (
-    <section id="why-us" className="section-spacing why-bento-section">
+    <section id="why-us" className="higher-standard-section">
       <div className="container">
-        {/* Section Header: Minimalist Editorial Style */}
-        <div className="why-bento-header">
-          <span className="section-tag-small">WHY RIDE WITH US</span>
-          <h2 className="section-title-large">Your Comfort. Our Priority.</h2>
-          <p className="why-bento-subtitle">
-            Executive ground transportation engineered for Houston business executives, airport arrivals, and Galveston cruise transfers.
-          </p>
-        </div>
+        <div className="higher-standard-grid">
+          {/* Left Column: Passenger Cabin Window Photo */}
+          <div className="higher-standard-media-wrap">
+            <img
+              src="/images/passenger_cabin_window.jpg"
+              alt="Executive passenger relaxing in luxury chauffeur vehicle looking out window"
+              className="higher-standard-img"
+            />
+            <div className="media-floating-badge">
+              <span className="badge-gold-star">★ 5.0</span>
+              <span className="badge-text">Houston Executive Favorite</span>
+            </div>
+          </div>
 
-        {/* 6 Bento Cards Grid: Exact 4-Column Layout from Reference */}
-        <div className="why-bento-grid">
-          {BENTO_CARDS.map((card) => {
-            const isWide = card.colSpan === 'span-2';
-            return (
-              <div
-                key={card.id}
-                className={`bento-card ${card.colSpan}`}
-                style={{ backgroundImage: `url(${card.image})` }}
-                onClick={() => handleCardClick(card.action)}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    e.preventDefault();
-                    handleCardClick(card.action);
-                  }
-                }}
+          {/* Right Column: Title & 4 Pillars */}
+          <div className="higher-standard-content">
+            <span className="standard-kicker">WHY CHOOSE LAVENDER TAXI</span>
+            <h2 className="standard-headline">
+              A HIGHER<br />
+              STANDARD<br />
+              OF TRAVEL
+            </h2>
+
+            <div className="standard-pillars-stack">
+              {PILLARS.map((p, i) => {
+                const Icon = p.icon;
+                return (
+                  <div key={i} className="standard-pillar-row">
+                    <div className="standard-icon-box">
+                      <Icon size={20} strokeWidth={1.75} color="#E88C2B" />
+                    </div>
+                    <div className="standard-text-wrap">
+                      <h3 className="standard-pillar-title">{p.title}</h3>
+                      <p className="standard-pillar-desc">{p.desc}</p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="standard-action-row">
+              <button
+                type="button"
+                onClick={handleReserveClick}
+                className="btn-reserve-standard"
               >
-                {/* Subtle visual gradient scrim to guarantee high text contrast */}
-                <div className="bento-card-scrim" />
-
-                {/* Card Top: Category & Bold Title */}
-                <div className={`bento-card-top ${isWide ? 'wide-text' : ''}`}>
-                  <span className="bento-category">{card.category}</span>
-                  <h3 className="bento-title">{card.title}</h3>
-                </div>
-
-                {/* Card Bottom: Crisp White Pill Button */}
-                <div className="bento-card-bottom">
-                  <span className="bento-white-pill">
-                    {card.pillText}
-                  </span>
-                </div>
-              </div>
-            );
-          })}
+                <span>RESERVE YOUR PRIVATE CHAUFFEUR</span>
+                <ArrowRight size={15} />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 
       <style>{`
-        .why-bento-section {
-          background: #FFFFFF;
-          padding-top: 60px;
-          padding-bottom: 90px;
+        .higher-standard-section {
+          background: #FEFBF3;
+          padding: 95px 0 100px 0;
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
         }
 
-        .why-bento-header {
-          text-align: left;
-          margin-bottom: 36px;
-          max-width: 780px;
-        }
-
-        .why-bento-subtitle {
-          font-size: 1.05rem;
-          color: #64748B;
-          margin-top: 10px;
-          line-height: 1.55;
-          text-align: left;
-        }
-
-        /* 4-Column Bento Grid Matching the Reference Mockup */
-        .why-bento-grid {
+        .higher-standard-grid {
           display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 24px;
+          grid-template-columns: 1fr 1.15fr;
+          gap: 60px;
+          align-items: center;
         }
 
-        /* Card Geometry & Styling */
-        .bento-card {
+        /* Left Media */
+        .higher-standard-media-wrap {
           position: relative;
-          height: 330px;
           border-radius: 20px;
-          background-size: cover;
-          background-position: center;
-          background-repeat: no-repeat;
           overflow: hidden;
-          padding: 28px;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          text-align: left;
-          cursor: pointer;
-          box-shadow: 0 8px 24px rgba(15, 23, 42, 0.08);
-          transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1), 
-                      box-shadow 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 16px 36px rgba(78, 4, 1, 0.08);
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          background: #F9F5EC;
         }
 
-        .bento-card.span-2 {
-          grid-column: span 2;
-        }
-
-        .bento-card.span-1 {
-          grid-column: span 1;
-        }
-
-        /* Scrim Overlay for Crystal Clear Typography */
-        .bento-card-scrim {
-          position: absolute;
-          inset: 0;
-          background: linear-gradient(
-            180deg, 
-            rgba(15, 23, 42, 0.52) 0%, 
-            rgba(15, 23, 42, 0.16) 42%, 
-            rgba(15, 23, 42, 0.48) 100%
-          );
-          transition: background 0.3s ease;
-          pointer-events: none;
-        }
-
-        .bento-card:hover {
-          transform: translateY(-6px);
-          box-shadow: 0 20px 40px -8px rgba(15, 23, 42, 0.22);
-        }
-
-        .bento-card:hover .bento-card-scrim {
-          background: linear-gradient(
-            180deg, 
-            rgba(15, 23, 42, 0.44) 0%, 
-            rgba(15, 23, 42, 0.10) 42%, 
-            rgba(15, 23, 42, 0.56) 100%
-          );
-        }
-
-        /* Card Content Hierarchy */
-        .bento-card-top {
-          position: relative;
-          z-index: 2;
-          display: flex;
-          flex-direction: column;
-          gap: 8px;
-        }
-
-        .bento-card-top.wide-text {
-          max-width: 65%;
-        }
-
-        .bento-category {
-          font-family: var(--font-heading);
-          font-size: 0.74rem;
-          font-weight: 800;
-          letter-spacing: 0.12em;
-          text-transform: uppercase;
-          color: rgba(255, 255, 255, 0.88);
+        .higher-standard-img {
+          width: 100%;
+          height: 100%;
+          min-height: 520px;
+          object-fit: cover;
           display: block;
-          text-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+          transition: transform 0.35s ease;
         }
 
-        .bento-title {
-          font-family: var(--font-heading);
-          font-size: clamp(1.48rem, 1.85vw, 1.8rem);
+        .higher-standard-media-wrap:hover .higher-standard-img {
+          transform: scale(1.03);
+        }
+
+        .media-floating-badge {
+          position: absolute;
+          bottom: 22px;
+          left: 22px;
+          background: rgba(254, 251, 243, 0.96);
+          backdrop-filter: blur(10px);
+          border: 1px solid rgba(78, 4, 1, 0.12);
+          border-radius: 12px;
+          padding: 10px 16px;
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          box-shadow: 0 8px 24px rgba(78, 4, 1, 0.15);
+        }
+
+        .badge-gold-star {
           font-weight: 800;
-          color: #FFFFFF;
-          line-height: 1.25;
+          font-size: 0.88rem;
+          color: #E88C2B;
+        }
+
+        .badge-text {
+          font-size: 0.76rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          text-transform: uppercase;
+          color: #4E0401;
+        }
+
+        /* Right Content */
+        .higher-standard-content {
+          text-align: left;
+        }
+
+        .standard-kicker {
+          font-size: 0.8rem;
+          font-weight: 800;
+          letter-spacing: 0.18em;
+          text-transform: uppercase;
+          color: #E88C2B;
+          margin-bottom: 12px;
+          display: block;
+        }
+
+        .standard-headline {
+          font-family: var(--font-heading);
+          font-size: clamp(2.6rem, 3.8vw, 3.4rem);
+          font-weight: 900;
+          color: #4E0401;
+          line-height: 1.1;
           letter-spacing: -0.02em;
-          text-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
-          -webkit-text-stroke: 0.38px currentColor;
+          margin: 0 0 28px 0;
+          -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
-        .bento-card-bottom {
-          position: relative;
-          z-index: 2;
+        .standard-pillars-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 20px;
+          margin-bottom: 32px;
         }
 
-        /* Signature White Pill from Mockup */
-        .bento-white-pill {
+        .standard-pillar-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 16px;
+        }
+
+        .standard-icon-box {
+          width: 44px;
+          height: 44px;
+          border-radius: 50%;
+          background: #FDF3E7;
+          border: 1px solid rgba(232, 140, 43, 0.3);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          box-shadow: 0 2px 8px rgba(232, 140, 43, 0.12);
+        }
+
+        .standard-text-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 3px;
+        }
+
+        .standard-pillar-title {
+          font-family: var(--font-heading);
+          font-size: 1.12rem;
+          font-weight: 800;
+          color: #4E0401;
+          margin: 0;
+          line-height: 1.25;
+          -webkit-text-stroke: 0.32px currentColor;
+          text-rendering: optimizeLegibility;
+        }
+
+        .standard-pillar-desc {
+          font-size: 0.88rem;
+          color: #786C6A;
+          line-height: 1.5;
+          margin: 0;
+        }
+
+        .btn-reserve-standard {
           display: inline-flex;
           align-items: center;
-          background: #FFFFFF;
-          color: #0F172A;
-          font-size: 0.8rem;
-          font-weight: 700;
-          padding: 8px 18px;
-          border-radius: var(--radius-full);
-          box-shadow: 0 4px 12px rgba(0, 0, 0, 0.14);
-          transition: transform 0.2s ease, background-color 0.2s ease, color 0.2s ease;
-        }
-
-        .bento-card:hover .bento-white-pill {
-          background: #0284C7;
+          gap: 10px;
+          background: #E88C2B;
           color: #FFFFFF;
-          transform: scale(1.04);
+          font-family: inherit;
+          font-size: 0.88rem;
+          font-weight: 800;
+          letter-spacing: 0.06em;
+          padding: 14px 28px;
+          border-radius: 9999px;
+          border: none;
+          cursor: pointer;
+          box-shadow: 0 4px 16px rgba(232, 140, 43, 0.32);
+          transition: all 0.2s ease;
         }
 
-        /* Responsive Breakpoints */
-        @media (max-width: 1024px) {
-          .why-bento-grid {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 20px;
-          }
-          .bento-card.span-2,
-          .bento-card.span-1 {
-            grid-column: span 1;
-          }
-          .bento-card {
-            height: 300px;
-          }
-          .bento-card-top.wide-text {
-            max-width: 100%;
-          }
+        .btn-reserve-standard:hover {
+          background: #D2791C;
+          transform: translateY(-2px);
+          box-shadow: 0 8px 24px rgba(232, 140, 43, 0.45);
         }
 
-        @media (max-width: 640px) {
-          .why-bento-grid {
+        @media (max-width: 960px) {
+          .higher-standard-grid {
             grid-template-columns: 1fr;
-            gap: 16px;
+            gap: 40px;
           }
-          .bento-card.span-2,
-          .bento-card.span-1 {
-            grid-column: span 1;
-          }
-          .bento-card {
-            height: 270px;
-            padding: 22px;
-          }
-          .bento-title {
-            font-size: 1.3rem;
+          .higher-standard-img {
+            min-height: 380px;
           }
         }
       `}</style>
