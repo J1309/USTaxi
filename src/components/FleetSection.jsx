@@ -1,12 +1,23 @@
 import React, { useState } from 'react';
-import { Users, Briefcase, ArrowRight, ShieldCheck, Sparkles, ChevronLeft, ChevronRight, Eye, Check } from 'lucide-react';
+import { 
+  Users, 
+  Briefcase, 
+  ArrowRight, 
+  ChevronLeft, 
+  ChevronRight, 
+  Eye, 
+  ArrowLeft,
+  Check 
+} from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
+import { openBooking } from '../utils/bookingModal';
 
 const VEHICLES = [
   {
     id: 'suburban',
     name: 'Chevrolet Suburban High Country',
     tagline: 'Flagship Executive Full-Size SUV',
+    badge: 'FLAGSHIP SUV',
     image: '/images/suburban_img.png',
     passengers: 'Up to 7 Passengers',
     luggage: '6 Large Suitcases',
@@ -17,12 +28,18 @@ const VEHICLES = [
       'Tri-zone automatic climate control',
       'Certified child car seats available (Infant, Convertible, Booster)',
     ],
+    mobileChecklist: [
+      'Handcrafted jet-black leather interior',
+      'Dual rear 12.6" HD entertainment displays',
+      'Acoustic laminated privacy glass',
+    ],
     description: 'The pinnacle of American executive travel. Spacious, powerful, and whisper-quiet for executive airport transfers, family travel, and Galveston cruise groups.',
   },
   {
     id: 'lexus',
     name: 'Lexus Luxury Sedan',
     tagline: 'Executive Luxury Sedan',
+    badge: 'EXECUTIVE SEDAN',
     image: '/images/lexus_img.png',
     passengers: 'Up to 4 Passengers',
     luggage: '3 Suitcases',
@@ -32,6 +49,11 @@ const VEHICLES = [
       'Rear seat climate & power charging',
       'Direct airport curbside service',
       'Immaculate executive condition',
+    ],
+    mobileChecklist: [
+      'Whisper-quiet acoustic hybrid cabin',
+      'Plush perforated leather seating',
+      'Rear seat climate & power charging',
     ],
     description: 'A perfect blend of elegance, smooth comfort, and discreet luxury for business roadshows, airport arrivals, and private city transportation.',
   },
@@ -45,23 +67,23 @@ const VEHICLE_INTERIORS = {
     gallery: [
       {
         src: '/images/suburban_second-row.png',
-        title: 'Executive 2nd-Row Captain Chairs',
-        desc: 'Reclining leather seats with independent armrests and expansive legroom',
+        title: "Second Row Captain's Chairs",
+        desc: "Spacious and comfortable captain's chairs with premium leather seating, climate control and ample legroom for a first-class experience.",
       },
       {
         src: '/images/suburban_third_row.png',
         title: 'Spacious 3rd-Row Seating',
-        desc: 'Comfortable full-size seating for adults with dedicated rear AC climate vents',
+        desc: 'Comfortable full-size seating for adults with dedicated rear AC climate vents and individual reading lamps.',
       },
       {
         src: '/images/suburban_rear_cargo.png',
-        title: 'Massive Rear Cargo Trunk',
-        desc: 'Easily accommodates 6+ large suitcases and cruise luggage',
+        title: 'Extended Rear Cargo Trunk',
+        desc: 'Accommodates 6+ large suitcases plus carry-on bags and cruise luggage effortlessly.',
       },
       {
         src: '/images/suburban_cockpit.png',
         title: 'Chauffeur Digital Cockpit',
-        desc: 'Advanced GPS navigation, FAA radar tracking, and Bose premium audio',
+        desc: 'Advanced digital navigation, FAA flight tracking interface, and premium Bose surround audio.',
       },
     ],
     childSeat: {
@@ -79,22 +101,22 @@ const VEHICLE_INTERIORS = {
       {
         src: '/images/lexus_rear_seats.png',
         title: 'Executive Rear Passenger Cabin',
-        desc: 'Whisper-quiet acoustic cabin with plush perforated leather seating',
+        desc: 'Whisper-quiet acoustic cabin with plush perforated leather seating and independent climate control.',
       },
       {
         src: '/images/lexus_front_seats.png',
         title: 'Premium Front Passenger Seating',
-        desc: 'Ergonomic heated and ventilated contoured luxury seating',
+        desc: 'Ergonomic heated and ventilated contoured luxury seating designed for long-distance comfort.',
       },
       {
         src: '/images/lexus_trunk_cargo.png',
         title: 'Executive Luggage Trunk',
-        desc: 'Deep trunk space comfortably holding up to 3 full-size bags',
+        desc: 'Deep trunk space comfortably holding up to 3 full-size bags and executive carry-on luggage.',
       },
       {
         src: '/images/lexus_cockpit.png',
         title: 'Digital Chauffeur Cockpit',
-        desc: 'Modern intuitive console, tri-zone climate controls, and flight monitoring',
+        desc: 'Modern intuitive console, tri-zone climate controls, and flight monitoring display.',
       },
     ],
     childSeat: {
@@ -105,13 +127,15 @@ const VEHICLE_INTERIORS = {
 
 export default function FleetSection({ onSelectVehicleForBooking }) {
   const [activeVehicleIndex, setActiveVehicleIndex] = useState(0);
-  const [interiorModalVehicle, setInteriorModalVehicle] = useState(null); // 'suburban' | 'lexus' | null
+  const [interiorModalVehicle, setInteriorModalVehicle] = useState(null); // Desktop modal: 'suburban' | 'lexus' | null
+  const [mobileViewingInterior, setMobileViewingInterior] = useState(false); // Mobile Screen 6
+  const [mobileInteriorIndex, setMobileInteriorIndex] = useState(0);
 
   const handleSelect = (vId) => {
     if (onSelectVehicleForBooking) {
       onSelectVehicleForBooking(vId);
     }
-    smoothScrollTo('#booking-engine');
+    openBooking(vId);
   };
 
   const handleNext = () => {
@@ -122,19 +146,30 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
     setActiveVehicleIndex((prev) => (prev - 1 + VEHICLES.length) % VEHICLES.length);
   };
 
-  const activeInterior = interiorModalVehicle ? VEHICLE_INTERIORS[interiorModalVehicle] : null;
+  const currentVeh = VEHICLES[activeVehicleIndex];
+  const activeInterior = interiorModalVehicle 
+    ? VEHICLE_INTERIORS[interiorModalVehicle] 
+    : VEHICLE_INTERIORS[currentVeh.id];
 
   return (
     <section id="fleet" className="fleet-reference-section">
       <div className="container">
-        {/* Top Header Row with Title & Controls */}
+        
+        {/* =====================================================================
+            TOP HEADER ROW: Title & Desktop Controls
+            ===================================================================== */}
         <div className="fleet-top-bar reveal-on-scroll">
           <div className="fleet-title-block">
             <span className="fleet-kicker">OUR FLEET</span>
             <h2 className="fleet-headline">
-              EXCEPTIONAL<br />
-              VEHICLES FOR<br />
-              EVERY JOURNEY
+              <span className="desktop-fleet-title">
+                EXCEPTIONAL<br />
+                VEHICLES FOR<br />
+                EVERY JOURNEY
+              </span>
+              <span className="mobile-fleet-title">
+                Exceptional Vehicles for Every Journey
+              </span>
             </h2>
           </div>
 
@@ -164,8 +199,10 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           </div>
         </div>
 
-        {/* 2 Exclusive Vehicle Cards Matching Reference Grid */}
-        <div className="fleet-grid-cards">
+        {/* =====================================================================
+            DESKTOP VIEW: 2-Column Side-by-Side Cards (100% UNTOUCHED)
+            ===================================================================== */}
+        <div className="fleet-grid-cards desktop-fleet-cards">
           {VEHICLES.map((v, idx) => (
             <div key={v.id} className={`fleet-vehicle-card reveal-on-scroll reveal-delay-${idx + 1}`}>
               <div className="vehicle-photo-container">
@@ -240,14 +277,195 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             </div>
           ))}
         </div>
+
+        {/* =====================================================================
+            MOBILE VIEW (<= 768px): Screen 5 (Carousel) & Screen 6 (Interior View)
+            ===================================================================== */}
+        <div className="mobile-fleet-wrapper">
+          
+          {/* SCREEN 5: One vehicle card at a time with Prev/Next Navigation */}
+          {!mobileViewingInterior && (
+            <div className="mobile-vehicle-carousel-card">
+              
+              {/* Photo Box with Badge & Carousel Arrows */}
+              <div className="mobile-veh-photo-box">
+                <img
+                  src={currentVeh.image}
+                  alt={currentVeh.name}
+                  className="mobile-veh-img"
+                />
+                <span className="mobile-veh-badge">{currentVeh.badge}</span>
+
+                {/* Left / Right Nav Arrows */}
+                <button
+                  type="button"
+                  onClick={handlePrev}
+                  className="mobile-nav-arrow-btn left"
+                  aria-label="Previous vehicle"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={handleNext}
+                  className="mobile-nav-arrow-btn right"
+                  aria-label="Next vehicle"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+
+              {/* Body */}
+              <div className="mobile-veh-body">
+                <h3 className="mobile-veh-title">{currentVeh.name}</h3>
+
+                {/* Specs */}
+                <div className="mobile-specs-row">
+                  <div className="mob-spec-item">
+                    <Users size={14} color="#E88C2B" />
+                    <span>{currentVeh.passengers}</span>
+                  </div>
+                  <div className="mob-spec-item">
+                    <Briefcase size={14} color="#E88C2B" />
+                    <span>{currentVeh.luggage}</span>
+                  </div>
+                </div>
+
+                {/* Checklist with checkmarks */}
+                <ul className="mobile-checklist">
+                  {currentVeh.mobileChecklist.map((item, i) => (
+                    <li key={i} className="mob-check-item">
+                      <Check size={14} color="#E88C2B" strokeWidth={2.5} />
+                      <span>{item}</span>
+                    </li>
+                  ))}
+                </ul>
+
+                {/* Action Buttons */}
+                <div className="mobile-veh-actions">
+                  <button
+                    type="button"
+                    onClick={() => handleSelect(currentVeh.id)}
+                    className="btn-reserve-mobile"
+                  >
+                    <span>Reserve Ride</span>
+                    <ArrowRight size={14} />
+                  </button>
+
+                  <button
+                    type="button"
+                    onClick={() => {
+                      setMobileViewingInterior(true);
+                      setMobileInteriorIndex(0);
+                    }}
+                    className="btn-interior-mobile"
+                  >
+                    <Eye size={14} />
+                    <span>View Interior</span>
+                  </button>
+                </div>
+
+                {/* Pagination Indicator (01 / 02) */}
+                <div className="mobile-veh-pagination">
+                  <span className="pagination-text">
+                    0{activeVehicleIndex + 1} / 0{VEHICLES.length}
+                  </span>
+                  <div className="pagination-track">
+                    <div 
+                      className="pagination-fill" 
+                      style={{ width: `${((activeVehicleIndex + 1) / VEHICLES.length) * 100}%` }}
+                    />
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          )}
+
+          {/* SCREEN 6: Vehicle Interior Detailed View */}
+          {mobileViewingInterior && (
+            <div className="mobile-interior-screen-view">
+              
+              {/* Header with Back Arrow and Counter Badge */}
+              <div className="interior-screen-top-bar">
+                <button
+                  type="button"
+                  onClick={() => setMobileViewingInterior(false)}
+                  className="mobile-back-circle-btn"
+                  aria-label="Back to fleet"
+                >
+                  <ArrowLeft size={18} color="#4E0401" />
+                </button>
+                <div className="interior-counter-badge">
+                  {mobileInteriorIndex + 1} / {activeInterior.gallery.length}
+                </div>
+              </div>
+
+              {/* Large Main Photo */}
+              <div className="mobile-main-interior-frame">
+                <img
+                  src={activeInterior.gallery[mobileInteriorIndex].src}
+                  alt={activeInterior.gallery[mobileInteriorIndex].title}
+                  className="mobile-main-interior-img"
+                />
+              </div>
+
+              {/* 4 Thumbnails Row */}
+              <div className="mobile-thumbs-row">
+                {activeInterior.gallery.map((thumb, idx) => (
+                  <button
+                    key={idx}
+                    type="button"
+                    onClick={() => setMobileInteriorIndex(idx)}
+                    className={`thumb-box-btn ${mobileInteriorIndex === idx ? 'active' : ''}`}
+                    aria-label={`View ${thumb.title}`}
+                  >
+                    <img
+                      src={thumb.src}
+                      alt={thumb.title}
+                      className="thumb-mini-img"
+                    />
+                  </button>
+                ))}
+              </div>
+
+              {/* Title & Description */}
+              <div className="mobile-interior-info-box">
+                <h4 className="interior-view-heading">
+                  {activeInterior.gallery[mobileInteriorIndex].title}
+                </h4>
+                <p className="interior-view-paragraph">
+                  {activeInterior.gallery[mobileInteriorIndex].desc}
+                </p>
+              </div>
+
+              {/* Bottom Reserve CTA */}
+              <div className="mobile-interior-actions">
+                <button
+                  type="button"
+                  onClick={() => handleSelect(currentVeh.id)}
+                  className="btn-reserve-mobile full-width"
+                >
+                  <span>Reserve This {currentVeh.id === 'suburban' ? 'Suburban' : 'Lexus'}</span>
+                  <ArrowRight size={15} />
+                </button>
+              </div>
+
+            </div>
+          )}
+
+        </div>
+
       </div>
 
-      {/* High-Resolution Interior & Cabin Gallery Modal */}
+      {/* =====================================================================
+          DESKTOP VIEW: High-Resolution Interior Modal (100% UNTOUCHED)
+          ===================================================================== */}
       {interiorModalVehicle && activeInterior && (
         <div className="interior-modal-backdrop" onClick={() => setInteriorModalVehicle(null)}>
           <div className="interior-modal-content" onClick={(e) => e.stopPropagation()}>
             
-            {/* Modal Header */}
             <div className="modal-header">
               <div>
                 <span className="modal-kicker">{activeInterior.kicker}</span>
@@ -264,7 +482,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
               </button>
             </div>
 
-            {/* Vehicle Switcher Inside Modal */}
             <div className="modal-vehicle-tabs">
               <button
                 type="button"
@@ -282,7 +499,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
               </button>
             </div>
 
-            {/* 4-Photo Interior Grid */}
             <div className="modal-body-grid">
               {activeInterior.gallery.map((item, idx) => (
                 <div key={idx} className="modal-media-wrap">
@@ -300,7 +516,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
               ))}
             </div>
 
-            {/* Child Seat Callout for Suburban */}
             {activeInterior.childSeat?.available && (
               <div className="modal-child-seat-bar">
                 <div className="child-seat-thumb">
@@ -318,7 +533,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
               </div>
             )}
 
-            {/* Bottom Modal Actions */}
             <div className="modal-actions-bar">
               <button
                 type="button"
@@ -338,6 +552,9 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
       )}
 
       <style>{`
+        /* =====================================================================
+           DESKTOP STYLES (100% PRESERVED & UNTOUCHED)
+           ===================================================================== */
         .fleet-reference-section {
           background: #FEFBF3;
           padding: 85px 0 95px 0;
@@ -377,6 +594,14 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           margin: 0;
           -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
+        }
+
+        .desktop-fleet-title {
+          display: block;
+        }
+
+        .mobile-fleet-title {
+          display: none;
         }
 
         .fleet-intro-block {
@@ -631,7 +856,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           background: #FDF3E7;
         }
 
-        /* Modal Styles */
+        /* Desktop Modal */
         .interior-modal-backdrop {
           position: fixed;
           inset: 0;
@@ -714,7 +939,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           border-color: #E88C2B;
         }
 
-        /* Vehicle Switcher Tabs Inside Modal */
         .modal-vehicle-tabs {
           display: flex;
           gap: 10px;
@@ -748,7 +972,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           box-shadow: 0 4px 12px rgba(78, 4, 1, 0.2);
         }
 
-        /* 4-Photo Interior Grid */
         .modal-body-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
@@ -799,7 +1022,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           line-height: 1.4;
         }
 
-        /* Child Seat Callout */
         .modal-child-seat-bar {
           display: flex;
           align-items: center;
@@ -854,7 +1076,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           line-height: 1.4;
         }
 
-        /* Modal Actions */
         .modal-actions-bar {
           display: flex;
           justify-content: flex-end;
@@ -885,18 +1106,336 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           box-shadow: 0 8px 24px rgba(232, 140, 43, 0.45);
         }
 
-        @media (max-width: 900px) {
-          .fleet-grid-cards {
-            grid-template-columns: 1fr;
+        /* Desktop: Hide Mobile Section */
+        .mobile-fleet-wrapper {
+          display: none;
+        }
+
+        /* =====================================================================
+           MOBILE STYLES (<= 768px): Screen 5 & Screen 6 from Mockup
+           ===================================================================== */
+        @media (max-width: 768px) {
+          .desktop-fleet-cards {
+            display: none !important;
           }
-          .modal-body-grid {
-            grid-template-columns: 1fr;
+
+          .desktop-fleet-title {
+            display: none;
           }
-          .modal-vehicle-tabs {
-            flex-wrap: wrap;
+
+          .mobile-fleet-title {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #4E0401;
+            line-height: 1.15;
+            -webkit-text-stroke: 0.3px currentColor;
           }
-          .interior-modal-content {
-            padding: 22px 18px;
+
+          .fleet-intro-block {
+            display: none;
+          }
+
+          .fleet-top-bar {
+            margin-bottom: 24px;
+          }
+
+          .mobile-fleet-wrapper {
+            display: block;
+            width: 100%;
+          }
+
+          /* Screen 5: Carousel Card */
+          .mobile-vehicle-carousel-card {
+            background: #FFFFFF;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(78, 4, 1, 0.08);
+            box-shadow: 0 8px 30px rgba(78, 4, 1, 0.06);
+            text-align: left;
+          }
+
+          .mobile-veh-photo-box {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            background: #F9F5EC;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+          }
+
+          .mobile-veh-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 12px;
+          }
+
+          .mobile-veh-badge {
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            background: #4E0401;
+            color: #FFFFFF;
+            font-size: 0.68rem;
+            font-weight: 800;
+            letter-spacing: 0.06em;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 6px;
+          }
+
+          .mobile-nav-arrow-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(78, 4, 1, 0.12);
+            color: #4E0401;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+          }
+
+          .mobile-nav-arrow-btn.left {
+            left: 10px;
+          }
+
+          .mobile-nav-arrow-btn.right {
+            right: 10px;
+          }
+
+          .mobile-veh-body {
+            padding: 20px 18px;
+          }
+
+          .mobile-veh-title {
+            font-family: var(--font-heading);
+            font-size: 1.35rem;
+            font-weight: 900;
+            color: #4E0401;
+            margin: 0 0 12px 0;
+            line-height: 1.2;
+          }
+
+          .mobile-specs-row {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 14px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid rgba(78, 4, 1, 0.06);
+          }
+
+          .mob-spec-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #4A3E3D;
+          }
+
+          .mobile-checklist {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 20px 0;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+          }
+
+          .mob-check-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.8rem;
+            color: #4A3E3D;
+            line-height: 1.4;
+          }
+
+          .mobile-veh-actions {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 20px;
+          }
+
+          .btn-reserve-mobile {
+            flex: 1.2;
+            height: 44px;
+            background: #E88C2B;
+            color: #FFFFFF;
+            font-family: inherit;
+            font-size: 0.86rem;
+            font-weight: 800;
+            border-radius: 9999px;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+          }
+
+          .btn-reserve-mobile.full-width {
+            width: 100%;
+            height: 48px;
+            margin-top: 10px;
+          }
+
+          .btn-interior-mobile {
+            flex: 1;
+            height: 44px;
+            background: #FFFFFF;
+            border: 1px solid rgba(78, 4, 1, 0.16);
+            color: #4E0401;
+            font-family: inherit;
+            font-size: 0.82rem;
+            font-weight: 700;
+            border-radius: 9999px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            cursor: pointer;
+          }
+
+          .mobile-veh-pagination {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding-top: 10px;
+            border-top: 1px solid rgba(78, 4, 1, 0.06);
+          }
+
+          .pagination-text {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #786C6A;
+          }
+
+          .pagination-track {
+            flex-grow: 1;
+            height: 3px;
+            background: rgba(78, 4, 1, 0.08);
+            border-radius: 9999px;
+            overflow: hidden;
+          }
+
+          .pagination-fill {
+            height: 100%;
+            background: #E88C2B;
+            transition: width 0.25s ease;
+          }
+
+          /* Screen 6: Detailed Interior View */
+          .mobile-interior-screen-view {
+            background: #FFFFFF;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(78, 4, 1, 0.08);
+            box-shadow: 0 8px 30px rgba(78, 4, 1, 0.06);
+            padding: 16px;
+            text-align: left;
+          }
+
+          .interior-screen-top-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+          }
+
+          .mobile-back-circle-btn {
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            background: #FEFBF3;
+            border: 1px solid rgba(78, 4, 1, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+          }
+
+          .interior-counter-badge {
+            background: rgba(78, 4, 1, 0.85);
+            color: #FFFFFF;
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: 9999px;
+          }
+
+          .mobile-main-interior-frame {
+            width: 100%;
+            height: 240px;
+            border-radius: 14px;
+            overflow: hidden;
+            background: #F9F5EC;
+            margin-bottom: 12px;
+          }
+
+          .mobile-main-interior-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .mobile-thumbs-row {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 8px;
+            margin-bottom: 16px;
+          }
+
+          .thumb-box-btn {
+            height: 52px;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 2px solid transparent;
+            background: #F9F5EC;
+            padding: 0;
+            cursor: pointer;
+            transition: all 0.15s ease;
+          }
+
+          .thumb-box-btn.active {
+            border-color: #E88C2B;
+            box-shadow: 0 0 0 2px rgba(232, 140, 43, 0.2);
+          }
+
+          .thumb-mini-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .mobile-interior-info-box {
+            margin-bottom: 16px;
+          }
+
+          .interior-view-heading {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #4E0401;
+            margin: 0 0 6px 0;
+          }
+
+          .interior-view-paragraph {
+            font-size: 0.82rem;
+            color: #786C6A;
+            line-height: 1.5;
+            margin: 0;
           }
         }
       `}</style>

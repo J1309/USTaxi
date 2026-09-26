@@ -40,12 +40,17 @@ export default function ServicesSection() {
           <div className="services-left-intro reveal-on-scroll">
             <span className="services-kicker">OUR SERVICES</span>
             <h2 className="services-main-title">
-              TRAVEL<br />
-              WITHOUT<br />
-              COMPROMISE
+              <span className="desktop-services-title">
+                TRAVEL<br />
+                WITHOUT<br />
+                COMPROMISE
+              </span>
+              <span className="mobile-services-title">
+                Travel Without Compromise
+              </span>
             </h2>
             <p className="services-lead-desc">
-              From airport transfers to city rides and private charters, we provide premium executive car services tailored to your exact schedule and comfort.
+              From airport transfers to city rides and private charters, we provide premium executive car services tailored to your needs.
             </p>
 
             <button
@@ -58,41 +63,50 @@ export default function ServicesSection() {
             </button>
           </div>
 
-          {/* Right Column: 3 Vertical Photo Cards */}
-          <div className="services-cards-trio">
-            {SERVICES.map((item, idx) => (
-              <div
-                key={item.id}
-                className={`service-editorial-card reveal-on-scroll reveal-delay-${idx + 1}`}
-                onClick={handleCardClick}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    handleCardClick();
-                  }
-                }}
-              >
-                <div className="service-card-media">
-                  <img
-                    src={item.image}
-                    alt={item.title}
-                    className="service-card-img"
-                  />
-                </div>
+          {/* Right Column: Photo Cards (Swipeable Carousel on Mobile) */}
+          <div className="services-cards-trio-wrapper">
+            <div className="services-cards-trio">
+              {SERVICES.map((item, idx) => (
+                <div
+                  key={item.id}
+                  className={`service-editorial-card reveal-on-scroll reveal-delay-${idx + 1}`}
+                  onClick={handleCardClick}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleCardClick();
+                    }
+                  }}
+                >
+                  <div className="service-card-media">
+                    <img
+                      src={item.image}
+                      alt={item.title}
+                      className="service-card-img"
+                    />
+                  </div>
 
-                <div className="service-card-content">
-                  <h3 className="service-card-heading">{item.title}</h3>
-                  <p className="service-card-paragraph">{item.description}</p>
+                  <div className="service-card-content">
+                    <h3 className="service-card-heading">{item.title}</h3>
+                    <p className="service-card-paragraph">{item.description}</p>
 
-                  <div className="service-card-action">
-                    <span className="service-circle-arrow">
-                      <ArrowRight size={14} color="#4E0401" />
-                    </span>
+                    <div className="service-card-action">
+                      <span className="service-circle-arrow">
+                        <ArrowRight size={14} color="#4E0401" />
+                      </span>
+                    </div>
                   </div>
                 </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Mobile Carousel Dots matching Screen 4 */}
+            <div className="services-mobile-dots">
+              <span className="srv-dot active" />
+              <span className="srv-dot" />
+              <span className="srv-dot" />
+            </div>
           </div>
         </div>
       </div>
@@ -270,6 +284,18 @@ export default function ServicesSection() {
           stroke: #FFFFFF;
         }
 
+        .desktop-services-title {
+          display: block;
+        }
+
+        .mobile-services-title {
+          display: none;
+        }
+
+        .services-mobile-dots {
+          display: none;
+        }
+
         @media (max-width: 1080px) {
           .services-reference-layout {
             grid-template-columns: 1fr;
@@ -280,10 +306,83 @@ export default function ServicesSection() {
           }
         }
 
+        /* Strictly Mobile (<= 768px): Screen 4 Horizontal Swipe Cards */
         @media (max-width: 768px) {
-          .services-cards-trio {
+          .services-reference-section {
+            padding: 55px 0 60px 0;
+          }
+
+          .desktop-services-title {
+            display: none;
+          }
+
+          .mobile-services-title {
+            display: block;
+            font-family: var(--font-heading);
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #4E0401;
+            line-height: 1.15;
+            margin-bottom: 10px;
+            -webkit-text-stroke: 0.3px currentColor;
+          }
+
+          .btn-explore-services {
+            display: none;
+          }
+
+          .services-reference-layout {
             grid-template-columns: 1fr;
-            gap: 20px;
+            gap: 24px;
+          }
+
+          .services-cards-trio-wrapper {
+            width: 100%;
+            overflow: visible;
+          }
+
+          .services-cards-trio {
+            display: flex !important;
+            overflow-x: auto !important;
+            scroll-snap-type: x mandatory;
+            -webkit-overflow-scrolling: touch;
+            gap: 16px;
+            padding: 4px 16px 14px 16px;
+            margin: 0 -16px;
+            scrollbar-width: none;
+          }
+
+          .services-cards-trio::-webkit-scrollbar {
+            display: none;
+          }
+
+          .service-editorial-card {
+            min-width: 82% !important;
+            max-width: 82% !important;
+            flex-shrink: 0 !important;
+            scroll-snap-align: start;
+          }
+
+          .services-mobile-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 12px;
+          }
+
+          .srv-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(78, 4, 1, 0.2);
+            transition: all 0.2s ease;
+          }
+
+          .srv-dot.active {
+            width: 16px;
+            border-radius: 9999px;
+            background: #E88C2B;
           }
         }
       `}</style>

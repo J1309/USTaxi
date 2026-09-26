@@ -2,6 +2,8 @@ import React from 'react';
 import { ArrowRight } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
 
+import { openBooking } from '../utils/bookingModal';
+
 const DESTINATIONS = [
   {
     id: 'airports',
@@ -31,7 +33,7 @@ const DESTINATIONS = [
 
 export default function DestinationsSection() {
   const handleDestinationClick = () => {
-    smoothScrollTo('#booking-engine');
+    openBooking('suburban');
   };
 
   return (
@@ -39,6 +41,7 @@ export default function DestinationsSection() {
       <div className="destinations-skyline-bg" />
 
       <div className="container destinations-container">
+        {/* Desktop Layout Grid (Visible > 768px) */}
         <div className="destinations-layout-grid">
           {/* Left Column: Heading & Button */}
           <div className="destinations-left-block reveal-on-scroll">
@@ -91,6 +94,86 @@ export default function DestinationsSection() {
                 </div>
               </div>
             ))}
+          </div>
+        </div>
+
+        {/* Mobile-Only Layout (Screen 7 - Visible ONLY on <= 768px) */}
+        <div className="mobile-destinations-layout">
+          <div className="destinations-mobile-header reveal-on-scroll">
+            <span className="destinations-kicker">POPULAR DESTINATIONS</span>
+            <h2 className="destinations-mobile-title">Explore the City in Comfort</h2>
+            <p className="destinations-mobile-sub">
+              Direct point-to-point luxury transfers across Greater Houston, Texas Medical Center, and Galveston Island with zero surge pricing.
+            </p>
+          </div>
+
+          {/* Featured Large Card: Business Districts */}
+          <div 
+            className="mob-featured-dest-card"
+            onClick={handleDestinationClick}
+            role="button"
+            tabIndex={0}
+          >
+            <img
+              src="/images/destination_houston.jpg"
+              alt="Business Districts Downtown & Galleria"
+              className="mob-feat-bg-img"
+            />
+            <div className="mob-feat-gradient-overlay" />
+            <div className="mob-feat-content">
+              <div>
+                <h3 className="mob-feat-title">Business Districts</h3>
+                <p className="mob-feat-sub">Downtown & Galleria</p>
+              </div>
+              <div className="mob-feat-circle-btn">
+                <ArrowRight size={16} color="#4E0401" />
+              </div>
+            </div>
+          </div>
+
+          {/* 3 Compact Columns Row Below */}
+          <div className="mob-compact-dest-row">
+            <div 
+              className="mob-compact-dest-card"
+              onClick={handleDestinationClick}
+              role="button"
+              tabIndex={0}
+            >
+              <img src="/images/service_airport.jpg" alt="Airports" className="mob-compact-img" />
+              <div className="mob-compact-overlay" />
+              <div className="mob-compact-info">
+                <h4 className="mob-compact-title">Airports</h4>
+                <p className="mob-compact-sub">IAH & HOU</p>
+              </div>
+            </div>
+
+            <div 
+              className="mob-compact-dest-card"
+              onClick={handleDestinationClick}
+              role="button"
+              tabIndex={0}
+            >
+              <img src="/images/service_corporate.jpg" alt="Hotels & Medical" className="mob-compact-img" />
+              <div className="mob-compact-overlay" />
+              <div className="mob-compact-info">
+                <h4 className="mob-compact-title">Hotels & Medical</h4>
+                <p className="mob-compact-sub">TMC & Luxury</p>
+              </div>
+            </div>
+
+            <div 
+              className="mob-compact-dest-card"
+              onClick={handleDestinationClick}
+              role="button"
+              tabIndex={0}
+            >
+              <img src="/images/service_cruise.jpg" alt="Tourist & Cruises" className="mob-compact-img" />
+              <div className="mob-compact-overlay" />
+              <div className="mob-compact-info">
+                <h4 className="mob-compact-title">Tourist & Cruises</h4>
+                <p className="mob-compact-sub">Galveston & Space</p>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -274,7 +357,11 @@ export default function DestinationsSection() {
           letter-spacing: 0.02em;
         }
 
-        @media (max-width: 1100px) {
+        .mobile-destinations-layout {
+          display: none;
+        }
+
+        @media (max-width: 1100px) and (min-width: 769px) {
           .destinations-layout-grid {
             grid-template-columns: 1fr;
             gap: 36px;
@@ -287,9 +374,169 @@ export default function DestinationsSection() {
           }
         }
 
-        @media (max-width: 580px) {
-          .destinations-cards-quad {
-            grid-template-columns: 1fr;
+        /* Strictly Mobile (<= 768px): Screen 7 Layout */
+        @media (max-width: 768px) {
+          .destinations-maroon-section {
+            padding: 55px 0 65px 0;
+          }
+
+          .destinations-layout-grid {
+            display: none !important;
+          }
+
+          .mobile-destinations-layout {
+            display: flex !important;
+            flex-direction: column;
+            gap: 20px;
+          }
+
+          .destinations-mobile-header {
+            text-align: center;
+            margin-bottom: 6px;
+          }
+
+          .destinations-mobile-title {
+            font-family: var(--font-heading);
+            font-size: 2.1rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            line-height: 1.15;
+            margin: 6px 0 10px 0;
+            -webkit-text-stroke: 0.3px currentColor;
+          }
+
+          .destinations-mobile-sub {
+            font-size: 0.88rem;
+            color: rgba(255, 255, 255, 0.78);
+            line-height: 1.5;
+            margin: 0;
+          }
+
+          /* Featured Top Card */
+          .mob-featured-dest-card {
+            position: relative;
+            width: 100%;
+            height: 220px;
+            border-radius: 18px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
+            cursor: pointer;
+          }
+
+          .mob-feat-bg-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .mob-feat-gradient-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+              180deg,
+              rgba(32, 1, 0, 0.1) 0%,
+              rgba(32, 1, 0, 0.5) 50%,
+              rgba(32, 1, 0, 0.95) 100%
+            );
+          }
+
+          .mob-feat-content {
+            position: absolute;
+            bottom: 16px;
+            left: 16px;
+            right: 16px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            z-index: 2;
+          }
+
+          .mob-feat-title {
+            font-family: var(--font-heading);
+            font-size: 1.25rem;
+            font-weight: 900;
+            color: #FFFFFF;
+            margin: 0 0 4px 0;
+            -webkit-text-stroke: 0.3px currentColor;
+          }
+
+          .mob-feat-sub {
+            font-size: 0.78rem;
+            color: #E88C2B;
+            font-weight: 700;
+            margin: 0;
+          }
+
+          .mob-feat-circle-btn {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+          }
+
+          /* 3 Compact Row Below */
+          .mob-compact-dest-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+          }
+
+          .mob-compact-dest-card {
+            position: relative;
+            height: 120px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            cursor: pointer;
+          }
+
+          .mob-compact-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+          }
+
+          .mob-compact-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(
+              180deg,
+              rgba(32, 1, 0, 0.2) 0%,
+              rgba(32, 1, 0, 0.88) 100%
+            );
+          }
+
+          .mob-compact-info {
+            position: absolute;
+            bottom: 8px;
+            left: 8px;
+            right: 8px;
+            z-index: 2;
+            text-align: left;
+          }
+
+          .mob-compact-title {
+            font-size: 0.76rem;
+            font-weight: 800;
+            color: #FFFFFF;
+            margin: 0 0 2px 0;
+            line-height: 1.15;
+          }
+
+          .mob-compact-sub {
+            font-size: 0.62rem;
+            color: #E88C2B;
+            font-weight: 600;
+            margin: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
           }
         }
       `}</style>

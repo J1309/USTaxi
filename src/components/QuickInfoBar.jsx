@@ -28,6 +28,12 @@ export default function QuickInfoBar() {
   return (
     <section className="luxury-pillars-bar">
       <div className="container">
+        {/* Mobile-Only Section Header Matching Screen 3 */}
+        <div className="pillars-mobile-header reveal-on-scroll">
+          <span className="pillars-kicker">TRUSTED FOR A REASON</span>
+          <h2 className="pillars-main-title">A Premium Experience Every Ride</h2>
+        </div>
+
         <div className="pillars-grid-4">
           {HIGHLIGHTS.map((item, idx) => {
             const Icon = item.icon;
@@ -49,6 +55,10 @@ export default function QuickInfoBar() {
           background: #FEFBF3;
           padding: 55px 0;
           border-bottom: 1px solid rgba(78, 4, 1, 0.08);
+        }
+
+        .pillars-mobile-header {
+          display: none;
         }
 
         .pillars-grid-4 {
@@ -117,23 +127,66 @@ export default function QuickInfoBar() {
           max-width: 250px;
         }
 
-        @media (max-width: 900px) {
-          .pillars-grid-4 {
-            grid-template-columns: repeat(2, 1fr);
-            gap: 36px;
+        /* Strictly Mobile (<= 768px): Screen 3 2x2 Grid with Section Header */
+        @media (max-width: 768px) {
+          .luxury-pillars-bar {
+            padding: 44px 0 52px 0;
           }
+
+          .pillars-mobile-header {
+            display: block;
+            text-align: center;
+            margin-bottom: 30px;
+          }
+
+          .pillars-kicker {
+            font-size: 0.72rem;
+            font-weight: 800;
+            letter-spacing: 0.16em;
+            text-transform: uppercase;
+            color: #E88C2B;
+            margin-bottom: 6px;
+            display: block;
+          }
+
+          .pillars-main-title {
+            font-family: var(--font-heading);
+            font-size: 1.85rem;
+            font-weight: 900;
+            color: #4E0401;
+            line-height: 1.15;
+            margin: 0;
+            -webkit-text-stroke: 0.3px currentColor;
+          }
+
+          .pillars-grid-4 {
+            grid-template-columns: repeat(2, 1fr) !important;
+            gap: 28px 16px !important;
+          }
+
+          .pillar-column-item {
+            padding: 0 4px;
+          }
+
           .pillar-column-item:not(:last-child)::after {
             display: none;
           }
-        }
 
-        @media (max-width: 540px) {
-          .pillars-grid-4 {
-            grid-template-columns: 1fr;
-            gap: 28px;
+          .pillar-icon-box {
+            width: 44px;
+            height: 44px;
+            margin-bottom: 10px;
           }
-          .luxury-pillars-bar {
-            padding: 40px 0;
+
+          .pillar-item-title {
+            font-size: 0.82rem;
+            margin-bottom: 5px;
+            letter-spacing: 0.08em;
+          }
+
+          .pillar-item-desc {
+            font-size: 0.75rem;
+            line-height: 1.4;
           }
         }
       `}</style>

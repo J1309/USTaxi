@@ -1,12 +1,12 @@
 import React from 'react';
-import { ArrowRight, Phone, MessageCircle } from 'lucide-react';
-import { smoothScrollTo } from '../hooks/useLenis';
+import { ArrowRight, Phone } from 'lucide-react';
+import { openBooking } from '../utils/bookingModal';
 import { OWNER_PHONE_DISPLAY, OWNER_PHONE_RAW } from '../utils/whatsapp';
 import BookingWidget from './BookingWidget';
 
 export default function Hero({ onSelectVehicle }) {
   const handleBookRideClick = () => {
-    smoothScrollTo('#booking-engine');
+    openBooking('suburban');
   };
 
   return (
@@ -28,13 +28,20 @@ export default function Hero({ onSelectVehicle }) {
           </div>
 
           <h1 className="hero-main-heading">
-            PREMIUM<br />
-            TAXI SERVICES<br />
-            <span className="orange-accent">IN HOUSTON</span>
+            <span className="desktop-heading">
+              PREMIUM<br />
+              TAXI SERVICES<br />
+              <span className="orange-accent">IN HOUSTON</span>
+            </span>
+            <span className="mobile-heading">
+              Premium<br />
+              Taxi Services<br />
+              <span className="orange-accent italic-city">in Houston</span>
+            </span>
           </h1>
 
           <p className="hero-sub-description">
-            Luxury. Punctuality. Peace of Mind. Your journey deserves more than just a ride. Experience executive chauffeur service with hands-on owner accountability.
+            Luxury, Punctuality, Peace of Mind. Your journey deserves more than just a ride. Experience executive chauffeur service with hands-on owner accountability.
           </p>
 
           <div className="hero-cta-buttons-row">
@@ -50,9 +57,11 @@ export default function Hero({ onSelectVehicle }) {
             <a
               href={`tel:+${OWNER_PHONE_RAW}`}
               className="hero-secondary-btn"
+              title={`Call ${OWNER_PHONE_DISPLAY}`}
+              aria-label={`Call ${OWNER_PHONE_DISPLAY}`}
             >
               <Phone size={15} />
-              <span>{OWNER_PHONE_DISPLAY}</span>
+              <span className="desktop-call-text">{OWNER_PHONE_DISPLAY}</span>
             </a>
           </div>
         </div>
@@ -129,8 +138,20 @@ export default function Hero({ onSelectVehicle }) {
           text-rendering: optimizeLegibility;
         }
 
+        .desktop-heading {
+          display: block;
+        }
+
+        .mobile-heading {
+          display: none;
+        }
+
         .orange-accent {
           color: #E88C2B;
+        }
+
+        .italic-city {
+          font-style: italic;
         }
 
         .hero-sub-description {
@@ -199,25 +220,43 @@ export default function Hero({ onSelectVehicle }) {
           margin-top: 40px;
         }
 
-        @media (max-width: 900px) {
+        @media (max-width: 768px) {
+          .desktop-heading {
+            display: none;
+          }
+          .mobile-heading {
+            display: block;
+          }
           .hero-editorial-section {
             min-height: auto;
-            padding-top: 28px;
-            padding-bottom: 36px;
+            padding-top: 24px;
+            padding-bottom: 24px;
           }
           .hero-content-container {
-            margin-bottom: 28px;
+            margin-bottom: 20px;
           }
           .hero-booking-dock {
-            margin-top: 22px;
+            margin-top: 14px;
           }
           .hero-main-heading {
-            font-size: clamp(2.0rem, 7.5vw, 2.6rem);
+            font-size: clamp(2.2rem, 7.5vw, 2.75rem);
             margin-bottom: 10px;
           }
           .hero-sub-description {
             font-size: 0.92rem;
             margin-bottom: 16px;
+          }
+          .desktop-call-text {
+            display: none;
+          }
+          .hero-secondary-btn {
+            width: 44px;
+            height: 44px;
+            padding: 0;
+            border-radius: 50%;
+            background: #FFFFFF;
+            border: 1px solid rgba(78, 4, 1, 0.14);
+            box-shadow: 0 4px 12px rgba(78, 4, 1, 0.08);
           }
         }
       `}</style>

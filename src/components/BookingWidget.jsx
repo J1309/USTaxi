@@ -6,7 +6,10 @@ import {
   ArrowRight, 
   ChevronDown, 
   ArrowLeftRight, 
-  Check 
+  Check,
+  Crosshair,
+  X,
+  Car
 } from 'lucide-react';
 import { OWNER_PHONE_RAW } from '../utils/whatsapp';
 
@@ -42,6 +45,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
   const [activePopover, setActivePopover] = useState(null); // 'pickup' | 'dropoff' | 'datetime' | 'guests' | null
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [pickupError, setPickupError] = useState(false);
+  const [mobileSheetOpen, setMobileSheetOpen] = useState(false);
 
   const widgetRef = useRef(null);
 
@@ -51,6 +55,27 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
       setVehicle(preselectedVehicle);
     }
   }, [preselectedVehicle]);
+
+  // Global event listeners for mobile sheet trigger & vehicle sync
+  useEffect(() => {
+    const handleOpenSheet = (e) => {
+      if (e.detail?.vehicle) {
+        setVehicle(e.detail.vehicle);
+      }
+      setMobileSheetOpen(true);
+    };
+    const handleSelectVeh = (e) => {
+      if (e.detail?.vehicle) {
+        setVehicle(e.detail.vehicle);
+      }
+    };
+    window.addEventListener('open-booking-sheet', handleOpenSheet);
+    window.addEventListener('select-booking-vehicle', handleSelectVeh);
+    return () => {
+      window.removeEventListener('open-booking-sheet', handleOpenSheet);
+      window.removeEventListener('select-booking-vehicle', handleSelectVeh);
+    };
+  }, []);
 
   // Close popovers on click outside
   useEffect(() => {
@@ -159,15 +184,18 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
 
     setTimeout(() => {
       setIsSubmitting(false);
+      setMobileSheetOpen(false);
       window.open(targetUrl, '_blank', 'noopener,noreferrer');
     }, 200);
   };
 
   return (
     <div className="floating-booking-wrapper" id="booking-engine" ref={widgetRef}>
-      <div className="booking-card-floating">
-        
-        {/* Box-Structured Booking Grid */}
+      
+      {/* =========================================================================
+          DESKTOP VIEW: Box-Structured Horizontal Booking Grid
+          ========================================================================= */}
+      <div className="booking-card-floating desktop-booking-card">
         <form onSubmit={handleBookNow} className="booking-boxes-grid" noValidate>
           
           {/* BOX 1: PICKUP LOCATION */}
@@ -275,7 +303,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
             )}
           </div>
 
-          {/* BOX 3: DATE & TIME (Strictly NO "Today" or "Tomorrow") */}
+          {/* BOX 3: DATE & TIME */}
           <div 
             className={`booking-field-box ${activePopover === 'datetime' ? 'active-box' : ''}`}
             onClick={() => setActivePopover(activePopover === 'datetime' ? null : 'datetime')}
@@ -347,7 +375,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
               <div className="box-popover-dropdown guests-popover" onClick={(e) => e.stopPropagation()}>
                 <div className="dropdown-title">Select Vehicle & Guests</div>
 
-                {/* 2 Vehicles Selection Box */}
                 <div className="popover-vehicle-options">
                   <div 
                     className={`vehicle-box-option ${vehicle === 'suburban' ? 'selected' : ''}`}
@@ -372,7 +399,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
                   </div>
                 </div>
 
-                {/* Stepper */}
                 <div className="popover-pax-stepper">
                   <span className="stepper-label">Number of Guests</span>
                   <div className="stepper-btns">
@@ -421,14 +447,300 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           </div>
 
         </form>
-
       </div>
+
+      {/* =========================================================================
+          MOBILE VIEW: Focused Trigger Pill in Hero (Screen 1)
+          ========================================================================= */}
+      <div className="mobile-search-pill-wrapper">
+        <button
+          type="button"
+          onClick={() => setMobileSheetOpen(true)}
+          className="mobile-search-pill"
+          aria-label="Open booking form"
+        >
+          <div className="pill-pin-icon">
+            <MapPin size={18} color="#E88C2B" />
+          </div>
+          <div className="pill-text-col">
+            <span className="pill-main-text">Where are you going?</span>
+            <span className="pill-sub-text">Airport, hotel, or address</span>
+          </div>
+          <div className="pill-arrow-btn">
+            <ArrowRight size={15} color="#4E0401" />
+          </div>
+        </button>
+
+        <div className="mobile-pill-dots">
+          <span className="pill-dot active" />
+          <span className="pill-dot" />
+          <span className="pill-dot" />
+        </div>
+      </div>
+
+      {/* =========================================================================
+          MOBILE VIEW: Booking Bottom Sheet Modal (Screen 2)
+          ========================================================================= */}
+      {mobileSheetOpen && (
+        <div className="bottom-sheet-backdrop" onClick={() => setMobileSheetOpen(false)}>
+          <div className="bottom-sheet-content" onClick={(e) => e.stopPropagation()}>
+            
+            {/* Drag Handle */}
+            <div className="sheet-drag-handle" />
+
+            {/* Header */}
+            <div className="sheet-header">
+              <h3 className="sheet-title">Book Your Ride</h3>
+              <button 
+                type="button" 
+                className="sheet-close-btn" 
+                onClick={() => setMobileSheetOpen(false)}
+                aria-label="Close booking form"
+              >
+                <X size={20} />
+              </button>
+            </div>
+
+            {/* Sheet Form */}
+            <form onSubmit={handleBookNow} className="sheet-form-stack" noValidate>
+              
+              {/* FIELD 1: PICKUP LOCATION */}
+              <div 
+                className={`sheet-field-box ${activePopover === 'sheet-pickup' ? 'active' : ''} ${pickupError ? 'error' : ''}`}
+                onClick={() => {
+                  setActivePopover('sheet-pickup');
+                  setPickupError(false);
+                }}
+              >
+                <div className="field-icon-col">
+                  <MapPin size={18} color="#E88C2B" />
+                </div>
+                <div className="field-text-col">
+                  <span className="sheet-field-label">Pickup Location</span>
+                  <input
+                    type="text"
+                    placeholder="Airport, address or hotel"
+                    value={pickupLocation}
+                    onChange={(e) => {
+                      setPickupLocation(e.target.value);
+                      setPickupError(false);
+                    }}
+                    className="sheet-field-input"
+                  />
+                </div>
+                <button
+                  type="button"
+                  className="sheet-crosshair-btn"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setActivePopover(activePopover === 'sheet-pickup' ? null : 'sheet-pickup');
+                  }}
+                  title="Popular Pickup Locations"
+                >
+                  <Crosshair size={16} color="#786C6A" />
+                </button>
+              </div>
+
+              {/* Suggestions for Pickup in Sheet */}
+              {activePopover === 'sheet-pickup' && (
+                <div className="sheet-suggestions-dropdown">
+                  <div className="dropdown-title">Popular Houston Hubs</div>
+                  {TOP_PICKUPS.map((item, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className="sheet-suggestion-item"
+                      onClick={() => {
+                        setPickupLocation(item.name);
+                        setActivePopover('sheet-dropoff');
+                      }}
+                    >
+                      <MapPin size={13} color="#E88C2B" />
+                      <span className="sugg-text">{item.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* FIELD 2: DROP-OFF LOCATION */}
+              <div 
+                className={`sheet-field-box ${activePopover === 'sheet-dropoff' ? 'active' : ''}`}
+                onClick={() => setActivePopover('sheet-dropoff')}
+              >
+                <div className="field-icon-col">
+                  <MapPin size={18} color="#786C6A" />
+                </div>
+                <div className="field-text-col">
+                  <span className="sheet-field-label">Drop-off Location</span>
+                  <input
+                    type="text"
+                    placeholder="Destination or airport"
+                    value={dropoffLocation}
+                    onChange={(e) => setDropoffLocation(e.target.value)}
+                    className="sheet-field-input"
+                  />
+                </div>
+              </div>
+
+              {/* Suggestions for Dropoff in Sheet */}
+              {activePopover === 'sheet-dropoff' && (
+                <div className="sheet-suggestions-dropdown">
+                  <div className="dropdown-title">Top Destinations</div>
+                  {TOP_DROPOFFS.map((item, idx) => (
+                    <button
+                      key={idx}
+                      type="button"
+                      className="sheet-suggestion-item"
+                      onClick={() => {
+                        setDropoffLocation(item.name);
+                        setActivePopover('sheet-datetime');
+                      }}
+                    >
+                      <MapPin size={13} color="#786C6A" />
+                      <span className="sugg-text">{item.name}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+
+              {/* FIELD 3: DATE & TIME */}
+              <div 
+                className={`sheet-field-box ${activePopover === 'sheet-datetime' ? 'active' : ''}`}
+                onClick={() => setActivePopover(activePopover === 'sheet-datetime' ? null : 'sheet-datetime')}
+              >
+                <div className="field-icon-col">
+                  <Calendar size={18} color="#E88C2B" />
+                </div>
+                <div className="field-text-col">
+                  <span className="sheet-field-label">Date & Time</span>
+                  <span className="sheet-val-text">{formatDateTimeDisplay()}</span>
+                </div>
+              </div>
+
+              {/* Date & Time Picker inside Sheet */}
+              {activePopover === 'sheet-datetime' && (
+                <div className="sheet-native-pickers-box">
+                  <div className="sheet-picker-row">
+                    <label className="picker-lbl">Date</label>
+                    <input
+                      type="date"
+                      min={todayStr}
+                      value={pickupDate}
+                      onChange={(e) => setPickupDate(e.target.value)}
+                      className="sheet-input-element"
+                    />
+                  </div>
+                  <div className="sheet-picker-row">
+                    <label className="picker-lbl">Time</label>
+                    <input
+                      type="time"
+                      value={pickupTime}
+                      onChange={(e) => setPickupTime(e.target.value)}
+                      className="sheet-input-element"
+                    />
+                  </div>
+                  <button
+                    type="button"
+                    className="sheet-picker-done-btn"
+                    onClick={() => setActivePopover(null)}
+                  >
+                    Confirm Time
+                  </button>
+                </div>
+              )}
+
+              {/* FIELD 4: VEHICLE & GUESTS */}
+              <div 
+                className={`sheet-field-box ${activePopover === 'sheet-guests' ? 'active' : ''}`}
+                onClick={() => setActivePopover(activePopover === 'sheet-guests' ? null : 'sheet-guests')}
+              >
+                <div className="field-icon-col">
+                  <Car size={18} color="#E88C2B" />
+                </div>
+                <div className="field-text-col">
+                  <span className="sheet-field-label">Vehicle & Guests</span>
+                  <span className="sheet-val-text">{formatVehicleGuestsDisplay()}</span>
+                </div>
+                <ChevronDown size={18} color="#786C6A" />
+              </div>
+
+              {/* Vehicle Options & Guest Stepper inside Sheet */}
+              {activePopover === 'sheet-guests' && (
+                <div className="sheet-guests-picker-box">
+                  <div className="sheet-veh-options-col">
+                    <div 
+                      className={`sheet-veh-row ${vehicle === 'suburban' ? 'selected' : ''}`}
+                      onClick={() => handleSelectVehicle('suburban')}
+                    >
+                      <div>
+                        <div className="sheet-veh-title">Chevrolet Suburban High Country</div>
+                        <div className="sheet-veh-sub">Up to 7 Guests · 6 Bags</div>
+                      </div>
+                      {vehicle === 'suburban' && <Check size={16} color="#E88C2B" />}
+                    </div>
+
+                    <div 
+                      className={`sheet-veh-row ${vehicle === 'lexus' ? 'selected' : ''}`}
+                      onClick={() => handleSelectVehicle('lexus')}
+                    >
+                      <div>
+                        <div className="sheet-veh-title">Lexus Luxury Sedan</div>
+                        <div className="sheet-veh-sub">Up to 4 Guests · 3 Bags</div>
+                      </div>
+                      {vehicle === 'lexus' && <Check size={16} color="#E88C2B" />}
+                    </div>
+                  </div>
+
+                  <div className="sheet-pax-stepper">
+                    <span className="sheet-stepper-title">Number of Guests</span>
+                    <div className="sheet-stepper-controls">
+                      <button
+                        type="button"
+                        onClick={handleDecrementGuests}
+                        disabled={passengers <= 1}
+                        className="stepper-circle-btn"
+                      >
+                        −
+                      </button>
+                      <span className="stepper-number">{passengers}</span>
+                      <button
+                        type="button"
+                        onClick={handleIncrementGuests}
+                        className="stepper-circle-btn"
+                      >
+                        +
+                      </button>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    className="sheet-picker-done-btn"
+                    onClick={() => setActivePopover(null)}
+                  >
+                    Done
+                  </button>
+                </div>
+              )}
+
+              {/* ACTION: BOOK NOW */}
+              <button
+                type="submit"
+                disabled={isSubmitting}
+                className="sheet-submit-btn"
+              >
+                <span>{isSubmitting ? 'CONNECTING...' : 'Book Now'}</span>
+                <ArrowRight size={18} />
+              </button>
+
+            </form>
+          </div>
+        </div>
+      )}
 
       <style>{`
         /* ==========================================================================
            BOX-STRUCTURED BOOKING SECTION
-           Strictly focused on effortless booking UX with clean defined input boxes.
-           Palette: Calming White #FEFBF3 | Dark Maroon #4E0401 | Orange Grove #E88C2B
            ========================================================================== */
         .floating-booking-wrapper {
           width: 100%;
@@ -450,9 +762,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           position: relative;
         }
 
-        /* --------------------------------------------------------------------------
-           BOX STRUCTURE GRID
-           -------------------------------------------------------------------------- */
         .booking-boxes-grid {
           display: grid;
           grid-template-columns: 1.3fr auto 1.3fr 1.15fr 1.25fr auto;
@@ -460,7 +769,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           align-items: center;
         }
 
-        /* Distinct Field Boxes */
         .booking-field-box {
           background: #FFFFFF;
           border: 1.5px solid rgba(78, 4, 1, 0.12);
@@ -548,12 +856,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           transition: transform 0.2s ease;
         }
 
-        .booking-field-box.active-box .box-chevron {
-          transform: rotate(180deg);
-          color: #E88C2B;
-        }
-
-        /* Swap Button */
         .box-swap-btn {
           width: 32px;
           height: 32px;
@@ -576,7 +878,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           transform: rotate(180deg);
         }
 
-        /* Action Box / Button */
         .booking-action-box {
           display: flex;
           align-items: center;
@@ -612,13 +913,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           box-shadow: 0 10px 26px rgba(232, 140, 43, 0.48);
         }
 
-        .btn-book-now-box:active {
-          transform: translateY(0);
-        }
-
-        /* --------------------------------------------------------------------------
-           DROPDOWNS & POPOVERS
-           -------------------------------------------------------------------------- */
+        /* Desktop Popovers */
         .box-popover-dropdown {
           position: absolute;
           top: calc(100% + 8px);
@@ -691,7 +986,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           white-space: nowrap;
         }
 
-        /* Date & Time Popover */
         .datetime-popover {
           min-width: 290px;
         }
@@ -726,10 +1020,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           transition: border-color 0.15s ease;
         }
 
-        .popover-native-input:focus {
-          border-color: #E88C2B;
-        }
-
         .popover-confirm-btn {
           width: 100%;
           background: #4E0401;
@@ -749,7 +1039,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           background: #E88C2B;
         }
 
-        /* Vehicle & Guests Popover */
         .guests-popover {
           min-width: 340px;
           right: 0;
@@ -860,46 +1149,465 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           text-align: center;
         }
 
-        /* --------------------------------------------------------------------------
-           RESPONSIVE BREAKPOINTS
-           -------------------------------------------------------------------------- */
-        @media (max-width: 1100px) {
-          .booking-boxes-grid {
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
-          }
-
-          .box-swap-btn {
-            display: none;
-          }
-
-          .booking-action-box {
-            grid-column: span 2;
-          }
-
-          .btn-book-now-box {
-            width: 100%;
-          }
-
-          .box-popover-dropdown {
-            width: 100%;
-            left: 0;
-            right: 0;
-          }
+        /* ==========================================================================
+           MOBILE SEARCH PILL IN HERO (Screen 1)
+           ========================================================================== */
+        .mobile-search-pill-wrapper {
+          display: none;
+          width: 100%;
+          max-width: 440px;
+          margin: 0 auto;
         }
 
-        @media (max-width: 680px) {
-          .booking-boxes-grid {
-            grid-template-columns: 1fr;
-            gap: 10px;
-          }
+        .mobile-search-pill {
+          width: 100%;
+          background: #FFFFFF;
+          border: 1.5px solid rgba(78, 4, 1, 0.12);
+          border-radius: 9999px;
+          padding: 10px 14px 10px 18px;
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          box-shadow: 0 10px 30px rgba(78, 4, 1, 0.10);
+          cursor: pointer;
+          transition: all 0.2s ease;
+          text-align: left;
+        }
 
-          .booking-action-box {
-            grid-column: span 1;
-          }
+        .mobile-search-pill:hover {
+          border-color: #E88C2B;
+          transform: translateY(-2px);
+          box-shadow: 0 14px 36px rgba(78, 4, 1, 0.16);
+        }
 
-          .btn-book-now-box {
-            height: 56px;
+        .pill-pin-icon {
+          width: 36px;
+          height: 36px;
+          border-radius: 50%;
+          background: #FDF3E7;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .pill-text-col {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          flex-grow: 1;
+        }
+
+        .pill-main-text {
+          font-size: 0.9rem;
+          font-weight: 800;
+          color: #1C0C0B;
+        }
+
+        .pill-sub-text {
+          font-size: 0.74rem;
+          color: #786C6A;
+          font-weight: 500;
+        }
+
+        .pill-arrow-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.12);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .mobile-pill-dots {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          margin-top: 14px;
+        }
+
+        .pill-dot {
+          width: 6px;
+          height: 6px;
+          border-radius: 50%;
+          background: rgba(78, 4, 1, 0.2);
+          transition: all 0.2s ease;
+        }
+
+        .pill-dot.active {
+          width: 18px;
+          border-radius: 9999px;
+          background: #E88C2B;
+        }
+
+        /* ==========================================================================
+           MOBILE BOTTOM SHEET MODAL (Screen 2)
+           ========================================================================== */
+        .bottom-sheet-backdrop {
+          position: fixed;
+          inset: 0;
+          z-index: 3000;
+          background: rgba(28, 12, 11, 0.65);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+          display: flex;
+          align-items: flex-end;
+          justify-content: center;
+          animation: sheetBackdropFade 0.25s ease-out;
+        }
+
+        @keyframes sheetBackdropFade {
+          from { opacity: 0; }
+          to { opacity: 1; }
+        }
+
+        .bottom-sheet-content {
+          width: 100%;
+          max-width: 500px;
+          background: #FFFFFF;
+          border-radius: 24px 24px 0 0;
+          padding: 12px 20px 28px 20px;
+          max-height: 90vh;
+          overflow-y: auto;
+          box-shadow: 0 -12px 40px rgba(0, 0, 0, 0.25);
+          animation: sheetSlideUp 0.28s cubic-bezier(0.16, 1, 0.3, 1);
+          text-align: left;
+        }
+
+        @keyframes sheetSlideUp {
+          from { transform: translateY(100%); }
+          to { transform: translateY(0); }
+        }
+
+        .sheet-drag-handle {
+          width: 40px;
+          height: 4px;
+          border-radius: 9999px;
+          background: #E4DDD6;
+          margin: 0 auto 14px auto;
+        }
+
+        .sheet-header {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+
+        .sheet-title {
+          font-family: var(--font-heading);
+          font-size: 1.4rem;
+          font-weight: 900;
+          color: #4E0401;
+          margin: 0;
+          -webkit-text-stroke: 0.3px currentColor;
+        }
+
+        .sheet-close-btn {
+          width: 32px;
+          height: 32px;
+          border-radius: 50%;
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.10);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: #4E0401;
+          cursor: pointer;
+        }
+
+        .sheet-form-stack {
+          display: flex;
+          flex-direction: column;
+          gap: 12px;
+        }
+
+        .sheet-field-box {
+          background: #FFFFFF;
+          border: 1.5px solid rgba(78, 4, 1, 0.12);
+          border-radius: 12px;
+          padding: 10px 14px;
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          cursor: pointer;
+          transition: all 0.15s ease;
+        }
+
+        .sheet-field-box.active {
+          border-color: #E88C2B;
+          box-shadow: 0 0 0 3px rgba(232, 140, 43, 0.12);
+        }
+
+        .sheet-field-box.error {
+          border-color: #EF4444;
+          background: #FEF2F2;
+        }
+
+        .field-icon-col {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .field-text-col {
+          display: flex;
+          flex-direction: column;
+          gap: 2px;
+          flex-grow: 1;
+        }
+
+        .sheet-field-label {
+          font-size: 0.7rem;
+          font-weight: 800;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
+          color: #786C6A;
+        }
+
+        .sheet-field-input {
+          border: none;
+          outline: none;
+          background: transparent;
+          font-family: inherit;
+          font-size: 0.94rem;
+          font-weight: 700;
+          color: #1C0C0B;
+          padding: 0;
+          width: 100%;
+        }
+
+        .sheet-field-input::placeholder {
+          color: #A39694;
+          font-weight: 500;
+          font-size: 0.88rem;
+        }
+
+        .sheet-val-text {
+          font-size: 0.92rem;
+          font-weight: 700;
+          color: #1C0C0B;
+        }
+
+        .sheet-crosshair-btn {
+          background: transparent;
+          border: none;
+          padding: 4px;
+          cursor: pointer;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+        }
+
+        .sheet-suggestions-dropdown {
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.10);
+          border-radius: 10px;
+          padding: 10px;
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+          margin-top: -6px;
+        }
+
+        .sheet-suggestion-item {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          background: transparent;
+          border: none;
+          padding: 8px 10px;
+          border-radius: 6px;
+          font-family: inherit;
+          cursor: pointer;
+          text-align: left;
+          width: 100%;
+        }
+
+        .sheet-suggestion-item:hover {
+          background: #FFFFFF;
+        }
+
+        .sugg-text {
+          font-size: 0.84rem;
+          font-weight: 600;
+          color: #1C0C0B;
+        }
+
+        .sheet-native-pickers-box {
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.10);
+          border-radius: 10px;
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 8px;
+          margin-top: -6px;
+        }
+
+        .sheet-picker-row {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+        }
+
+        .picker-lbl {
+          font-size: 0.72rem;
+          font-weight: 700;
+          color: #786C6A;
+        }
+
+        .sheet-input-element {
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.12);
+          border-radius: 8px;
+          padding: 8px 10px;
+          font-family: inherit;
+          font-size: 0.88rem;
+          font-weight: 600;
+          color: #1C0C0B;
+          outline: none;
+        }
+
+        .sheet-picker-done-btn {
+          background: #4E0401;
+          color: #FFFFFF;
+          border: none;
+          border-radius: 8px;
+          padding: 9px;
+          font-weight: 700;
+          font-size: 0.82rem;
+          cursor: pointer;
+          margin-top: 4px;
+        }
+
+        .sheet-guests-picker-box {
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.10);
+          border-radius: 10px;
+          padding: 12px;
+          display: flex;
+          flex-direction: column;
+          gap: 10px;
+          margin-top: -6px;
+        }
+
+        .sheet-veh-options-col {
+          display: flex;
+          flex-direction: column;
+          gap: 6px;
+        }
+
+        .sheet-veh-row {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 8px 10px;
+          border-radius: 8px;
+          background: #FFFFFF;
+          border: 1px solid rgba(78, 4, 1, 0.10);
+          cursor: pointer;
+        }
+
+        .sheet-veh-row.selected {
+          border-color: #E88C2B;
+          background: #FDF3E7;
+        }
+
+        .sheet-veh-title {
+          font-size: 0.82rem;
+          font-weight: 800;
+          color: #4E0401;
+        }
+
+        .sheet-veh-sub {
+          font-size: 0.72rem;
+          color: #786C6A;
+        }
+
+        .sheet-pax-stepper {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          padding: 6px 10px;
+          background: #FFFFFF;
+          border-radius: 8px;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+        }
+
+        .sheet-stepper-title {
+          font-size: 0.8rem;
+          font-weight: 700;
+          color: #4E0401;
+        }
+
+        .sheet-stepper-controls {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
+        .stepper-circle-btn {
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+          background: #FEFBF3;
+          border: 1px solid rgba(78, 4, 1, 0.15);
+          color: #4E0401;
+          font-size: 1rem;
+          font-weight: 700;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+        }
+
+        .stepper-number {
+          font-size: 0.94rem;
+          font-weight: 800;
+          color: #4E0401;
+          min-width: 14px;
+          text-align: center;
+        }
+
+        .sheet-submit-btn {
+          width: 100%;
+          height: 52px;
+          background: #E88C2B;
+          color: #FFFFFF;
+          border: none;
+          border-radius: 12px;
+          font-family: inherit;
+          font-size: 0.98rem;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 10px;
+          cursor: pointer;
+          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.35);
+          margin-top: 6px;
+          transition: background 0.18s ease;
+        }
+
+        .sheet-submit-btn:hover {
+          background: #D2791C;
+        }
+
+        /* Responsive Breakpoints - Strictly mobile only (<= 768px) */
+        @media (max-width: 768px) {
+          .desktop-booking-card {
+            display: none !important;
+          }
+          .mobile-search-pill-wrapper {
+            display: block !important;
           }
         }
       `}</style>
