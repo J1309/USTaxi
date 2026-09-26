@@ -67,13 +67,12 @@ export default function Hero({ onSelectVehicle }) {
         .hero-editorial-section {
           position: relative;
           width: 100%;
-          min-height: 720px;
           display: flex;
           flex-direction: column;
-          justify-content: space-between;
+          justify-content: flex-start;
           background: #FEFBF3;
-          padding-top: 90px;
-          padding-bottom: 60px;
+          padding-top: 36px;
+          padding-bottom: 36px;
           overflow: visible;
         }
 
@@ -97,34 +96,34 @@ export default function Hero({ onSelectVehicle }) {
           position: relative;
           z-index: 2;
           width: 100%;
-          margin-bottom: 40px;
+          margin-bottom: 22px;
         }
 
         .hero-text-block {
-          max-width: 650px;
+          max-width: 620px;
           text-align: left;
         }
 
         .hero-kicker-tag {
           display: inline-block;
           font-family: inherit;
-          font-size: 0.8rem;
+          font-size: 0.78rem;
           font-weight: 800;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.16em;
           color: #E88C2B;
           text-transform: uppercase;
-          margin-bottom: 14px;
+          margin-bottom: 8px;
         }
 
         .hero-main-heading {
           font-family: var(--font-heading);
-          font-size: clamp(3.2rem, 5.0vw, 4.75rem);
+          font-size: clamp(2.4rem, 3.8vw, 3.5rem);
           font-weight: 900;
           color: #4E0401;
-          line-height: 1.06;
+          line-height: 1.05;
           letter-spacing: -0.025em;
-          margin-bottom: 18px;
-          -webkit-text-stroke: 0.5px currentColor;
+          margin-bottom: 12px;
+          -webkit-text-stroke: 0.4px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -133,17 +132,17 @@ export default function Hero({ onSelectVehicle }) {
         }
 
         .hero-sub-description {
-          font-size: 1.08rem;
+          font-size: 0.98rem;
           color: #4A3E3D;
-          line-height: 1.6;
-          margin-bottom: 30px;
-          max-width: 540px;
+          line-height: 1.5;
+          margin-bottom: 20px;
+          max-width: 520px;
         }
 
         .hero-cta-buttons-row {
           display: flex;
           align-items: center;
-          gap: 16px;
+          gap: 14px;
           flex-wrap: wrap;
         }
 
@@ -151,13 +150,13 @@ export default function Hero({ onSelectVehicle }) {
           display: inline-flex;
           align-items: center;
           justify-content: center;
-          gap: 10px;
+          gap: 8px;
           background: #E88C2B;
           color: #FFFFFF;
           font-weight: 800;
-          font-size: 0.95rem;
-          letter-spacing: 0.05em;
-          padding: 14px 30px;
+          font-size: 0.9rem;
+          letter-spacing: 0.04em;
+          padding: 12px 26px;
           border-radius: 9999px;
           box-shadow: 0 4px 16px rgba(232, 140, 43, 0.35);
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -174,12 +173,12 @@ export default function Hero({ onSelectVehicle }) {
           align-items: center;
           justify-content: center;
           gap: 8px;
-          background: rgba(255, 255, 255, 0.9);
+          background: rgba(255, 255, 255, 0.92);
           border: 1px solid rgba(78, 4, 1, 0.18);
           color: #4E0401;
           font-weight: 700;
-          font-size: 0.92rem;
-          padding: 13px 24px;
+          font-size: 0.88rem;
+          padding: 11px 22px;
           border-radius: 9999px;
           backdrop-filter: blur(8px);
           transition: all 0.2s ease;
@@ -195,14 +194,24 @@ export default function Hero({ onSelectVehicle }) {
         .hero-booking-dock {
           position: relative;
           z-index: 10;
-          margin-top: 20px;
+          margin-top: 6px;
         }
 
         @media (max-width: 900px) {
           .hero-editorial-section {
-            padding-top: 50px;
-            padding-bottom: 40px;
-            min-height: auto;
+            padding-top: 24px;
+            padding-bottom: 28px;
+          }
+          .hero-content-container {
+            margin-bottom: 18px;
+          }
+          .hero-main-heading {
+            font-size: clamp(2.0rem, 7.5vw, 2.6rem);
+            margin-bottom: 10px;
+          }
+          .hero-sub-description {
+            font-size: 0.92rem;
+            margin-bottom: 16px;
           }
         }
       `}</style>
