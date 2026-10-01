@@ -110,14 +110,14 @@ export default function Preloader() {
         /* Ambient Glow behind Suburban logo */
         .emblem-halo-glow {
           position: absolute;
-          top: 40%;
+          top: 45%;
           left: 50%;
           transform: translate(-50%, -50%);
-          width: 380px;
-          height: 220px;
+          width: 520px;
+          height: 180px;
           border-radius: 50%;
           background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.32) 0%, rgba(232, 140, 43, 0.12) 45%, rgba(0, 0, 0, 0) 70%);
-          filter: blur(28px);
+          filter: blur(32px);
           pointer-events: none;
           animation: haloPulse 2.4s ease-in-out infinite alternate;
         }
@@ -132,10 +132,10 @@ export default function Preloader() {
         }
 
         .preloader-logo-img {
-          width: clamp(280px, 50vw, 500px);
+          width: clamp(290px, 54vw, 540px);
           height: auto;
           object-fit: contain;
-          filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 28px rgba(168, 85, 247, 0.45));
+          filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 24px rgba(168, 85, 247, 0.4));
           animation: logoFloat 2.8s ease-in-out infinite alternate;
         }
 

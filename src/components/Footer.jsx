@@ -323,9 +323,9 @@ export default function Footer() {
         }
 
         .footer-brand-logo {
-          height: 54px;
+          height: 48px;
           width: auto;
-          max-width: 150px;
+          max-width: 175px;
           object-fit: contain;
         }
 
@@ -579,9 +579,9 @@ export default function Footer() {
           }
 
           .mob-footer-logo {
-            height: 44px;
+            height: 40px;
             width: auto;
-            max-width: 130px;
+            max-width: 145px;
             object-fit: contain;
           }
 

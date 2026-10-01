@@ -250,9 +250,9 @@ export default function Navbar() {
           padding: 4px 0;
         }
         .brand-logo-img {
-          height: 52px;
+          height: 48px;
           width: auto;
-          max-width: 140px;
+          max-width: 175px;
           object-fit: contain;
           transition: transform 0.2s ease;
         }
@@ -479,8 +479,10 @@ export default function Navbar() {
           }
 
           .brand-logo-img {
-            height: 44px;
-            max-width: 125px;
+            height: 40px;
+            width: auto;
+            max-width: 145px;
+            object-fit: contain;
           }
 
           .header-hamburger-btn {
