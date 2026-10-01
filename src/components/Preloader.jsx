@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
 
 /**
- * Premium Luxury Minimal Preloader for Lavender Taxi & Chauffeur
+ * Premium Luxury Preloader for Lavender Taxi Service
  * 
  * Features:
- * - Serene calming white & warm ivory background (#FEFBF3)
- * - New winged golden emblem (/images/new_logo_transparent.png) displayed prominently
- * - Majestic entrance and gentle floating/breathing animation on the emblem
- * - Cinematic letter-tracking reveal & golden shimmer sweep on the brand name "LAVENDER"
- * - Clean: No loader bar and no subtitle text under the name
- * - Smooth cubic-bezier dissolve that unmounts cleanly from DOM
+ * - Deep obsidian dark luxury background matching brand aesthetic (#06010B)
+ * - New Chevrolet Suburban illustration logo with lavender swooshes (/images/new_suburban_logo_cropped.png)
+ * - Luminous lilac & amber ambient halo breathing effect
+ * - Smooth entrance and floating animation
+ * - Clean dissolve unmount
  * - Respects prefers-reduced-motion
  */
 export default function Preloader() {
@@ -24,12 +23,12 @@ export default function Preloader() {
       return;
     }
 
-    // Step 1: Hold the brand presentation for 1.35s
+    // Step 1: Hold the brand presentation for 1.4s
     const exitTimer = setTimeout(() => {
       setIsExiting(true);
-    }, 1350);
+    }, 1400);
 
-    // Step 2: Unmount cleanly after the exit transition completes (650ms)
+    // Step 2: Unmount cleanly after the exit transition completes (600ms)
     const unmountTimer = setTimeout(() => {
       setMounted(false);
     }, 2000);
@@ -47,24 +46,24 @@ export default function Preloader() {
       className={`luxury-preloader-backdrop ${isExiting ? 'preloader-exit' : ''}`}
       aria-hidden="true"
       role="status"
-      aria-label="Loading Lavender Taxi & Chauffeur"
+      aria-label="Loading Lavender Taxi Service"
     >
       <div className={`preloader-content-cluster ${isExiting ? 'content-exit' : ''}`}>
-        {/* Soft Golden Ambient Halo */}
+        {/* Soft Lilac Ambient Halo */}
         <div className="emblem-halo-glow" />
 
-        {/* New Winged Emblem (Large & Animated) */}
-        <div className="preloader-wings-wrap">
+        {/* New Suburban Logo (Emblem with Car + Lavender Swoosh + Typography) */}
+        <div className="preloader-logo-wrap">
           <img
-            src="/images/new_logo_transparent.png"
-            alt="Lavender Luxury Wings"
-            className="preloader-wings-img"
+            src="/images/new_suburban_logo_cropped.png"
+            alt="Lavender Taxi Service"
+            className="preloader-logo-img"
           />
         </div>
 
-        {/* Brand Name (Animated with tracking expansion & shimmer) */}
-        <div className="preloader-title-wrap">
-          <h1 className="preloader-brand-title">LAVENDER</h1>
+        {/* Subtle Luxury Loading Indicator Bar */}
+        <div className="preloader-progress-track">
+          <div className="preloader-progress-fill" />
         </div>
       </div>
 
@@ -78,19 +77,19 @@ export default function Preloader() {
           width: 100vw;
           height: 100vh;
           z-index: 999999;
-          background: radial-gradient(circle at 50% 48%, #FFFFFF 0%, #FEFBF3 65%, #F7F1E4 100%);
+          background: radial-gradient(circle at 50% 48%, #12041A 0%, #08020D 60%, #030006 100%);
           display: flex;
           align-items: center;
           justify-content: center;
           pointer-events: all;
-          transition: opacity 0.65s cubic-bezier(0.16, 1, 0.3, 1), transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+          transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
           overflow: hidden;
         }
 
         .luxury-preloader-backdrop.preloader-exit {
           opacity: 0;
           pointer-events: none;
-          transform: translateY(-8px);
+          transform: scale(1.02);
         }
 
         .preloader-content-cluster {
@@ -105,87 +104,69 @@ export default function Preloader() {
 
         .preloader-content-cluster.content-exit {
           opacity: 0;
-          transform: translateY(-12px) scale(0.97);
+          transform: translateY(-8px) scale(0.98);
         }
 
-        /* Ambient Glow behind wings */
+        /* Ambient Glow behind Suburban logo */
         .emblem-halo-glow {
           position: absolute;
-          top: 25px;
+          top: 40%;
           left: 50%;
-          transform: translateX(-50%);
-          width: 280px;
-          height: 160px;
+          transform: translate(-50%, -50%);
+          width: 380px;
+          height: 220px;
           border-radius: 50%;
-          background: radial-gradient(ellipse at center, rgba(232, 140, 43, 0.22) 0%, rgba(232, 140, 43, 0) 70%);
-          filter: blur(20px);
+          background: radial-gradient(ellipse at center, rgba(168, 85, 247, 0.32) 0%, rgba(232, 140, 43, 0.12) 45%, rgba(0, 0, 0, 0) 70%);
+          filter: blur(28px);
           pointer-events: none;
-          animation: haloBreathing 2.2s ease-in-out infinite alternate;
+          animation: haloPulse 2.4s ease-in-out infinite alternate;
         }
 
-        /* Large Winged Emblem Wrap & Animation */
-        .preloader-wings-wrap {
+        /* Logo Wrap & Animation */
+        .preloader-logo-wrap {
           position: relative;
-          margin-bottom: 22px;
           display: flex;
           align-items: center;
           justify-content: center;
-          animation: wingsEnter 0.75s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+          animation: logoEntrance 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        .preloader-wings-img {
-          width: clamp(220px, 34vw, 320px);
+        .preloader-logo-img {
+          width: clamp(280px, 48vw, 460px);
           height: auto;
           object-fit: contain;
-          filter: drop-shadow(0 10px 24px rgba(78, 4, 1, 0.12)) drop-shadow(0 2px 8px rgba(232, 140, 43, 0.25));
-          animation: wingsFloat 2.6s ease-in-out infinite alternate;
+          filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.6)) drop-shadow(0 2px 14px rgba(168, 85, 247, 0.35));
+          animation: logoFloat 2.8s ease-in-out infinite alternate;
         }
 
-        /* Brand Name Wrap & Typography Animation */
-        .preloader-title-wrap {
-          overflow: visible;
+        /* Subtle Progress Line */
+        .preloader-progress-track {
+          width: 140px;
+          height: 2px;
+          background: rgba(255, 255, 255, 0.12);
+          border-radius: 9999px;
+          margin-top: 24px;
+          overflow: hidden;
+          position: relative;
         }
 
-        .preloader-brand-title {
-          font-family: var(--font-heading, 'Attera', serif);
-          font-size: clamp(1.8rem, 4vw, 2.4rem);
-          font-weight: 900;
-          margin: 0;
-          line-height: 1.15;
-          letter-spacing: 0.38em;
-          text-indent: 0.38em; /* Visually balances wide letter tracking */
-          text-transform: uppercase;
-          -webkit-text-stroke: 0.35px rgba(78, 4, 1, 0.25);
-          
-          /* Golden Light Sheen Sweep across deep maroon */
-          background: linear-gradient(
-            110deg,
-            #4E0401 0%,
-            #4E0401 35%,
-            #E88C2B 48%,
-            #FFF5E6 52%,
-            #E88C2B 56%,
-            #4E0401 68%,
-            #4E0401 100%
-          );
-          background-size: 260% 100%;
-          -webkit-background-clip: text;
-          -webkit-text-fill-color: transparent;
-          
-          animation: 
-            titleTrackingReveal 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards,
-            titleShimmerSweep 2.8s ease-in-out infinite 0.4s;
+        .preloader-progress-fill {
+          position: absolute;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background: linear-gradient(90deg, #A855F7 0%, #E88C2B 50%, #C084FC 100%);
+          border-radius: 9999px;
+          transform: translateX(-100%);
+          animation: progressFill 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        /* ==========================================================================
-           KEYFRAME ANIMATIONS
-           ========================================================================== */
-        
-        /* 1. Wings Entrance */
-        @keyframes wingsEnter {
+        /* KEYFRAMES */
+        @keyframes logoEntrance {
           0% {
             opacity: 0;
-            transform: scale(0.85) translateY(12px);
+            transform: scale(0.9) translateY(12px);
           }
           100% {
             opacity: 1;
@@ -193,71 +174,47 @@ export default function Preloader() {
           }
         }
 
-        /* 2. Wings Subtle Levitation & Float */
-        @keyframes wingsFloat {
+        @keyframes logoFloat {
           0% {
-            transform: translateY(0) scale(1);
-            filter: drop-shadow(0 10px 24px rgba(78, 4, 1, 0.12)) drop-shadow(0 2px 8px rgba(232, 140, 43, 0.20));
-          }
-          100% {
-            transform: translateY(-6px) scale(1.02);
-            filter: drop-shadow(0 16px 32px rgba(78, 4, 1, 0.16)) drop-shadow(0 4px 14px rgba(232, 140, 43, 0.35));
-          }
-        }
-
-        /* 3. Ambient Halo Pulsing */
-        @keyframes haloBreathing {
-          0% {
-            transform: translateX(-50%) scale(0.9);
-            opacity: 0.4;
-          }
-          100% {
-            transform: translateX(-50%) scale(1.2);
-            opacity: 0.85;
-          }
-        }
-
-        /* 4. Title Tracking Expansion & Fade-in */
-        @keyframes titleTrackingReveal {
-          0% {
-            opacity: 0;
-            letter-spacing: 0.18em;
-            text-indent: 0.18em;
-            transform: translateY(8px);
-            filter: blur(4px);
-          }
-          100% {
-            opacity: 1;
-            letter-spacing: 0.38em;
-            text-indent: 0.38em;
             transform: translateY(0);
-            filter: blur(0);
+          }
+          100% {
+            transform: translateY(-5px);
           }
         }
 
-        /* 5. Golden Luminous Sheen Sweep across typography */
-        @keyframes titleShimmerSweep {
+        @keyframes haloPulse {
           0% {
-            background-position: 100% 0;
+            transform: translate(-50%, -50%) scale(0.92);
+            opacity: 0.5;
           }
           100% {
-            background-position: -160% 0;
+            transform: translate(-50%, -50%) scale(1.15);
+            opacity: 0.9;
+          }
+        }
+
+        @keyframes progressFill {
+          0% {
+            transform: translateX(-100%);
+          }
+          100% {
+            transform: translateX(0%);
           }
         }
 
         /* Mobile Refinements */
         @media (max-width: 600px) {
-          .preloader-wings-img {
-            width: clamp(200px, 65vw, 260px);
-          }
-          .preloader-brand-title {
-            font-size: 1.65rem;
-            letter-spacing: 0.30em;
-            text-indent: 0.30em;
+          .preloader-logo-img {
+            width: clamp(240px, 78vw, 320px);
           }
           .emblem-halo-glow {
-            width: 220px;
-            height: 130px;
+            width: 260px;
+            height: 160px;
+          }
+          .preloader-progress-track {
+            width: 110px;
+            margin-top: 18px;
           }
         }
       `}</style>

@@ -58,21 +58,18 @@ export default function Navbar() {
   return (
     <header className={`site-header ${mobileMenuOpen ? 'menu-open' : ''}`}>
       <div className="container header-container">
-        {/* Brand Logo & Name */}
+        {/* Brand Logo */}
         <a
           href="/"
           onClick={handleHomeNav}
           className="brand-logo-link"
+          aria-label="Lavender Taxi Service - Home"
         >
           <img
-            src="/images/new_logo_transparent.png"
+            src="/images/new_suburban_logo_cropped.png"
             alt="Lavender Taxi Service"
             className="brand-logo-img"
           />
-          <div className="brand-text-block">
-            <span className="brand-name">LAVENDER</span>
-            <span className="brand-service">TAXI SERVICE</span>
-          </div>
         </a>
 
         {/* Center Desktop Navigation Links */}
@@ -128,7 +125,7 @@ export default function Navbar() {
 
         {/* Right Desktop Actions */}
         <div className="header-actions">
-          {/* Phone block matching reference: number + Call Anytime */}
+          {/* Phone block */}
           <div className="header-phone-block">
             <a href={`tel:+${OWNER_PHONE_RAW}`} className="header-phone-number">
               +1 (832) 879-8685
@@ -136,7 +133,7 @@ export default function Navbar() {
             <span className="header-phone-sub">Call Anytime</span>
           </div>
 
-          {/* Gold Book a Ride Button matching reference */}
+          {/* Gold Book a Ride Button */}
           <button
             type="button"
             onClick={handleBookRideClick}
@@ -146,14 +143,14 @@ export default function Navbar() {
             <ArrowRight size={14} />
           </button>
 
-          {/* Mobile Menu Hamburger */}
+          {/* Mobile Menu Hamburger (Prominent Large 3-Bars) */}
           <button
             type="button"
             className="header-hamburger-btn"
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            aria-label="Toggle Navigation"
+            aria-label="Toggle Navigation Menu"
           >
-            {mobileMenuOpen ? <X size={22} /> : <Menu size={22} />}
+            {mobileMenuOpen ? <X size={28} strokeWidth={2.4} /> : <Menu size={28} strokeWidth={2.4} />}
           </button>
         </div>
       </div>
@@ -198,7 +195,7 @@ export default function Navbar() {
                 onClick={(e) => handleSectionNav(e, '#fleet')}
                 className="mobile-nav-link"
               >
-                <span>Fleet</span>
+                <span>Fleet & Cabin Interior</span>
                 <ArrowRight size={16} className="mobile-link-arrow" />
               </a>
             </li>
@@ -236,52 +233,31 @@ export default function Navbar() {
           position: sticky;
           top: 0;
           z-index: 1000;
-          background: rgba(254, 251, 243, 0.95);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
-          box-shadow: 0 4px 20px rgba(78, 4, 1, 0.04);
+          background: #08020C !important;
+          border-bottom: 1px solid rgba(255, 255, 255, 0.09) !important;
+          box-shadow: 0 4px 25px rgba(0, 0, 0, 0.45) !important;
         }
         .header-container {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 76px;
+          height: 78px;
         }
         .brand-logo-link {
           display: flex;
           align-items: center;
-          gap: 14px;
+          text-decoration: none;
+          padding: 4px 0;
         }
         .brand-logo-img {
-          width: 52px;
-          height: auto;
-          max-height: 38px;
+          height: 52px;
+          width: auto;
+          max-width: 140px;
           object-fit: contain;
-          background: transparent;
-          border: none;
+          transition: transform 0.2s ease;
         }
-        .brand-text-block {
-          display: flex;
-          flex-direction: column;
-        }
-        .brand-name {
-          font-family: var(--font-heading);
-          font-size: 1.22rem;
-          font-weight: 900;
-          color: #4E0401;
-          letter-spacing: 0.06em;
-          line-height: 1;
-          -webkit-text-stroke: 0.35px currentColor;
-          text-rendering: optimizeLegibility;
-        }
-        .brand-service {
-          font-size: 0.68rem;
-          font-weight: 800;
-          color: #786C6A;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          margin-top: 3px;
+        .brand-logo-link:hover .brand-logo-img {
+          transform: scale(1.02);
         }
         .desktop-nav-list {
           display: flex;
@@ -290,17 +266,18 @@ export default function Navbar() {
           list-style: none;
         }
         .desktop-nav-link {
-          font-size: 0.92rem;
+          font-size: 0.94rem;
           font-weight: 600;
-          color: #4A3E3D;
-          transition: color 0.15s ease;
+          color: #E2E8F0;
+          transition: color 0.18s ease;
           position: relative;
+          text-decoration: none;
         }
         .desktop-nav-link:hover {
           color: #E88C2B;
         }
         .desktop-nav-link.active {
-          color: #4E0401;
+          color: #FFFFFF;
           font-weight: 800;
         }
         .desktop-nav-link.active::after {
@@ -312,6 +289,7 @@ export default function Navbar() {
           height: 2.5px;
           background: #E88C2B;
           border-radius: 2px;
+          box-shadow: 0 0 8px rgba(232, 140, 43, 0.6);
         }
         .header-actions {
           display: flex;
@@ -325,56 +303,65 @@ export default function Navbar() {
           line-height: 1.2;
         }
         .header-phone-number {
-          font-weight: 700;
-          font-size: 0.92rem;
-          color: #4E0401;
+          font-weight: 800;
+          font-size: 0.94rem;
+          color: #E88C2B;
+          text-decoration: none;
           transition: color 0.15s ease;
         }
         .header-phone-number:hover {
-          color: #E88C2B;
+          color: #FBBF24;
         }
         .header-phone-sub {
           font-size: 0.72rem;
-          color: #786C6A;
+          color: #94A3B8;
           font-weight: 600;
+          letter-spacing: 0.03em;
         }
         .header-gold-btn {
           display: inline-flex;
           align-items: center;
           gap: 8px;
-          background: #E88C2B;
+          background: linear-gradient(135deg, #E88C2B 0%, #D2791C 100%);
           color: #FFFFFF;
           font-weight: 800;
           font-size: 0.88rem;
           padding: 10px 22px;
           border-radius: 9999px;
-          box-shadow: 0 3px 12px rgba(232, 140, 43, 0.32);
+          box-shadow: 0 4px 14px rgba(232, 140, 43, 0.38);
           transition: all 0.18s ease;
+          border: none;
+          cursor: pointer;
         }
         .header-gold-btn:hover {
-          background: #D2791C;
           transform: translateY(-1px);
-          box-shadow: 0 5px 16px rgba(232, 140, 43, 0.4);
+          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.52);
         }
         .header-hamburger-btn {
           display: none;
-          padding: 8px;
-          color: #4E0401;
+          background: rgba(255, 255, 255, 0.09);
+          border: 1.5px solid rgba(255, 255, 255, 0.22);
+          border-radius: 12px;
+          width: 48px;
+          height: 48px;
+          color: #FFFFFF;
+          padding: 0;
+          cursor: pointer;
         }
 
         /* Mobile Drawer */
         .mobile-nav-drawer {
           position: absolute;
-          top: 70px;
+          top: 72px;
           left: 0;
           right: 0;
-          background: #FEFBF3;
-          border-bottom: 2px solid rgba(78, 4, 1, 0.12);
-          padding: 16px 22px 24px 22px;
-          box-shadow: 0 16px 40px rgba(78, 4, 1, 0.14);
+          background: #09020D !important;
+          border-bottom: 2px solid rgba(232, 140, 43, 0.3);
+          padding: 18px 22px 26px 22px;
+          box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
           display: flex;
           flex-direction: column;
-          gap: 18px;
+          gap: 20px;
           animation: drawerSlideDown 0.22s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
@@ -390,7 +377,7 @@ export default function Navbar() {
         }
 
         .mobile-nav-item {
-          border-bottom: 1px solid rgba(78, 4, 1, 0.07);
+          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
         .mobile-nav-link {
@@ -400,11 +387,11 @@ export default function Navbar() {
           font-family: var(--font-heading);
           font-size: 1.25rem;
           font-weight: 800;
-          color: #4E0401;
+          color: #F8FAFC;
           padding: 14px 0;
           transition: all 0.15s ease;
           text-decoration: none;
-          -webkit-text-stroke: 0.25px currentColor;
+          letter-spacing: 0.02em;
         }
 
         .mobile-nav-link.active,
@@ -414,7 +401,7 @@ export default function Navbar() {
 
         .mobile-link-arrow {
           color: #E88C2B;
-          opacity: 0.85;
+          opacity: 0.9;
           transition: transform 0.15s ease;
         }
 
@@ -425,8 +412,8 @@ export default function Navbar() {
         .mobile-drawer-footer {
           display: flex;
           flex-direction: column;
-          gap: 10px;
-          padding-top: 4px;
+          gap: 12px;
+          padding-top: 6px;
         }
 
         .mobile-phone-call-btn {
@@ -434,16 +421,15 @@ export default function Navbar() {
           align-items: center;
           justify-content: center;
           gap: 6px;
-          padding: 12px 16px;
+          padding: 13px 18px;
           border-radius: 9999px;
-          background: #FFFFFF;
-          border: 1.5px solid rgba(78, 4, 1, 0.12);
-          font-size: 0.9rem;
+          background: rgba(255, 255, 255, 0.06);
+          border: 1.5px solid rgba(255, 255, 255, 0.15);
+          font-size: 0.94rem;
           font-weight: 800;
-          color: #4E0401;
+          color: #FFFFFF;
           text-decoration: none;
           transition: all 0.18s ease;
-          box-shadow: 0 2px 8px rgba(78, 4, 1, 0.04);
         }
 
         .mobile-phone-call-btn:hover {
@@ -452,8 +438,8 @@ export default function Navbar() {
         }
 
         .mobile-call-sub {
-          font-size: 0.74rem;
-          color: #786C6A;
+          font-size: 0.76rem;
+          color: #E88C2B;
           font-weight: 600;
         }
 
@@ -483,51 +469,44 @@ export default function Navbar() {
             right: 0;
             width: 100%;
             z-index: 1000;
-            background: #FEFBF3 !important;
-            border-bottom: 1px solid rgba(78, 4, 1, 0.08) !important;
-            box-shadow: 0 4px 20px rgba(78, 4, 1, 0.05) !important;
-            backdrop-filter: blur(16px);
-            -webkit-backdrop-filter: blur(16px);
-          }
-
-          .site-header.menu-open {
-            background: #FEFBF3 !important;
-            box-shadow: 0 4px 20px rgba(78, 4, 1, 0.08) !important;
+            background: #08020C !important;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.09) !important;
+            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.45) !important;
           }
 
           .header-container {
-            height: 70px;
+            height: 72px;
           }
 
           .brand-logo-img {
-            width: 44px;
-            max-height: 32px;
-          }
-
-          .brand-name {
-            font-size: 1.15rem;
-            color: #4E0401;
-          }
-
-          .brand-service {
-            font-size: 0.64rem;
-            color: #786C6A;
+            height: 44px;
+            max-width: 125px;
           }
 
           .header-hamburger-btn {
-            color: #4E0401;
-            background: #FFFFFF;
-            border: 1px solid rgba(78, 4, 1, 0.12);
-            border-radius: 50%;
-            width: 40px;
-            height: 40px;
+            color: #FFFFFF;
+            background: rgba(255, 255, 255, 0.09);
+            border: 1.5px solid rgba(255, 255, 255, 0.22);
+            border-radius: 12px;
+            width: 48px;
+            height: 48px;
             padding: 0;
-            box-shadow: 0 2px 8px rgba(78, 4, 1, 0.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
             cursor: pointer;
+            transition: all 0.2s ease;
+          }
+
+          .header-hamburger-btn:active {
+            transform: scale(0.96);
+            background: rgba(232, 140, 43, 0.25);
+            border-color: #E88C2B;
           }
 
           .mobile-nav-drawer {
-            top: 70px;
+            top: 72px;
           }
         }
       `}</style>

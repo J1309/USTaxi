@@ -67,14 +67,8 @@ export default function Hero({ onSelectVehicle }) {
           </div>
         </div>
 
-        {/* Mobile View Bottom Anchor: Eliminates emptiness in lower part */}
+        {/* Mobile View Bottom Anchor */}
         <div className="hero-mobile-bottom-dock">
-          <div className="hero-vehicle-glass-pill">
-            <span className="fleet-pill-dot" />
-            <span className="fleet-pill-model">Chevrolet Suburban High Country</span>
-            <span className="fleet-pill-sep">·</span>
-            <span className="fleet-pill-badge">Flagship SUV</span>
-          </div>
           <a 
             href="#services" 
             className="hero-mobile-scroll-hint" 
@@ -331,48 +325,6 @@ export default function Hero({ onSelectVehicle }) {
             padding-top: 24px;
             padding-bottom: 6px;
             text-align: center;
-          }
-
-          .hero-vehicle-glass-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(254, 251, 243, 0.92);
-            border: 1.5px solid rgba(232, 140, 43, 0.3);
-            border-radius: 9999px;
-            padding: 7px 16px;
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.28);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
-          }
-
-          .fleet-pill-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            background: #E88C2B;
-            box-shadow: 0 0 8px #E88C2B;
-            flex-shrink: 0;
-          }
-
-          .fleet-pill-model {
-            font-size: 0.78rem;
-            font-weight: 800;
-            color: #4E0401;
-            letter-spacing: 0.02em;
-          }
-
-          .fleet-pill-sep {
-            color: rgba(78, 4, 1, 0.3);
-            font-size: 0.75rem;
-          }
-
-          .fleet-pill-badge {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: #E88C2B;
-            text-transform: uppercase;
-            letter-spacing: 0.05em;
           }
 
           .hero-mobile-scroll-hint {

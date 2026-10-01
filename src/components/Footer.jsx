@@ -61,16 +61,12 @@ export default function Footer() {
         <div className="footer-top-grid reveal-on-scroll">
           {/* Col 1: Brand & Slogan */}
           <div className="footer-brand-col">
-            <a href="/" onClick={handleHomeNav} className="footer-brand-link">
+            <a href="/" onClick={handleHomeNav} className="footer-brand-link" aria-label="Lavender Taxi Service">
               <img
-                src="/images/new_logo_transparent.png"
+                src="/images/new_suburban_logo_cropped.png"
                 alt="Lavender Taxi Service"
                 className="footer-brand-logo"
               />
-              <div className="footer-brand-text">
-                <span className="footer-brand-title">LAVENDER</span>
-                <span className="footer-brand-sub">TAXI & CHAUFFEUR</span>
-              </div>
             </a>
 
             <p className="footer-brand-bio">
@@ -179,18 +175,13 @@ export default function Footer() {
 
         {/* Mobile-Only Accordion Layout (Screen 8 - Visible ONLY on <= 768px) */}
         <div className="mobile-footer-layout">
-          {/* Brand & Social Header */}
           <div className="mob-footer-brand">
-            <a href="/" onClick={handleHomeNav} className="mob-footer-logo-link">
+            <a href="/" onClick={handleHomeNav} className="mob-footer-logo-link" aria-label="Lavender Taxi Service">
               <img
-                src="/images/new_logo_transparent.png"
+                src="/images/new_suburban_logo_cropped.png"
                 alt="Lavender Taxi Service"
                 className="mob-footer-logo"
               />
-              <div>
-                <span className="mob-brand-title">LAVENDER</span>
-                <span className="mob-brand-sub">TAXI & CHAUFFEUR</span>
-              </div>
             </a>
 
             <div className="mob-social-row">
@@ -332,9 +323,9 @@ export default function Footer() {
         }
 
         .footer-brand-logo {
-          width: 52px;
-          height: auto;
-          max-height: 38px;
+          height: 54px;
+          width: auto;
+          max-width: 150px;
           object-fit: contain;
         }
 
@@ -588,9 +579,9 @@ export default function Footer() {
           }
 
           .mob-footer-logo {
-            width: 50px;
-            height: auto;
-            max-height: 34px;
+            height: 44px;
+            width: auto;
+            max-width: 130px;
             object-fit: contain;
           }
 
