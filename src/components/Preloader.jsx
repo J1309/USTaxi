@@ -132,10 +132,10 @@ export default function Preloader() {
         }
 
         .preloader-logo-img {
-          width: clamp(280px, 48vw, 460px);
+          width: clamp(280px, 50vw, 500px);
           height: auto;
           object-fit: contain;
-          filter: drop-shadow(0 14px 32px rgba(0, 0, 0, 0.6)) drop-shadow(0 2px 14px rgba(168, 85, 247, 0.35));
+          filter: drop-shadow(0 18px 40px rgba(0, 0, 0, 0.8)) drop-shadow(0 0 28px rgba(168, 85, 247, 0.45));
           animation: logoFloat 2.8s ease-in-out infinite alternate;
         }
 
