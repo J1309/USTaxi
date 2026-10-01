@@ -6,7 +6,7 @@ const SERVICES = [
   {
     id: 'airport',
     title: 'Airport Transfer',
-    image: '/images/service_airport.jpg',
+    image: '/images/owner_suburban_airport.jpg',
     description: 'Seamless pickups and drop-offs at IAH and Hobby Airport for a stress-free journey.',
   },
   {
@@ -83,7 +83,7 @@ export default function ServicesSection() {
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="service-card-img"
+                      className={`service-card-img ${item.id === 'airport' ? 'airport-card-img' : ''}`}
                     />
                   </div>
 
@@ -225,6 +225,10 @@ export default function ServicesSection() {
           height: 100%;
           object-fit: cover;
           transition: transform 0.4s ease;
+        }
+
+        .airport-card-img {
+          object-position: center 25%;
         }
 
         .service-editorial-card:hover .service-card-img {

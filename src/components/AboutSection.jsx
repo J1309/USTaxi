@@ -75,8 +75,8 @@ export default function AboutSection() {
               {/* Portrait Image Frame */}
               <div className="owner-image-frame">
                 <img
-                  src="/images/owner_symanthan.jpg"
-                  alt="Symanthan - Founder & Owner of Lavender Taxi Service"
+                  src="/images/owner_suburban_street.jpg"
+                  alt="Symanthan with Flagship Chevrolet Suburban - Founder & Owner of Lavender Taxi Service"
                   className="owner-photo-img"
                 />
                 
@@ -499,9 +499,9 @@ export default function AboutSection() {
 
         .owner-photo-img {
           width: 100%;
-          aspect-ratio: 1 / 1;
+          aspect-ratio: 4 / 3;
           object-fit: cover;
-          object-position: center top;
+          object-position: 55% center;
           display: block;
           transition: transform 0.4s var(--ease-snappy);
         }

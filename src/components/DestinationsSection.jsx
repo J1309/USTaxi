@@ -9,7 +9,7 @@ const DESTINATIONS = [
     id: 'airports',
     title: 'Airports',
     subtitle: 'IAH Bush & Hobby (HOU)',
-    image: '/images/service_airport.jpg',
+    image: '/images/owner_suburban_airport.jpg',
   },
   {
     id: 'business',
@@ -139,7 +139,7 @@ export default function DestinationsSection() {
               role="button"
               tabIndex={0}
             >
-              <img src="/images/service_airport.jpg" alt="Airports" className="mob-compact-img" />
+              <img src="/images/owner_suburban_airport.jpg" alt="Airports" className="mob-compact-img" />
               <div className="mob-compact-overlay" />
               <div className="mob-compact-info">
                 <h4 className="mob-compact-title">Airports</h4>
