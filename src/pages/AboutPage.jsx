@@ -130,7 +130,7 @@ export default function AboutPage() {
           font-weight: 900;
           color: #FFFFFF;
           margin-bottom: 8px;
-          -webkit-text-stroke: 0.42px currentColor;
+          -webkit-text-stroke: 1.15px currentColor;
           text-rendering: optimizeLegibility;
         }
 

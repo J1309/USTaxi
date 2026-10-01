@@ -237,7 +237,7 @@ export default function DestinationsSection() {
           line-height: 1.1;
           letter-spacing: -0.02em;
           margin: 0 0 18px 0;
-          -webkit-text-stroke: 0.45px currentColor;
+          -webkit-text-stroke: 1.25px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -347,7 +347,8 @@ export default function DestinationsSection() {
           font-weight: 800;
           color: #FFFFFF;
           line-height: 1.2;
-          -webkit-text-stroke: 0.3px currentColor;
+          -webkit-text-stroke: 0.85px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .dest-card-sub {

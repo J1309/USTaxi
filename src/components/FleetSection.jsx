@@ -460,9 +460,9 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           font-weight: 900;
           color: #4E0401;
           line-height: 1.1;
-          letter-spacing: -0.02em;
           margin-bottom: 14px;
-          -webkit-text-stroke: 0.35px currentColor;
+          -webkit-text-stroke: 1.25px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .fleet-sub-heading {
@@ -648,9 +648,9 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           font-size: clamp(1.8rem, 2.5vw, 2.3rem);
           font-weight: 900;
           color: #4E0401;
-          line-height: 1.15;
           margin-bottom: 12px;
-          -webkit-text-stroke: 0.3px currentColor;
+          -webkit-text-stroke: 1.05px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .vehicle-body-description {
@@ -785,7 +785,8 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           font-weight: 900;
           color: #4E0401;
           margin-bottom: 4px;
-          -webkit-text-stroke: 0.25px currentColor;
+          -webkit-text-stroke: 1.05px currentColor;
+          text-rendering: optimizeLegibility;
         }
 
         .suite-subtitle {

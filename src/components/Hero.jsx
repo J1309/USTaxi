@@ -150,7 +150,7 @@ export default function Hero({ onSelectVehicle }) {
           line-height: 1.05;
           letter-spacing: -0.025em;
           margin-bottom: 12px;
-          -webkit-text-stroke: 0.4px currentColor;
+          -webkit-text-stroke: 1.25px currentColor;
           text-rendering: optimizeLegibility;
         }
 

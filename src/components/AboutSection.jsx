@@ -447,7 +447,7 @@ export default function AboutSection() {
           line-height: 1.12;
           letter-spacing: -0.025em;
           margin-bottom: 14px;
-          -webkit-text-stroke: 0.45px currentColor;
+          -webkit-text-stroke: 1.25px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -564,7 +564,7 @@ export default function AboutSection() {
           font-weight: 900;
           color: #4E0401;
           line-height: 1.1;
-          -webkit-text-stroke: 0.42px currentColor;
+          -webkit-text-stroke: 1.05px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -756,7 +756,7 @@ export default function AboutSection() {
           color: #4E0401;
           line-height: 1.25;
           margin-bottom: 16px;
-          -webkit-text-stroke: 0.4px currentColor;
+          -webkit-text-stroke: 1.05px currentColor;
           text-rendering: optimizeLegibility;
         }
 

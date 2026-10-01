@@ -151,7 +151,7 @@ export default function ServicesSection() {
           line-height: 1.1;
           letter-spacing: -0.02em;
           margin-bottom: 20px;
-          -webkit-text-stroke: 0.45px currentColor;
+          -webkit-text-stroke: 1.25px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -249,7 +249,7 @@ export default function ServicesSection() {
           color: #4E0401;
           margin: 0 0 10px 0;
           line-height: 1.25;
-          -webkit-text-stroke: 0.35px currentColor;
+          -webkit-text-stroke: 0.85px currentColor;
           text-rendering: optimizeLegibility;
         }
 

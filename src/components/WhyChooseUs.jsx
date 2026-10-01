@@ -246,7 +246,7 @@ export default function WhyChooseUs() {
           line-height: 1.1;
           letter-spacing: -0.02em;
           margin: 0 0 28px 0;
-          -webkit-text-stroke: 0.45px currentColor;
+          -webkit-text-stroke: 1.25px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -289,7 +289,7 @@ export default function WhyChooseUs() {
           color: #4E0401;
           margin: 0;
           line-height: 1.25;
-          -webkit-text-stroke: 0.32px currentColor;
+          -webkit-text-stroke: 0.85px currentColor;
           text-rendering: optimizeLegibility;
         }
 
