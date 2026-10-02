@@ -1,14 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 /**
- * Fullscreen Video Preloader for Lavender Taxi Service
+ * Fullscreen Seamless Video Preloader for Lavender Taxi Service
  * Uses /preload_vid.mp4 as the intro animation.
  * Features:
  * - Plays inline, muted, autoPlay for seamless iOS/Android & desktop support
- * - Automatically fades out and unmounts when the video completes (onEnded)
+ * - Pure white background seamlessly matching the video's background (zero black letterbox/pillarbox bars)
+ * - Automatically fades out and unmounts cleanly when the video completes (onEnded)
  * - Safe fallback timer to prevent blocking if video playback is delayed
- * - Elegant skip button for instant entry
- * - Dark black background for cinematic presentation
  */
 export default function Preloader() {
   const [mounted, setMounted] = useState(true);
@@ -19,7 +18,7 @@ export default function Preloader() {
     setIsExiting(true);
     setTimeout(() => {
       setMounted(false);
-    }, 500);
+    }, 600);
   };
 
   useEffect(() => {
@@ -68,16 +67,6 @@ export default function Preloader() {
           onEnded={handleFinish}
           className="preloader-video"
         />
-
-        {/* Skip button for instant entry */}
-        <button
-          type="button"
-          onClick={handleFinish}
-          className="preloader-skip-btn"
-          aria-label="Skip intro animation"
-        >
-          Skip
-        </button>
       </div>
 
       <style>{`
@@ -91,12 +80,12 @@ export default function Preloader() {
           height: 100vh;
           height: 100dvh;
           z-index: 999999;
-          background: #000000;
+          background: #ffffff;
           display: flex;
           align-items: center;
           justify-content: center;
           overflow: hidden;
-          transition: opacity 0.5s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.5s ease;
+          transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
         }
 
         .video-preloader-backdrop.preloader-exit {
@@ -112,7 +101,7 @@ export default function Preloader() {
           display: flex;
           align-items: center;
           justify-content: center;
-          background: #000000;
+          background: #ffffff;
         }
 
         .preloader-video {
@@ -121,40 +110,8 @@ export default function Preloader() {
           max-width: 100%;
           max-height: 100%;
           object-fit: contain;
-          background: #000000;
+          background: #ffffff;
           display: block;
-        }
-
-        .preloader-skip-btn {
-          position: absolute;
-          top: max(20px, env(safe-area-inset-top, 20px));
-          right: max(20px, env(safe-area-inset-right, 20px));
-          background: rgba(0, 0, 0, 0.55);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.22);
-          color: rgba(255, 255, 255, 0.85);
-          padding: 6px 16px;
-          border-radius: 9999px;
-          font-family: inherit;
-          font-size: 0.80rem;
-          font-weight: 700;
-          letter-spacing: 0.04em;
-          cursor: pointer;
-          touch-action: manipulation;
-          transition: all 0.18s ease;
-          z-index: 10;
-        }
-
-        .preloader-skip-btn:hover {
-          background: #E88C2B;
-          color: #FFFFFF;
-          border-color: #E88C2B;
-          transform: translateY(-1px);
-        }
-
-        .preloader-skip-btn:active {
-          transform: scale(0.96);
         }
       `}</style>
     </div>
