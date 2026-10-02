@@ -45,7 +45,7 @@ export default function VehicleInteriorSection() {
           </div>
           <h2 className="interior-main-title">Step Inside Pure Executive Luxury</h2>
           <p className="interior-sub-title">
-            Your transit time shouldn't feel like transit. Our Chevrolet Suburban High Country cabin is custom-engineered for silence, productivity, and supreme relaxation.
+            Your transit time shouldn't feel like transit. Our Chevrolet Suburban luxury cabin is custom-engineered for silence, productivity, and supreme relaxation.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ export default function VehicleInteriorSection() {
             <div className="interior-photo-frame">
               <img
                 src="/images/suburban_second-row.png"
-                alt="Chevrolet Suburban High Country Luxury Cabin Interior"
+                alt="Chevrolet Suburban Luxury Cabin Interior"
                 className="interior-panoramic-img"
               />
 
@@ -98,7 +98,7 @@ export default function VehicleInteriorSection() {
               <div className="interior-photo-glass-bar">
                 <div className="glass-spec-item">
                   <span className="spec-label">MODEL</span>
-                  <span className="spec-value">High Country Executive</span>
+                  <span className="spec-value">Executive Edition</span>
                 </div>
                 <div className="glass-divider" />
                 <div className="glass-spec-item">
@@ -144,7 +144,7 @@ export default function VehicleInteriorSection() {
               </div>
 
               <h3 className="card-creative-title">
-                Perforated High Country Captain's Chairs
+                Perforated Luxury Captain's Chairs
               </h3>
               
               {/* Interactive Comfort Mode Chips */}

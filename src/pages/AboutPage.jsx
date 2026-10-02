@@ -38,7 +38,7 @@ export default function AboutPage() {
             <div className="about-cta-text">
               <span className="cta-kicker">PERSONALIZED CHAUFFEUR DISPATCH</span>
               <h3>Have an upcoming flight or private trip in Houston?</h3>
-              <p>Speak directly with owner Symanthan to reserve your Chevrolet Suburban High Country or Lexus Luxury Sedan today.</p>
+              <p>Speak directly with owner Symanthan to reserve your Chevrolet Suburban or Lexus Luxury Sedan today.</p>
             </div>
             <div className="about-cta-actions">
               <button

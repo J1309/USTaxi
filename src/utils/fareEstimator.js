@@ -32,7 +32,7 @@ export const VEHICLE_OPTIONS = [
       'Massive Luggage Capacity (6+ Bags)',
       'Rear Climate Control & USB-C Chargers',
       'Complimentary Bottled Water & WiFi',
-      'Child & Infant Car Seats Available',
+      'Acoustic Privacy Whisper Glass',
     ],
     description: 'The executive workhorse of Texas. Ample space for large families, corporate delegations, cruise luggage, and airport transit.',
   },

@@ -176,7 +176,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
 
     const vehicleTitle =
       vehicle === 'suburban'
-        ? 'Chevrolet Suburban High Country (SUV · Up to 7 Guests · 6 Bags)'
+        ? 'Chevrolet Suburban (SUV · Up to 7 Guests · 6 Bags)'
         : 'Lexus Luxury Sedan (Executive Sedan · Up to 4 Guests · 3 Bags)';
 
     const messageLines = [
@@ -393,7 +393,7 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
                     onClick={() => handleSelectVehicle('suburban')}
                   >
                     <div className="veh-option-info">
-                      <span className="veh-name">Chevrolet Suburban High Country</span>
+                      <span className="veh-name">Chevrolet Suburban</span>
                       <span className="veh-specs">SUV · Up to 7 Guests · 6 Bags</span>
                     </div>
                     {vehicle === 'suburban' && <Check size={16} color="#E88C2B" />}

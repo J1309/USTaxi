@@ -12,11 +12,11 @@ export default function Hero({ onSelectVehicle }) {
 
   return (
     <section id="home" className="hero-editorial-section">
-      {/* Background Image: Our Chevrolet Suburban High Country at Airport Terminal */}
+      {/* Background Image: Our Chevrolet Suburban at Airport Terminal */}
       <div className="hero-bg-media">
         <img
           src="/images/hero_new.png"
-          alt="Lavender Taxi Luxury Chevrolet Suburban High Country Airport Chauffeur Service"
+          alt="Lavender Taxi Luxury Chevrolet Suburban Airport Chauffeur Service"
           className="hero-bg-img"
         />
       </div>

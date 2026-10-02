@@ -114,7 +114,7 @@ export default function Footer() {
               <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>City & Corporate Rides</a></li>
               <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>Galveston Cruise Port</a></li>
               <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>Hourly Private Charter</a></li>
-              <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>Child Car Seat Service</a></li>
+              <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>VIP Executive Chauffeur</a></li>
             </ul>
           </div>
 
@@ -244,7 +244,7 @@ export default function Footer() {
                   <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>City & Corporate Rides</a></li>
                   <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>Galveston Cruise Port</a></li>
                   <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>Hourly Private Charter</a></li>
-                  <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>Child Car Seat Service</a></li>
+                  <li><a href="#booking-engine" onClick={(e) => handleNav(e, '#booking-engine')}>VIP Executive Chauffeur</a></li>
                 </ul>
               )}
             </div>

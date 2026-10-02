@@ -5,7 +5,7 @@ const HIGHLIGHTS = [
   {
     icon: Gem,
     title: 'LUXURY FLEET',
-    description: 'High Country Suburban & Lexus Sedan for a superior experience.',
+    description: 'Flagship Suburban SUV & Lexus Sedan for a superior experience.',
   },
   {
     icon: Clock,
@@ -15,7 +15,7 @@ const HIGHLIGHTS = [
   {
     icon: ShieldCheck,
     title: 'SAFE & SECURE',
-    description: 'Sanitized executive cabins & certified child car seats available.',
+    description: 'Sanitized executive cabins & 5-star safety architecture.',
   },
   {
     icon: Headphones,

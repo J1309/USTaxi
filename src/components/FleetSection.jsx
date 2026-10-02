@@ -19,7 +19,7 @@ import { OWNER_PHONE_DISPLAY, OWNER_PHONE_RAW } from '../utils/whatsapp';
 const FLEET_DATA = [
   {
     id: 'suburban',
-    name: 'Chevrolet Suburban High Country',
+    name: 'Chevrolet Suburban',
     category: 'FLAGSHIP FULL-SIZE LUXURY SUV',
     tagline: 'The Pinnacle of American Executive & Airport Travel',
     image: '/images/suburban_img.png',
@@ -32,14 +32,14 @@ const FLEET_DATA = [
       'Dual rear 12.6" HD entertainment displays with streaming connectivity',
       'Acoustic laminated privacy whisper glass for confidential conversations',
       'Tri-zone independent climate control with personal overhead vents',
-      'Sanitized certified child car seats available (Infant, Toddler, Booster)',
+      'Complimentary chilled bottled water, mints, and executive Wi-Fi hotspot',
       'High-speed multi-device USB-C fast charging at all rows',
     ],
     interiorViews: [
       {
         id: 'suburban-second-row',
         title: "Second Row Captain's Chairs",
-        badge: "CABIN PERSPECTIVE 1 OF 5",
+        badge: "CABIN PERSPECTIVE 1 OF 4",
         subtitle: "Executive VIP Seating",
         desc: "Individual reclining captain's chairs with contoured armrests, expansive 42-inch legroom, and independent rear digital climate console.",
         src: '/images/suburban_second-row.png',
@@ -47,7 +47,7 @@ const FLEET_DATA = [
       {
         id: 'suburban-third-row',
         title: 'Spacious 3rd-Row Adult Seating',
-        badge: 'CABIN PERSPECTIVE 2 OF 5',
+        badge: 'CABIN PERSPECTIVE 2 OF 4',
         subtitle: 'Generous Full-Size Clearance',
         desc: 'Comfortable full-size 3-passenger third row with dedicated overhead air vents, cup holders, and individual reading lamps.',
         src: '/images/suburban_third_row.png',
@@ -55,7 +55,7 @@ const FLEET_DATA = [
       {
         id: 'suburban-rear-cargo',
         title: 'Extended Rear Cargo Trunk',
-        badge: 'CABIN PERSPECTIVE 3 OF 5',
+        badge: 'CABIN PERSPECTIVE 3 OF 4',
         subtitle: 'Vast Luggage Clearance',
         desc: 'Vast 41.5 cu. ft. luggage bay effortlessly accommodating 6+ large overseas bags, golf sets, strollers, and cruise luggage.',
         src: '/images/suburban_rear_cargo.png',
@@ -63,18 +63,10 @@ const FLEET_DATA = [
       {
         id: 'suburban-cockpit',
         title: 'Chauffeur Digital Cockpit',
-        badge: 'CABIN PERSPECTIVE 4 OF 5',
+        badge: 'CABIN PERSPECTIVE 4 OF 4',
         subtitle: 'Advanced Navigation & Flight Tracking',
         desc: 'State-of-the-art pilot console equipped with FAA real-time radar flight monitoring, GPS traffic bypass, and premium Bose acoustics.',
         src: '/images/suburban_cockpit.png',
-      },
-      {
-        id: 'suburban-child-seat',
-        title: 'Certified Child Safety Car Seat',
-        badge: 'CABIN PERSPECTIVE 5 OF 5',
-        subtitle: 'Sanitized & Safety Inspected',
-        desc: 'Sanitized, high-rated Infant, Convertible, and Booster seats professionally anchored upon request for safe family travel.',
-        src: '/images/child_safety_carseat.jpg',
       },
     ],
   },
@@ -446,7 +438,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
                 }}
                 className="btn-switch-other-vehicle"
               >
-                <span>View Chevrolet Suburban High Country Specifications & Interior</span>
+                <span>View Chevrolet Suburban Specifications & Interior</span>
                 <ArrowRight size={15} />
               </button>
             )}

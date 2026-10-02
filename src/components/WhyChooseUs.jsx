@@ -16,8 +16,8 @@ const PILLARS = [
   },
   {
     icon: Settings,
-    title: 'Tailored Solutions & Child Safety',
-    desc: 'Personalized corporate accounts, flight delay guarantees, and certified sanitized child car seats installed upon request.',
+    title: 'Tailored Travel Solutions',
+    desc: 'Personalized corporate accounts, flight delay guarantees, luggage assistance, and customized itineraries upon request.',
   },
   {
     icon: Star,
