@@ -103,6 +103,9 @@ html {
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  -webkit-tap-highlight-color: transparent;
+  text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
 }
 
 /* Lenis Scroll Rules */
@@ -181,15 +184,17 @@ button {
   border: none;
   background: none;
   font-family: inherit;
+  touch-action: manipulation;
   transition: all 0.18s var(--ease-snappy);
 }
 
 button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 input, select, textarea {
   font-family: inherit;
+  font-size: 16px; /* Prevents unwanted iOS Safari viewport auto-zoom */
 }
 
 /* ==========================================================================
@@ -202,8 +207,8 @@ input, select, textarea {
   max-width: 1680px; /* High-end ultra-wide desktop footprint */
   margin-left: auto;
   margin-right: auto;
-  padding-left: clamp(24px, 4.5vw, 80px);
-  padding-right: clamp(24px, 4.5vw, 80px);
+  padding-left: clamp(16px, 4.5vw, 80px);
+  padding-right: clamp(16px, 4.5vw, 80px);
 }
 
 .section-spacing {

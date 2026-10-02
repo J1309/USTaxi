@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
-import { ArrowRight, Menu, X } from 'lucide-react';
+import { ArrowRight, Menu, X, MessageCircle } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
-import { OWNER_PHONE_RAW } from '../utils/whatsapp';
+import { OWNER_PHONE_RAW, getDirectWhatsAppChatUrl } from '../utils/whatsapp';
 
 export default function Navbar() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
@@ -212,10 +212,23 @@ export default function Navbar() {
           </ul>
 
           <div className="mobile-drawer-footer">
-            <a href={`tel:+${OWNER_PHONE_RAW}`} className="mobile-phone-call-btn">
-              <span>+1 (832) 879-8685</span>
-              <span className="mobile-call-sub">· Call Anytime</span>
-            </a>
+            <div className="mobile-drawer-contact-row">
+              <a href={`tel:+${OWNER_PHONE_RAW}`} className="mobile-phone-call-btn">
+                <span>+1 (832) 879-8685</span>
+                <span className="mobile-call-sub">· Call</span>
+              </a>
+              <a 
+                href={getDirectWhatsAppChatUrl()} 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="mobile-whatsapp-drawer-btn"
+                aria-label="Chat on WhatsApp"
+              >
+                <MessageCircle size={17} color="#25D366" />
+                <span>WhatsApp</span>
+              </a>
+            </div>
+
             <button
               type="button"
               onClick={handleBookRideClick}
@@ -416,20 +429,32 @@ export default function Navbar() {
           padding-top: 6px;
         }
 
+        .mobile-drawer-contact-row {
+          display: flex;
+          align-items: center;
+          gap: 10px;
+        }
+
         .mobile-phone-call-btn {
+          flex: 1;
           display: flex;
           align-items: center;
           justify-content: center;
           gap: 6px;
-          padding: 13px 18px;
+          padding: 12px 14px;
           border-radius: 9999px;
           background: rgba(255, 255, 255, 0.06);
           border: 1.5px solid rgba(255, 255, 255, 0.15);
-          font-size: 0.94rem;
+          font-size: 0.88rem;
           font-weight: 800;
           color: #FFFFFF;
           text-decoration: none;
+          touch-action: manipulation;
           transition: all 0.18s ease;
+        }
+
+        .mobile-phone-call-btn:active {
+          transform: scale(0.97);
         }
 
         .mobile-phone-call-btn:hover {
@@ -437,8 +462,35 @@ export default function Navbar() {
           color: #E88C2B;
         }
 
+        .mobile-whatsapp-drawer-btn {
+          display: inline-flex;
+          align-items: center;
+          justify-content: center;
+          gap: 6px;
+          padding: 12px 18px;
+          border-radius: 9999px;
+          background: rgba(37, 211, 102, 0.12);
+          border: 1.5px solid rgba(37, 211, 102, 0.35);
+          font-size: 0.88rem;
+          font-weight: 800;
+          color: #FFFFFF;
+          text-decoration: none;
+          touch-action: manipulation;
+          transition: all 0.18s ease;
+          flex-shrink: 0;
+        }
+
+        .mobile-whatsapp-drawer-btn:active {
+          transform: scale(0.97);
+        }
+
+        .mobile-whatsapp-drawer-btn:hover {
+          background: rgba(37, 211, 102, 0.22);
+          border-color: #25D366;
+        }
+
         .mobile-call-sub {
-          font-size: 0.76rem;
+          font-size: 0.74rem;
           color: #E88C2B;
           font-weight: 600;
         }

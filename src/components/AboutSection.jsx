@@ -1054,7 +1054,7 @@ export default function AboutSection() {
           }
         }
 
-        @media (max-width: 640px) {
+        @media (max-width: 768px) {
           .about-section-luxury {
             padding: 60px 0 70px 0;
           }

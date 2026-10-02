@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { ArrowRight } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
 
@@ -24,6 +24,29 @@ const SERVICES = [
 ];
 
 export default function ServicesSection() {
+  const [activeDot, setActiveDot] = useState(0);
+  const carouselRef = useRef(null);
+
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const scrollLeft = carouselRef.current.scrollLeft;
+    const cardWidth = carouselRef.current.offsetWidth * 0.88;
+    const newIndex = Math.round(scrollLeft / cardWidth);
+    if (newIndex >= 0 && newIndex < SERVICES.length && newIndex !== activeDot) {
+      setActiveDot(newIndex);
+    }
+  };
+
+  const scrollToCard = (index) => {
+    if (!carouselRef.current) return;
+    const cardWidth = carouselRef.current.offsetWidth * 0.88;
+    carouselRef.current.scrollTo({
+      left: index * cardWidth,
+      behavior: 'smooth'
+    });
+    setActiveDot(index);
+  };
+
   const handleExploreClick = () => {
     smoothScrollTo('#fleet');
   };
@@ -65,7 +88,11 @@ export default function ServicesSection() {
 
           {/* Right Column: Photo Cards (Swipeable Carousel on Mobile) */}
           <div className="services-cards-trio-wrapper">
-            <div className="services-cards-trio">
+            <div 
+              className="services-cards-trio" 
+              ref={carouselRef} 
+              onScroll={handleScroll}
+            >
               {SERVICES.map((item, idx) => (
                 <div
                   key={item.id}
@@ -101,11 +128,17 @@ export default function ServicesSection() {
               ))}
             </div>
 
-            {/* Mobile Carousel Dots matching Screen 4 */}
+            {/* Mobile Carousel Dots matching Screen 4 (Interactive) */}
             <div className="services-mobile-dots">
-              <span className="srv-dot active" />
-              <span className="srv-dot" />
-              <span className="srv-dot" />
+              {SERVICES.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  className={`srv-dot ${activeDot === idx ? 'active' : ''}`}
+                  onClick={() => scrollToCard(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
             </div>
           </div>
         </div>
@@ -374,17 +407,22 @@ export default function ServicesSection() {
           }
 
           .srv-dot {
-            width: 6px;
-            height: 6px;
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
-            background: rgba(78, 4, 1, 0.2);
-            transition: all 0.2s ease;
+            border: none;
+            background: rgba(78, 4, 1, 0.22);
+            padding: 0;
+            cursor: pointer;
+            touch-action: manipulation;
+            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
           }
 
           .srv-dot.active {
-            width: 16px;
+            width: 20px;
             border-radius: 9999px;
             background: #E88C2B;
+            box-shadow: 0 2px 6px rgba(232, 140, 43, 0.4);
           }
         }
       `}</style>

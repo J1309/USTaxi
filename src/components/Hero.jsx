@@ -45,6 +45,22 @@ export default function Hero({ onSelectVehicle }) {
             Luxury, Punctuality, Peace of Mind. Your journey deserves more than just a ride. Experience executive chauffeur service with hands-on owner accountability.
           </p>
 
+          {/* Mobile Luxury Trust & Service Pills (Addresses empty space without clunky buttons) */}
+          <div className="hero-mobile-features-strip">
+            <div className="hero-mob-feature-pill">
+              <span className="mob-feature-star">✦</span>
+              <span>24/7 Airport Transfers (IAH & HOU)</span>
+            </div>
+            <div className="hero-mob-feature-pill">
+              <span className="mob-feature-star">✦</span>
+              <span>Suburban & Lexus Private Chauffeur</span>
+            </div>
+            <div className="hero-mob-feature-pill">
+              <span className="mob-feature-star">✦</span>
+              <span>Direct Owner Dispatch · Fixed Rates</span>
+            </div>
+          </div>
+
           <div className="hero-cta-buttons-row">
             <button
               type="button"
@@ -228,6 +244,10 @@ export default function Hero({ onSelectVehicle }) {
           background: #FFFFFF;
         }
 
+        .hero-mobile-features-strip {
+          display: none;
+        }
+
         .hero-mobile-bottom-dock {
           display: none;
         }
@@ -310,6 +330,39 @@ export default function Hero({ onSelectVehicle }) {
             text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
             opacity: 0.95;
           }
+
+          .hero-mobile-features-strip {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 18px;
+            margin-bottom: 20px;
+            width: 100%;
+          }
+
+          .hero-mob-feature-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(14, 3, 5, 0.72);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.16);
+            border-radius: 9999px;
+            padding: 8px 14px;
+            font-size: 0.78rem;
+            font-weight: 700;
+            color: #FEFBF3;
+            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
+            max-width: fit-content;
+          }
+
+          .mob-feature-star {
+            color: #E88C2B;
+            font-size: 0.72rem;
+          }
+
           .desktop-call-text {
             display: none;
           }

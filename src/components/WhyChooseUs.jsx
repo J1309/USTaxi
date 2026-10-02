@@ -108,6 +108,10 @@ export default function WhyChooseUs() {
               alt="Executive passenger relaxing in luxury chauffeur vehicle"
               className="mobile-why-img"
             />
+            <div className="mobile-why-badge">
+              <span className="badge-gold-star">★ 5.0</span>
+              <span className="badge-text">Houston Executive Favorite</span>
+            </div>
           </div>
 
           {/* Accordion Stack matching Mockup */}

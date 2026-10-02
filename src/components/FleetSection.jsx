@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { 
   Users, 
   Briefcase, 
@@ -135,6 +135,8 @@ const FLEET_DATA = [
 export default function FleetSection({ onSelectVehicleForBooking }) {
   const [activeVehicleId, setActiveVehicleId] = useState('suburban');
   const [activeInteriorIndex, setActiveInteriorIndex] = useState(0);
+  const [activeMobileInteriorIndex, setActiveMobileInteriorIndex] = useState(0);
+  const mobileInteriorReelRef = useRef(null);
 
   const activeVehicle = FLEET_DATA.find((v) => v.id === activeVehicleId) || FLEET_DATA[0];
   const activeInterior = activeVehicle.interiorViews[activeInteriorIndex] || activeVehicle.interiorViews[0];
@@ -142,6 +144,20 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
   const handleVehicleSwitch = (vehicleId) => {
     setActiveVehicleId(vehicleId);
     setActiveInteriorIndex(0);
+    setActiveMobileInteriorIndex(0);
+    if (mobileInteriorReelRef.current) {
+      mobileInteriorReelRef.current.scrollTo({ left: 0, behavior: 'instant' });
+    }
+  };
+
+  const handleMobileInteriorScroll = () => {
+    if (!mobileInteriorReelRef.current) return;
+    const scrollLeft = mobileInteriorReelRef.current.scrollLeft;
+    const cardWidth = mobileInteriorReelRef.current.offsetWidth * 0.84;
+    const newIdx = Math.round(scrollLeft / cardWidth);
+    if (newIdx >= 0 && newIdx < activeVehicle.interiorViews.length && newIdx !== activeMobileInteriorIndex) {
+      setActiveMobileInteriorIndex(newIdx);
+    }
   };
 
   const handleSelectBooking = (vId) => {
@@ -371,19 +387,40 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           </div>
 
           {/* MOBILE VIEW: Continuous Scrollable Interior Cards Reel */}
-          <div className="mobile-interior-scroll-reel">
-            {activeVehicle.interiorViews.map((view, idx) => (
-              <div key={view.id} className="mobile-interior-card">
-                <div className="mobile-interior-photo-box">
-                  <img src={view.src} alt={view.title} className="mobile-interior-img" />
-                  <span className="mobile-interior-badge">{view.badge}</span>
+          <div className="mobile-interior-reel-wrapper">
+            <div className="mobile-reel-instruction-bar">
+              <span className="mobile-swipe-instruction">Swipe to inspect all {activeVehicle.interiorViews.length} cabin perspectives</span>
+              <span className="mobile-reel-counter">{activeMobileInteriorIndex + 1} / {activeVehicle.interiorViews.length}</span>
+            </div>
+
+            <div 
+              className="mobile-interior-scroll-reel" 
+              ref={mobileInteriorReelRef}
+              onScroll={handleMobileInteriorScroll}
+            >
+              {activeVehicle.interiorViews.map((view, idx) => (
+                <div key={view.id} className="mobile-interior-card">
+                  <div className="mobile-interior-photo-box">
+                    <img src={view.src} alt={view.title} className="mobile-interior-img" />
+                    <span className="mobile-interior-badge">{view.badge}</span>
+                  </div>
+                  <div className="mobile-interior-card-body">
+                    <h4 className="mobile-interior-title">{view.title}</h4>
+                    <p className="mobile-interior-desc">{view.desc}</p>
+                  </div>
                 </div>
-                <div className="mobile-interior-card-body">
-                  <h4 className="mobile-interior-title">{view.title}</h4>
-                  <p className="mobile-interior-desc">{view.desc}</p>
-                </div>
-              </div>
-            ))}
+              ))}
+            </div>
+
+            {/* Mobile Reel Dots */}
+            <div className="mobile-interior-reel-dots">
+              {activeVehicle.interiorViews.map((_, idx) => (
+                <span 
+                  key={idx} 
+                  className={`interior-dot ${activeMobileInteriorIndex === idx ? 'active' : ''}`} 
+                />
+              ))}
+            </div>
           </div>
 
           {/* Bottom Switcher: Quick jump to other vehicle */}
@@ -972,7 +1009,10 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
         }
 
         /* Mobile Interior Scroll Reel (Hidden on Desktop) */
-        .mobile-interior-scroll-reel {
+        .mobile-interior-reel-wrapper,
+        .mobile-interior-scroll-reel,
+        .mobile-reel-instruction-bar,
+        .mobile-interior-reel-dots {
           display: none;
         }
 
@@ -1113,6 +1153,10 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             display: none !important;
           }
 
+          .mobile-interior-reel-wrapper {
+            display: block;
+          }
+
           /* Smooth Mobile Horizontal Scroll Reel */
           .mobile-interior-scroll-reel {
             display: flex;
@@ -1197,6 +1241,54 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           .btn-switch-other-vehicle {
             font-size: 0.82rem;
             text-align: center;
+          }
+
+          .mobile-reel-instruction-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 0 2px;
+          }
+
+          .mobile-swipe-instruction {
+            font-size: 0.74rem;
+            font-weight: 700;
+            color: #E88C2B;
+            letter-spacing: 0.02em;
+          }
+
+          .mobile-reel-counter {
+            font-size: 0.72rem;
+            font-weight: 800;
+            color: #4E0401;
+            background: #FDF3E7;
+            border: 1px solid rgba(232, 140, 43, 0.25);
+            padding: 2px 8px;
+            border-radius: 9999px;
+          }
+
+          .mobile-interior-reel-dots {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            margin-top: 12px;
+          }
+
+          .interior-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            background: rgba(78, 4, 1, 0.2);
+            transition: all 0.22s ease;
+          }
+
+          .interior-dot.active {
+            width: 18px;
+            border-radius: 9999px;
+            background: #E88C2B;
+            box-shadow: 0 2px 6px rgba(232, 140, 43, 0.4);
           }
         }
       `}</style>

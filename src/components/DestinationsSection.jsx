@@ -101,13 +101,13 @@ export default function DestinationsSection() {
         <div className="mobile-destinations-layout">
           <div className="destinations-mobile-header reveal-on-scroll">
             <span className="destinations-kicker">POPULAR DESTINATIONS</span>
-            <h2 className="destinations-mobile-title">Explore the City in Comfort</h2>
+            <h2 className="destinations-mobile-title">Explore Greater Houston</h2>
             <p className="destinations-mobile-sub">
-              Direct point-to-point luxury transfers across Greater Houston, Texas Medical Center, and Galveston Island with zero surge pricing.
+              Fixed-rate executive transfers across Houston airports, business centers, medical hubs, and Galveston Island with zero surge pricing.
             </p>
           </div>
 
-          {/* Featured Large Card: Business Districts */}
+          {/* Featured Primary Card: Houston Airports (Most Popular) */}
           <div 
             className="mob-featured-dest-card"
             onClick={handleDestinationClick}
@@ -115,15 +115,16 @@ export default function DestinationsSection() {
             tabIndex={0}
           >
             <img
-              src="/images/destination_houston.jpg"
-              alt="Business Districts Downtown & Galleria"
+              src="/images/owner_suburban_airport.jpg"
+              alt="Houston Airports IAH Bush & Hobby HOU"
               className="mob-feat-bg-img"
             />
             <div className="mob-feat-gradient-overlay" />
             <div className="mob-feat-content">
               <div>
-                <h3 className="mob-feat-title">Business Districts</h3>
-                <p className="mob-feat-sub">Downtown & Galleria</p>
+                <span className="mob-feat-kicker">MOST POPULAR ROUTE</span>
+                <h3 className="mob-feat-title">Houston Airports (IAH & HOU)</h3>
+                <p className="mob-feat-sub">Direct Terminal Curbside Meet & Greet</p>
               </div>
               <div className="mob-feat-circle-btn">
                 <ArrowRight size={16} color="#4E0401" />
@@ -131,48 +132,51 @@ export default function DestinationsSection() {
             </div>
           </div>
 
-          {/* 3 Compact Columns Row Below */}
-          <div className="mob-compact-dest-row">
+          {/* Secondary Destinations: 3 Legible Full-Width Touch Cards */}
+          <div className="mob-destinations-list-stack">
             <div 
-              className="mob-compact-dest-card"
+              className="mob-dest-strip-card"
               onClick={handleDestinationClick}
               role="button"
               tabIndex={0}
             >
-              <img src="/images/owner_suburban_airport.jpg" alt="Airports" className="mob-compact-img" />
-              <div className="mob-compact-overlay" />
-              <div className="mob-compact-info">
-                <h4 className="mob-compact-title">Airports</h4>
-                <p className="mob-compact-sub">IAH & HOU</p>
+              <img src="/images/destination_houston.jpg" alt="Business Districts" className="mob-strip-bg" />
+              <div className="mob-strip-overlay" />
+              <div className="mob-strip-info">
+                <h4 className="mob-strip-title">Business Districts</h4>
+                <p className="mob-strip-sub">Downtown & Galleria Area</p>
               </div>
+              <span className="mob-strip-arrow"><ArrowRight size={14} color="#E88C2B" /></span>
             </div>
 
             <div 
-              className="mob-compact-dest-card"
+              className="mob-dest-strip-card"
               onClick={handleDestinationClick}
               role="button"
               tabIndex={0}
             >
-              <img src="/images/service_corporate.jpg" alt="Hotels & Medical" className="mob-compact-img" />
-              <div className="mob-compact-overlay" />
-              <div className="mob-compact-info">
-                <h4 className="mob-compact-title">Hotels & Medical</h4>
-                <p className="mob-compact-sub">TMC & Luxury</p>
+              <img src="/images/service_corporate.jpg" alt="Hotels & Medical" className="mob-strip-bg" />
+              <div className="mob-strip-overlay" />
+              <div className="mob-strip-info">
+                <h4 className="mob-strip-title">Hotels & Medical</h4>
+                <p className="mob-strip-sub">Post Oak & Texas Medical Center</p>
               </div>
+              <span className="mob-strip-arrow"><ArrowRight size={14} color="#E88C2B" /></span>
             </div>
 
             <div 
-              className="mob-compact-dest-card"
+              className="mob-dest-strip-card"
               onClick={handleDestinationClick}
               role="button"
               tabIndex={0}
             >
-              <img src="/images/service_cruise.jpg" alt="Tourist & Cruises" className="mob-compact-img" />
-              <div className="mob-compact-overlay" />
-              <div className="mob-compact-info">
-                <h4 className="mob-compact-title">Tourist & Cruises</h4>
-                <p className="mob-compact-sub">Galveston & Space</p>
+              <img src="/images/service_cruise.jpg" alt="Galveston Cruise & Space Center" className="mob-strip-bg" />
+              <div className="mob-strip-overlay" />
+              <div className="mob-strip-info">
+                <h4 className="mob-strip-title">Galveston & Space Center</h4>
+                <p className="mob-strip-sub">Cruise Terminal & NASA Johnson</p>
               </div>
+              <span className="mob-strip-arrow"><ArrowRight size={14} color="#E88C2B" /></span>
             </div>
           </div>
         </div>
@@ -450,6 +454,16 @@ export default function DestinationsSection() {
             z-index: 2;
           }
 
+          .mob-feat-kicker {
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.12em;
+            color: #E88C2B;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 2px;
+          }
+
           .mob-feat-title {
             font-family: var(--font-heading);
             font-size: 1.25rem;
@@ -460,8 +474,8 @@ export default function DestinationsSection() {
 
           .mob-feat-sub {
             font-size: 0.78rem;
-            color: #E88C2B;
-            font-weight: 700;
+            color: rgba(254, 251, 243, 0.85);
+            font-weight: 600;
             margin: 0;
           }
 
@@ -477,63 +491,87 @@ export default function DestinationsSection() {
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
           }
 
-          /* 3 Compact Row Below */
-          .mob-compact-dest-row {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
+          /* 3 Legible Strip Cards Stack */
+          .mob-destinations-list-stack {
+            display: flex;
+            flex-direction: column;
             gap: 10px;
           }
 
-          .mob-compact-dest-card {
+          .mob-dest-strip-card {
             position: relative;
-            height: 120px;
-            border-radius: 12px;
+            height: 82px;
+            border-radius: 14px;
             overflow: hidden;
             border: 1px solid rgba(255, 255, 255, 0.12);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 16px;
+            touch-action: manipulation;
+            transition: all 0.16s ease;
           }
 
-          .mob-compact-img {
+          .mob-dest-strip-card:active {
+            transform: scale(0.98);
+            border-color: #E88C2B;
+          }
+
+          .mob-strip-bg {
+            position: absolute;
+            inset: 0;
             width: 100%;
             height: 100%;
             object-fit: cover;
+            z-index: 1;
           }
 
-          .mob-compact-overlay {
+          .mob-strip-overlay {
             position: absolute;
             inset: 0;
             background: linear-gradient(
-              180deg,
-              rgba(32, 1, 0, 0.2) 0%,
-              rgba(32, 1, 0, 0.88) 100%
+              90deg,
+              rgba(24, 2, 4, 0.94) 0%,
+              rgba(24, 2, 4, 0.82) 65%,
+              rgba(24, 2, 4, 0.65) 100%
             );
+            z-index: 2;
           }
 
-          .mob-compact-info {
-            position: absolute;
-            bottom: 8px;
-            left: 8px;
-            right: 8px;
-            z-index: 2;
+          .mob-strip-info {
+            position: relative;
+            z-index: 3;
             text-align: left;
           }
 
-          .mob-compact-title {
-            font-size: 0.76rem;
+          .mob-strip-title {
+            font-family: var(--font-heading);
+            font-size: 1.05rem;
             font-weight: 800;
             color: #FFFFFF;
-            margin: 0 0 2px 0;
-            line-height: 1.15;
+            margin: 0 0 3px 0;
           }
 
-          .mob-compact-sub {
-            font-size: 0.62rem;
+          .mob-strip-sub {
+            font-size: 0.74rem;
             color: #E88C2B;
             font-weight: 600;
             margin: 0;
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+          }
+
+          .mob-strip-arrow {
+            position: relative;
+            z-index: 3;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.12);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
           }
         }
       `}</style>

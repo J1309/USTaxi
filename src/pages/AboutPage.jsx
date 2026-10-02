@@ -166,8 +166,7 @@ export default function AboutPage() {
 
         @media (max-width: 768px) {
           .about-breadcrumb-bar {
-            padding-top: 86px;
-            padding-bottom: 18px;
+            padding: 14px 0;
           }
         }
       `}</style>
