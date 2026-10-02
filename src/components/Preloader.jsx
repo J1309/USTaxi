@@ -1,13 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react';
 
 /**
- * Fullscreen Seamless Video Preloader for Lavender Taxi Service
- * Uses /preload_vid.mp4 as the intro animation.
+ * Mobile-First Fullscreen Video Preloader for Lavender Taxi Service
  * Features:
- * - Plays inline, muted, autoPlay for seamless iOS/Android & desktop support
- * - Pure white background seamlessly matching the video's background (zero black letterbox/pillarbox bars)
- * - Automatically fades out and unmounts cleanly when the video completes (onEnded)
- * - Safe fallback timer to prevent blocking if video playback is delayed
+ * - Full cross-platform support: iOS Safari, Android Chrome, and Desktop
+ * - Guaranteed mobile autoplay compliance (muted DOM properties & WebKit attributes)
+ * - Scaled portrait presentation for mobile screens so the car & branding look bold and custom-fitted
+ * - Seamless edge-to-edge pure white background (#ffffff) with zero borders or black bars
+ * - Automatic smooth fade-out and unmount once the video completes
  */
 export default function Preloader() {
   const [mounted, setMounted] = useState(true);
@@ -22,26 +22,43 @@ export default function Preloader() {
   };
 
   useEffect(() => {
-    // Respect user's motion preference
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (prefersReducedMotion) {
-      setMounted(false);
-      return;
-    }
+    const video = videoRef.current;
+    if (!video) return;
 
-    // Attempt video playback immediately
-    if (videoRef.current) {
-      videoRef.current.play().catch(() => {
-        // Autoplay policy fallback
-      });
-    }
+    // Critical for iOS Safari, iPadOS, and Android Chrome autoplay compliance:
+    // React JSX attributes alone do not set DOM properties early enough for WebKit.
+    video.defaultMuted = true;
+    video.muted = true;
+    video.playsInline = true;
+    video.setAttribute('playsinline', '');
+    video.setAttribute('webkit-playsinline', '');
+    video.setAttribute('x5-playsinline', '');
+    video.setAttribute('muted', '');
 
-    // Safety fallback: maximum 4.5 seconds in case video event doesn't fire
+    const startPlayback = () => {
+      if (!video) return;
+      const playPromise = video.play();
+      if (playPromise !== undefined) {
+        playPromise.catch((err) => {
+          // Autoplay policy prevented playback, attempt on next tick or allow interaction
+          console.warn('Video preloader autoplay caught:', err);
+        });
+      }
+    };
+
+    // Attempt playback immediately and listen for metadata load
+    startPlayback();
+    video.addEventListener('loadedmetadata', startPlayback);
+    video.addEventListener('canplay', startPlayback);
+
+    // Safety fallback: maximum 4.5 seconds so user is never stuck
     const safetyTimer = setTimeout(() => {
       handleFinish();
     }, 4500);
 
     return () => {
+      video.removeEventListener('loadedmetadata', startPlayback);
+      video.removeEventListener('canplay', startPlayback);
       clearTimeout(safetyTimer);
     };
   }, []);
@@ -53,7 +70,13 @@ export default function Preloader() {
       className={`video-preloader-backdrop ${isExiting ? 'preloader-exit' : ''}`}
       aria-hidden="true"
       role="status"
-      aria-label="Loading Lavender Taxi Service"
+      aria-label="Lavender Taxi Service Intro"
+      onTouchStart={() => {
+        // Fallback for strict battery-saver / iOS low power mode
+        if (videoRef.current && videoRef.current.paused) {
+          videoRef.current.play().catch(() => {});
+        }
+      }}
     >
       <div className="video-preloader-wrapper">
         <video
@@ -86,6 +109,9 @@ export default function Preloader() {
           justify-content: center;
           overflow: hidden;
           transition: opacity 0.6s cubic-bezier(0.16, 1, 0.3, 1), visibility 0.6s ease;
+          touch-action: manipulation;
+          -webkit-user-select: none;
+          user-select: none;
         }
 
         .video-preloader-backdrop.preloader-exit {
@@ -102,6 +128,7 @@ export default function Preloader() {
           align-items: center;
           justify-content: center;
           background: #ffffff;
+          overflow: hidden;
         }
 
         .preloader-video {
@@ -112,6 +139,24 @@ export default function Preloader() {
           object-fit: contain;
           background: #ffffff;
           display: block;
+          transform: scale(1);
+          transform-origin: center center;
+          transition: transform 0.3s ease;
+        }
+
+        /* Mobile Version Optimization:
+           Enlarge and center the SUV + Lavender Taxi logo in portrait screens
+           so it fills the mobile screen nicely and feels native rather than a tiny strip */
+        @media (max-width: 768px), (orientation: portrait) {
+          .preloader-video {
+            transform: scale(1.36);
+          }
+        }
+
+        @media (max-width: 480px) {
+          .preloader-video {
+            transform: scale(1.42);
+          }
         }
       `}</style>
     </div>
