@@ -29,37 +29,14 @@ export default function Hero({ onSelectVehicle }) {
           </div>
 
           <h1 className="hero-main-heading">
-            <span className="desktop-heading">
-              PREMIUM<br />
-              TAXI SERVICES<br />
-              <span className="orange-accent">IN HOUSTON</span>
-            </span>
-            <span className="mobile-heading">
-              Premium<br />
-              Taxi Services<br />
-              <span className="orange-accent italic-city">in Houston</span>
-            </span>
+            PREMIUM<br />
+            TAXI SERVICES<br />
+            <span className="orange-accent">IN HOUSTON</span>
           </h1>
 
           <p className="hero-sub-description">
             Luxury, Punctuality, Peace of Mind. Your journey deserves more than just a ride. Experience executive chauffeur service with hands-on owner accountability.
           </p>
-
-          {/* Mobile Luxury Trust & Service Pills (Addresses empty space without clunky buttons) */}
-          <div className="hero-mobile-features-strip">
-            <div className="hero-mob-feature-pill">
-              <span className="mob-feature-star">✦</span>
-              <span>24/7 Airport Transfers (IAH & HOU)</span>
-            </div>
-            <div className="hero-mob-feature-pill">
-              <span className="mob-feature-star">✦</span>
-              <span>Suburban & Lexus Private Chauffeur</span>
-            </div>
-            <div className="hero-mob-feature-pill">
-              <span className="mob-feature-star">✦</span>
-              <span>Direct Owner Dispatch · Fixed Rates</span>
-            </div>
-          </div>
 
           <div className="hero-cta-buttons-row">
             <button
@@ -83,7 +60,7 @@ export default function Hero({ onSelectVehicle }) {
           </div>
         </div>
 
-        {/* Mobile View Bottom Anchor */}
+        {/* Mobile View Minimal Bottom Anchor */}
         <div className="hero-mobile-bottom-dock">
           <a 
             href="#services" 
@@ -99,7 +76,7 @@ export default function Hero({ onSelectVehicle }) {
         </div>
       </div>
 
-      {/* Floating Booking Engine Widget overlapping bottom of Hero */}
+      {/* Floating Booking Engine Widget overlapping bottom of Hero (Desktop only) */}
       <div className="hero-booking-dock reveal-on-scroll reveal-delay-1">
         <BookingWidget onSelectVehicle={onSelectVehicle} />
       </div>
@@ -165,24 +142,13 @@ export default function Hero({ onSelectVehicle }) {
           color: #4E0401;
           line-height: 1.05;
           letter-spacing: -0.025em;
+          text-transform: uppercase;
           margin-bottom: 12px;
           text-rendering: optimizeLegibility;
         }
 
-        .desktop-heading {
-          display: block;
-        }
-
-        .mobile-heading {
-          display: none;
-        }
-
         .orange-accent {
           color: #E88C2B;
-        }
-
-        .italic-city {
-          font-style: italic;
         }
 
         .hero-sub-description {
@@ -244,10 +210,6 @@ export default function Hero({ onSelectVehicle }) {
           background: #FFFFFF;
         }
 
-        .hero-mobile-features-strip {
-          display: none;
-        }
-
         .hero-mobile-bottom-dock {
           display: none;
         }
@@ -259,6 +221,7 @@ export default function Hero({ onSelectVehicle }) {
           margin-top: 40px;
         }
 
+        /* Minimal, Clean, Professional Mobile Hero (< 768px) */
         @media (max-width: 768px) {
           .hero-bg-media::after {
             content: '';
@@ -266,44 +229,31 @@ export default function Hero({ onSelectVehicle }) {
             inset: 0;
             background: linear-gradient(
               180deg,
-              rgba(18, 5, 4, 0.65) 0%,
-              rgba(18, 5, 4, 0.35) 30%,
-              rgba(18, 5, 4, 0.15) 55%,
-              rgba(18, 5, 4, 0.65) 100%
+              rgba(14, 3, 6, 0.70) 0%,
+              rgba(14, 3, 6, 0.40) 35%,
+              rgba(14, 3, 6, 0.25) 60%,
+              rgba(14, 3, 6, 0.75) 100%
             );
             pointer-events: none;
             z-index: 2;
           }
+
           .hero-bg-img {
             object-position: 46% 62% !important;
           }
-          .desktop-heading {
-            display: none;
-          }
-          .mobile-heading {
-            display: block;
-            color: #FFFFFF !important;
-            text-shadow: 0 3px 16px rgba(0, 0, 0, 0.9);
-          }
-          .mobile-heading .orange-accent {
-            color: #E88C2B !important;
-          }
-          .hero-kicker-tag span {
-            color: #E88C2B;
-            font-weight: 800;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
-          }
+
           .hero-editorial-section {
-            min-height: calc(100vh - 70px);
-            min-height: calc(100dvh - 70px);
-            padding-top: 28px;
-            padding-bottom: 74px;
+            min-height: calc(100vh - 74px);
+            min-height: calc(100dvh - 74px);
+            padding-top: 36px;
+            padding-bottom: 80px;
             overflow-x: clip;
             width: 100%;
             display: flex;
             flex-direction: column;
             justify-content: space-between;
           }
+
           .hero-content-container {
             display: flex;
             flex-direction: column;
@@ -313,83 +263,72 @@ export default function Hero({ onSelectVehicle }) {
             position: relative;
             z-index: 5;
           }
+
+          .hero-kicker-tag span {
+            color: #E88C2B;
+            font-weight: 800;
+            font-size: 0.78rem;
+            letter-spacing: 0.18em;
+            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
+          }
+
+          /* Preserves exact desktop typography (uppercase, bold, thick Outfit heading) */
+          .hero-main-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(2.35rem, 8.2vw, 3.1rem);
+            font-weight: 900;
+            color: #FFFFFF !important;
+            line-height: 1.05;
+            letter-spacing: -0.025em;
+            text-transform: uppercase;
+            text-shadow: 0 3px 20px rgba(0, 0, 0, 0.9);
+            margin-bottom: 14px;
+          }
+
+          .hero-main-heading .orange-accent {
+            color: #E88C2B !important;
+            text-shadow: 0 2px 14px rgba(232, 140, 43, 0.5);
+          }
+
+          .hero-sub-description {
+            font-size: 0.94rem;
+            line-height: 1.55;
+            margin-bottom: 0;
+            color: rgba(255, 255, 255, 0.92) !important;
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
+            max-width: 480px;
+          }
+
           .hero-cta-buttons-row {
             display: none !important;
           }
+
           .hero-booking-dock {
             display: none !important;
           }
-          .hero-main-heading {
-            font-size: clamp(2.2rem, 7.5vw, 2.75rem);
-            margin-bottom: 10px;
-          }
-          .hero-sub-description {
-            font-size: 0.92rem;
-            margin-bottom: 0;
-            color: #FFFFFF !important;
-            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.95);
-            opacity: 0.95;
-          }
 
-          .hero-mobile-features-strip {
-            display: flex;
-            flex-direction: column;
-            gap: 8px;
-            margin-top: 18px;
-            margin-bottom: 20px;
-            width: 100%;
-          }
-
-          .hero-mob-feature-pill {
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-            background: rgba(14, 3, 5, 0.72);
-            backdrop-filter: blur(12px);
-            -webkit-backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            border-radius: 9999px;
-            padding: 8px 14px;
-            font-size: 0.78rem;
-            font-weight: 700;
-            color: #FEFBF3;
-            text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.3);
-            max-width: fit-content;
-          }
-
-          .mob-feature-star {
-            color: #E88C2B;
-            font-size: 0.72rem;
-          }
-
-          .desktop-call-text {
-            display: none;
-          }
-
-          /* Mobile Bottom Anchor Styles */
+          /* Subtle, clean bottom scroll hint */
           .hero-mobile-bottom-dock {
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 10px;
+            gap: 8px;
             width: 100%;
-            padding-top: 24px;
-            padding-bottom: 6px;
+            padding-top: 30px;
+            padding-bottom: 4px;
             text-align: center;
           }
 
           .hero-mobile-scroll-hint {
             display: inline-flex;
             align-items: center;
-            gap: 5px;
-            color: #FFFFFF;
-            font-size: 0.72rem;
+            gap: 6px;
+            color: rgba(255, 255, 255, 0.85);
+            font-size: 0.70rem;
             font-weight: 700;
-            letter-spacing: 0.08em;
+            letter-spacing: 0.10em;
             text-transform: uppercase;
             text-shadow: 0 2px 8px rgba(0, 0, 0, 0.9);
-            opacity: 0.9;
             text-decoration: none;
             transition: all 0.18s ease;
           }
