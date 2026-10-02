@@ -63,7 +63,7 @@ export default function Footer() {
           <div className="footer-brand-col">
             <a href="/" onClick={handleHomeNav} className="footer-brand-link" aria-label="Lavender Taxi Service">
               <img
-                src="/images/new_suburban_logo_cropped.png"
+                src="/images/new_logo_cropped.png"
                 alt="Lavender Taxi Service"
                 className="footer-brand-logo"
               />
@@ -178,7 +178,7 @@ export default function Footer() {
           <div className="mob-footer-brand">
             <a href="/" onClick={handleHomeNav} className="mob-footer-logo-link" aria-label="Lavender Taxi Service">
               <img
-                src="/images/new_suburban_logo_cropped.png"
+                src="/images/new_logo_cropped.png"
                 alt="Lavender Taxi Service"
                 className="mob-footer-logo"
               />
@@ -316,16 +316,25 @@ export default function Footer() {
         }
 
         .footer-brand-link {
-          display: flex;
+          display: inline-flex;
           align-items: center;
           gap: 12px;
           margin-bottom: 16px;
+          background: #FFFFFF;
+          padding: 6px 14px;
+          border-radius: 12px;
+          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
+          transition: transform 0.2s ease;
+        }
+
+        .footer-brand-link:hover {
+          transform: translateY(-1px);
         }
 
         .footer-brand-logo {
-          height: 48px;
+          height: 44px;
           width: auto;
-          max-width: 175px;
+          max-width: 170px;
           object-fit: contain;
         }
 
@@ -576,10 +585,14 @@ export default function Footer() {
             align-items: center;
             gap: 12px;
             text-decoration: none;
+            background: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.35);
           }
 
           .mob-footer-logo {
-            height: 40px;
+            height: 38px;
             width: auto;
             max-width: 145px;
             object-fit: contain;

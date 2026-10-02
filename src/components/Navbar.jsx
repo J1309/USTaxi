@@ -58,7 +58,7 @@ export default function Navbar() {
   return (
     <header className={`site-header ${mobileMenuOpen ? 'menu-open' : ''}`}>
       <div className="container header-container">
-        {/* Brand Logo */}
+        {/* Brand Logo with New Logo */}
         <a
           href="/"
           onClick={handleHomeNav}
@@ -66,7 +66,7 @@ export default function Navbar() {
           aria-label="Lavender Taxi Service - Home"
         >
           <img
-            src="/images/new_suburban_logo_cropped.png"
+            src="/images/new_logo_cropped.png"
             alt="Lavender Taxi Service"
             className="brand-logo-img"
           />
@@ -246,26 +246,27 @@ export default function Navbar() {
           position: sticky;
           top: 0;
           z-index: 1000;
-          background: #08020C !important;
-          border-bottom: 1px solid rgba(255, 255, 255, 0.09) !important;
-          box-shadow: 0 4px 25px rgba(0, 0, 0, 0.45) !important;
+          background: #FFFFFF !important;
+          border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+          box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
+          transition: background-color 0.2s ease, box-shadow 0.2s ease;
         }
         .header-container {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          height: 78px;
+          height: 80px;
         }
         .brand-logo-link {
           display: flex;
           align-items: center;
           text-decoration: none;
-          padding: 4px 0;
+          padding: 2px 0;
         }
         .brand-logo-img {
-          height: 48px;
+          height: 54px;
           width: auto;
-          max-width: 175px;
+          max-width: 180px;
           object-fit: contain;
           transition: transform 0.2s ease;
         }
@@ -281,7 +282,7 @@ export default function Navbar() {
         .desktop-nav-link {
           font-size: 0.94rem;
           font-weight: 600;
-          color: #E2E8F0;
+          color: #1E293B;
           transition: color 0.18s ease;
           position: relative;
           text-decoration: none;
@@ -290,19 +291,19 @@ export default function Navbar() {
           color: #E88C2B;
         }
         .desktop-nav-link.active {
-          color: #FFFFFF;
+          color: #0F172A;
           font-weight: 800;
         }
         .desktop-nav-link.active::after {
           content: '';
           position: absolute;
-          bottom: -28px;
+          bottom: -29px;
           left: 0;
           right: 0;
           height: 2.5px;
           background: #E88C2B;
           border-radius: 2px;
-          box-shadow: 0 0 8px rgba(232, 140, 43, 0.6);
+          box-shadow: 0 0 8px rgba(232, 140, 43, 0.45);
         }
         .header-actions {
           display: flex;
@@ -318,16 +319,16 @@ export default function Navbar() {
         .header-phone-number {
           font-weight: 800;
           font-size: 0.94rem;
-          color: #E88C2B;
+          color: #0F172A;
           text-decoration: none;
           transition: color 0.15s ease;
         }
         .header-phone-number:hover {
-          color: #FBBF24;
+          color: #E88C2B;
         }
         .header-phone-sub {
           font-size: 0.72rem;
-          color: #94A3B8;
+          color: #64748B;
           font-weight: 600;
           letter-spacing: 0.03em;
         }
@@ -341,37 +342,46 @@ export default function Navbar() {
           font-size: 0.88rem;
           padding: 10px 22px;
           border-radius: 9999px;
-          box-shadow: 0 4px 14px rgba(232, 140, 43, 0.38);
+          box-shadow: 0 4px 14px rgba(232, 140, 43, 0.35);
           transition: all 0.18s ease;
           border: none;
           cursor: pointer;
         }
         .header-gold-btn:hover {
           transform: translateY(-1px);
-          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.52);
+          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.48);
         }
         .header-hamburger-btn {
           display: none;
-          background: rgba(255, 255, 255, 0.09);
-          border: 1.5px solid rgba(255, 255, 255, 0.22);
+          background: #F8FAFC;
+          border: 1.5px solid rgba(0, 0, 0, 0.12);
           border-radius: 12px;
           width: 48px;
           height: 48px;
-          color: #FFFFFF;
+          color: #0F172A;
           padding: 0;
           cursor: pointer;
+          transition: all 0.18s ease;
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        }
+        .header-hamburger-btn:hover,
+        .header-hamburger-btn:active {
+          background: rgba(232, 140, 43, 0.12);
+          border-color: #E88C2B;
+          color: #E88C2B;
         }
 
         /* Mobile Drawer */
         .mobile-nav-drawer {
           position: absolute;
-          top: 72px;
+          top: 74px;
           left: 0;
           right: 0;
-          background: #09020D !important;
-          border-bottom: 2px solid rgba(232, 140, 43, 0.3);
+          background: #FFFFFF !important;
+          border-bottom: 2px solid #E88C2B;
+          border-top: 1px solid rgba(0, 0, 0, 0.06);
           padding: 18px 22px 26px 22px;
-          box-shadow: 0 20px 48px rgba(0, 0, 0, 0.7);
+          box-shadow: 0 20px 48px rgba(0, 0, 0, 0.12);
           display: flex;
           flex-direction: column;
           gap: 20px;
@@ -390,7 +400,7 @@ export default function Navbar() {
         }
 
         .mobile-nav-item {
-          border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          border-bottom: 1px solid rgba(0, 0, 0, 0.06);
         }
 
         .mobile-nav-link {
@@ -398,9 +408,9 @@ export default function Navbar() {
           align-items: center;
           justify-content: space-between;
           font-family: var(--font-heading);
-          font-size: 1.25rem;
+          font-size: 1.22rem;
           font-weight: 800;
-          color: #F8FAFC;
+          color: #0F172A;
           padding: 14px 0;
           transition: all 0.15s ease;
           text-decoration: none;
@@ -443,11 +453,11 @@ export default function Navbar() {
           gap: 6px;
           padding: 12px 14px;
           border-radius: 9999px;
-          background: rgba(255, 255, 255, 0.06);
-          border: 1.5px solid rgba(255, 255, 255, 0.15);
+          background: #F8FAFC;
+          border: 1.5px solid rgba(0, 0, 0, 0.12);
           font-size: 0.88rem;
           font-weight: 800;
-          color: #FFFFFF;
+          color: #0F172A;
           text-decoration: none;
           touch-action: manipulation;
           transition: all 0.18s ease;
@@ -473,7 +483,7 @@ export default function Navbar() {
           border: 1.5px solid rgba(37, 211, 102, 0.35);
           font-size: 0.88rem;
           font-weight: 800;
-          color: #FFFFFF;
+          color: #0F172A;
           text-decoration: none;
           touch-action: manipulation;
           transition: all 0.18s ease;
@@ -521,26 +531,26 @@ export default function Navbar() {
             right: 0;
             width: 100%;
             z-index: 1000;
-            background: #08020C !important;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.09) !important;
-            box-shadow: 0 4px 25px rgba(0, 0, 0, 0.45) !important;
+            background: #FFFFFF !important;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08) !important;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.06) !important;
           }
 
           .header-container {
-            height: 72px;
+            height: 74px;
           }
 
           .brand-logo-img {
-            height: 40px;
+            height: 48px;
             width: auto;
-            max-width: 145px;
+            max-width: 155px;
             object-fit: contain;
           }
 
           .header-hamburger-btn {
-            color: #FFFFFF;
-            background: rgba(255, 255, 255, 0.09);
-            border: 1.5px solid rgba(255, 255, 255, 0.22);
+            color: #0F172A;
+            background: #F8FAFC;
+            border: 1.5px solid rgba(0, 0, 0, 0.12);
             border-radius: 12px;
             width: 48px;
             height: 48px;
@@ -548,19 +558,20 @@ export default function Navbar() {
             display: flex;
             align-items: center;
             justify-content: center;
-            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
             cursor: pointer;
             transition: all 0.2s ease;
           }
 
           .header-hamburger-btn:active {
             transform: scale(0.96);
-            background: rgba(232, 140, 43, 0.25);
+            background: rgba(232, 140, 43, 0.15);
             border-color: #E88C2B;
+            color: #E88C2B;
           }
 
           .mobile-nav-drawer {
-            top: 72px;
+            top: 74px;
           }
         }
       `}</style>
