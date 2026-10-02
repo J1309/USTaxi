@@ -332,7 +332,6 @@ export default function VehicleInteriorSection() {
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin-bottom: 10px;
-          -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -611,7 +610,6 @@ export default function VehicleInteriorSection() {
           color: #0F172A;
           line-height: 1.25;
           margin-bottom: 14px;
-          -webkit-text-stroke: 0.35px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -622,7 +620,6 @@ export default function VehicleInteriorSection() {
           color: #0F172A;
           margin: 10px 0 8px 0;
           line-height: 1.3;
-          -webkit-text-stroke: 0.32px currentColor;
           text-rendering: optimizeLegibility;
         }
 

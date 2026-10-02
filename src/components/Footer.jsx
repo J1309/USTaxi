@@ -593,7 +593,6 @@ export default function Footer() {
             letter-spacing: 0.08em;
             display: block;
             text-align: left;
-            -webkit-text-stroke: 0.3px currentColor;
           }
 
           .mob-brand-sub {

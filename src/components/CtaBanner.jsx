@@ -142,7 +142,6 @@ export default function CtaBanner() {
           color: #FFFFFF;
           margin: 0 0 32px 0;
           letter-spacing: -0.01em;
-          -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -182,7 +181,6 @@ export default function CtaBanner() {
           font-weight: 800;
           color: #FFFFFF;
           margin: 0;
-          -webkit-text-stroke: 0.32px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -250,7 +248,6 @@ export default function CtaBanner() {
           color: #FFFFFF;
           margin: 0 0 6px 0;
           letter-spacing: -0.01em;
-          -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 

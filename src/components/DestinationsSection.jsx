@@ -237,7 +237,6 @@ export default function DestinationsSection() {
           line-height: 1.1;
           letter-spacing: -0.02em;
           margin: 0 0 18px 0;
-          -webkit-text-stroke: 1.25px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -347,7 +346,6 @@ export default function DestinationsSection() {
           font-weight: 800;
           color: #FFFFFF;
           line-height: 1.2;
-          -webkit-text-stroke: 0.85px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -403,7 +401,6 @@ export default function DestinationsSection() {
             color: #FFFFFF;
             line-height: 1.15;
             margin: 6px 0 10px 0;
-            -webkit-text-stroke: 0.3px currentColor;
           }
 
           .destinations-mobile-sub {
@@ -459,7 +456,6 @@ export default function DestinationsSection() {
             font-weight: 900;
             color: #FFFFFF;
             margin: 0 0 4px 0;
-            -webkit-text-stroke: 0.3px currentColor;
           }
 
           .mob-feat-sub {

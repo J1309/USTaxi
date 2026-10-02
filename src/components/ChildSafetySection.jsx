@@ -182,7 +182,6 @@ export default function ChildSafetySection() {
           line-height: 1.15;
           letter-spacing: -0.02em;
           margin: 8px 0 14px 0;
-          -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -235,7 +234,6 @@ export default function ChildSafetySection() {
           color: #0F172A;
           margin: 0;
           line-height: 1.25;
-          -webkit-text-stroke: 0.32px currentColor;
           text-rendering: optimizeLegibility;
         }
 

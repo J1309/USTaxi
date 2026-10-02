@@ -157,7 +157,6 @@ export default function Testimonials() {
           line-height: 1.1;
           letter-spacing: -0.02em;
           margin: 0 0 24px 0;
-          -webkit-text-stroke: 0.45px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -318,7 +317,6 @@ export default function Testimonials() {
           line-height: 1.3;
           margin: 0;
           letter-spacing: -0.01em;
-          -webkit-text-stroke: 0.35px currentColor;
         }
 
         @media (max-width: 1100px) {

@@ -1247,7 +1247,6 @@ export default function BookingWidget({ preselectedVehicle = 'suburban', onSelec
           font-weight: 900;
           color: #4E0401;
           margin: 0;
-          -webkit-text-stroke: 0.3px currentColor;
         }
 
         .popup-modal-close-btn {

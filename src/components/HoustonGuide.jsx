@@ -126,7 +126,6 @@ export default function HoustonGuide() {
           font-weight: 800;
           color: #0F172A;
           margin: 0;
-          -webkit-text-stroke: 0.32px currentColor;
           text-rendering: optimizeLegibility;
         }
 

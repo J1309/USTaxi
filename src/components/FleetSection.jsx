@@ -461,7 +461,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           color: #4E0401;
           line-height: 1.1;
           margin-bottom: 14px;
-          -webkit-text-stroke: 1.25px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -649,7 +648,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           font-weight: 900;
           color: #4E0401;
           margin-bottom: 12px;
-          -webkit-text-stroke: 1.05px currentColor;
           text-rendering: optimizeLegibility;
         }
 
@@ -785,7 +783,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           font-weight: 900;
           color: #4E0401;
           margin-bottom: 4px;
-          -webkit-text-stroke: 1.05px currentColor;
           text-rendering: optimizeLegibility;
         }
 

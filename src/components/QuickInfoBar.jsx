@@ -156,7 +156,6 @@ export default function QuickInfoBar() {
             color: #4E0401;
             line-height: 1.15;
             margin: 0;
-            -webkit-text-stroke: 0.3px currentColor;
           }
 
           .pillars-grid-4 {
