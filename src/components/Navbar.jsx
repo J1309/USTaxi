@@ -280,9 +280,11 @@ export default function Navbar() {
           list-style: none;
         }
         .desktop-nav-link {
-          font-size: 0.94rem;
-          font-weight: 600;
+          font-family: var(--font-heading);
+          font-size: 1.06rem;
+          font-weight: 800;
           color: #1E293B;
+          letter-spacing: 0.03em;
           transition: color 0.18s ease;
           position: relative;
           text-decoration: none;
@@ -291,8 +293,8 @@ export default function Navbar() {
           color: #E88C2B;
         }
         .desktop-nav-link.active {
-          color: #0F172A;
-          font-weight: 800;
+          color: #E88C2B;
+          font-weight: 900;
         }
         .desktop-nav-link.active::after {
           content: '';
@@ -317,9 +319,11 @@ export default function Navbar() {
           line-height: 1.2;
         }
         .header-phone-number {
+          font-family: var(--font-heading);
           font-weight: 800;
-          font-size: 0.94rem;
+          font-size: 1.12rem;
           color: #0F172A;
+          letter-spacing: 0.02em;
           text-decoration: none;
           transition: color 0.15s ease;
         }
@@ -327,10 +331,11 @@ export default function Navbar() {
           color: #E88C2B;
         }
         .header-phone-sub {
-          font-size: 0.72rem;
+          font-size: 0.78rem;
           color: #64748B;
-          font-weight: 600;
-          letter-spacing: 0.03em;
+          font-weight: 700;
+          letter-spacing: 0.06em;
+          text-transform: uppercase;
         }
         .header-gold-btn {
           display: inline-flex;

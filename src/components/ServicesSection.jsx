@@ -1,5 +1,5 @@
-import React, { useState, useRef } from 'react';
-import { ArrowRight } from 'lucide-react';
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
 
 const SERVICES = [
@@ -7,44 +7,86 @@ const SERVICES = [
     id: 'airport',
     title: 'Airport Transfer',
     image: '/images/owner_suburban_airport.jpg',
-    description: 'Seamless pickups and drop-offs at IAH and Hobby Airport for a stress-free journey.',
+    description: 'Seamless pickups and drop-offs at IAH Bush and William P. Hobby Airport with live flight tracking.',
   },
   {
     id: 'city',
-    title: 'City Rides',
+    title: 'City Rides & Chauffeur',
     image: '/images/destination_houston.jpg',
-    description: 'Comfortable and stylish travel across Downtown Houston, Galleria, and Memorial.',
+    description: 'Comfortable and stylish private travel across Downtown Houston, Galleria, Memorial, and River Oaks.',
   },
   {
     id: 'corporate',
     title: 'Corporate Travel',
     image: '/images/service_corporate.jpg',
-    description: 'Professional and discreet executive transport for business meetings and roadshows.',
+    description: 'Professional and discreet executive transport for business summits, roadshows, and board meetings.',
+  },
+  {
+    id: 'cruise',
+    title: 'Galveston Cruise Port',
+    image: '/images/dest_galveston_pier.png',
+    description: 'Direct non-stop private transfers to Royal Caribbean & Carnival cruise berths with massive luggage room.',
+  },
+  {
+    id: 'events',
+    title: 'VIP Stadium & Arena',
+    image: '/images/dest_nrg_stadium.png',
+    description: 'Priority drop-offs and express egress for Houston Texans games, RodeoHouston, and arena concerts.',
   },
 ];
 
 export default function ServicesSection() {
-  const [activeDot, setActiveDot] = useState(0);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
   const carouselRef = useRef(null);
 
+  // Scroll smoothly to a specific card index
+  const scrollToCard = useCallback((index) => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const cards = container.querySelectorAll('.service-editorial-card');
+    if (cards[index]) {
+      const card = cards[index];
+      const targetScroll = card.offsetLeft - container.offsetLeft;
+      container.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth',
+      });
+      setActiveIndex(index);
+    }
+  }, []);
+
+  const nextCard = useCallback(() => {
+    const nextIdx = (activeIndex + 1) % SERVICES.length;
+    scrollToCard(nextIdx);
+  }, [activeIndex, scrollToCard]);
+
+  const prevCard = useCallback(() => {
+    const prevIdx = (activeIndex - 1 + SERVICES.length) % SERVICES.length;
+    scrollToCard(prevIdx);
+  }, [activeIndex, scrollToCard]);
+
+  // Automatic slide progression one by one
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      nextCard();
+    }, 3600);
+    return () => clearInterval(interval);
+  }, [isPaused, nextCard]);
+
+  // Sync index on manual touch / scroll swipe
   const handleScroll = () => {
     if (!carouselRef.current) return;
-    const scrollLeft = carouselRef.current.scrollLeft;
-    const cardWidth = carouselRef.current.offsetWidth * 0.88;
-    const newIndex = Math.round(scrollLeft / cardWidth);
-    if (newIndex >= 0 && newIndex < SERVICES.length && newIndex !== activeDot) {
-      setActiveDot(newIndex);
+    const container = carouselRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cards = container.querySelectorAll('.service-editorial-card');
+    if (!cards.length) return;
+    const cardWidth = cards[0].offsetWidth + 20; // width + gap
+    const newIdx = Math.round(scrollLeft / cardWidth);
+    if (newIdx >= 0 && newIdx < SERVICES.length && newIdx !== activeIndex) {
+      setActiveIndex(newIdx);
     }
-  };
-
-  const scrollToCard = (index) => {
-    if (!carouselRef.current) return;
-    const cardWidth = carouselRef.current.offsetWidth * 0.88;
-    carouselRef.current.scrollTo({
-      left: index * cardWidth,
-      behavior: 'smooth'
-    });
-    setActiveDot(index);
   };
 
   const handleExploreClick = () => {
@@ -76,27 +118,53 @@ export default function ServicesSection() {
               From airport transfers to city rides and private charters, we provide premium executive car services tailored to your needs.
             </p>
 
-            <button
-              type="button"
-              onClick={handleExploreClick}
-              className="btn-explore-services"
-            >
-              <span>EXPLORE SERVICES</span>
-              <ArrowRight size={15} />
-            </button>
+            <div className="services-desktop-controls-row">
+              <button
+                type="button"
+                onClick={handleExploreClick}
+                className="btn-explore-services"
+              >
+                <span>EXPLORE SERVICES</span>
+                <ArrowRight size={15} />
+              </button>
+
+              {/* Desktop Slider Arrows */}
+              <div className="services-nav-arrows">
+                <button
+                  type="button"
+                  onClick={prevCard}
+                  className="srv-arrow-btn"
+                  aria-label="Previous service"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextCard}
+                  className="srv-arrow-btn"
+                  aria-label="Next service"
+                >
+                  <ChevronRight size={18} />
+                </button>
+              </div>
+            </div>
           </div>
 
-          {/* Right Column: Photo Cards (Swipeable Carousel on Mobile) */}
-          <div className="services-cards-trio-wrapper">
+          {/* Right Column: Large Photo Cards Moving Automatically One by One */}
+          <div 
+            className="services-cards-carousel-wrapper"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
+          >
             <div 
-              className="services-cards-trio" 
+              className="services-cards-carousel" 
               ref={carouselRef} 
               onScroll={handleScroll}
             >
               {SERVICES.map((item, idx) => (
                 <div
                   key={item.id}
-                  className={`service-editorial-card reveal-on-scroll reveal-delay-${idx + 1}`}
+                  className={`service-editorial-card ${activeIndex === idx ? 'active-slide' : ''}`}
                   onClick={handleCardClick}
                   role="button"
                   tabIndex={0}
@@ -106,12 +174,14 @@ export default function ServicesSection() {
                     }
                   }}
                 >
+                  {/* Big Card Image */}
                   <div className="service-card-media">
                     <img
                       src={item.image}
                       alt={item.title}
                       className={`service-card-img ${item.id === 'airport' ? 'airport-card-img' : ''}`}
                     />
+                    <div className="service-card-overlay-gradient" />
                   </div>
 
                   <div className="service-card-content">
@@ -122,19 +192,20 @@ export default function ServicesSection() {
                       <span className="service-circle-arrow">
                         <ArrowRight size={14} color="#4E0401" />
                       </span>
+                      <span className="service-action-label">Book Chauffeur</span>
                     </div>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Mobile Carousel Dots matching Screen 4 (Interactive) */}
-            <div className="services-mobile-dots">
+            {/* Carousel Navigation Indicators (Pill Dots) */}
+            <div className="services-dots-indicator-row">
               {SERVICES.map((_, idx) => (
                 <button
                   key={idx}
                   type="button"
-                  className={`srv-dot ${activeDot === idx ? 'active' : ''}`}
+                  className={`srv-dot ${activeIndex === idx ? 'active' : ''}`}
                   onClick={() => scrollToCard(idx)}
                   aria-label={`Go to slide ${idx + 1}`}
                 />
@@ -147,14 +218,15 @@ export default function ServicesSection() {
       <style>{`
         .services-reference-section {
           background: #FEFBF3;
-          padding: 85px 0 95px 0;
+          padding: 90px 0 100px 0;
           border-bottom: 1px solid rgba(78, 4, 1, 0.08);
+          overflow: hidden;
         }
 
         .services-reference-layout {
           display: grid;
-          grid-template-columns: 360px 1fr;
-          gap: 50px;
+          grid-template-columns: 350px 1fr;
+          gap: 46px;
           align-items: center;
         }
 
@@ -181,17 +253,24 @@ export default function ServicesSection() {
           font-size: clamp(2.6rem, 3.8vw, 3.4rem);
           font-weight: 900;
           color: #4E0401;
-          line-height: 1.1;
+          line-height: 1.08;
           letter-spacing: -0.02em;
           margin-bottom: 20px;
           text-rendering: optimizeLegibility;
         }
 
         .services-lead-desc {
-          font-size: 1rem;
-          color: #786C6A;
+          font-size: 1.02rem;
+          color: #5A4E4D;
           line-height: 1.6;
-          margin-bottom: 32px;
+          margin-bottom: 30px;
+        }
+
+        .services-desktop-controls-row {
+          display: flex;
+          align-items: center;
+          gap: 16px;
+          flex-wrap: wrap;
         }
 
         .btn-explore-services {
@@ -199,13 +278,13 @@ export default function ServicesSection() {
           align-items: center;
           gap: 10px;
           background: #FFFFFF;
-          border: 1px solid rgba(78, 4, 1, 0.18);
+          border: 1.5px solid rgba(78, 4, 1, 0.18);
           color: #4E0401;
           font-family: inherit;
           font-size: 0.85rem;
           font-weight: 800;
           letter-spacing: 0.08em;
-          padding: 13px 26px;
+          padding: 13px 24px;
           border-radius: 9999px;
           cursor: pointer;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
@@ -219,35 +298,81 @@ export default function ServicesSection() {
           box-shadow: 0 4px 14px rgba(232, 140, 43, 0.3);
         }
 
-        /* Right Cards: 3 Columns */
-        .services-cards-trio {
-          display: grid;
-          grid-template-columns: repeat(3, 1fr);
+        .services-nav-arrows {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .srv-arrow-btn {
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          background: #FFFFFF;
+          border: 1.5px solid rgba(78, 4, 1, 0.16);
+          color: #4E0401;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .srv-arrow-btn:hover {
+          background: #E88C2B;
+          border-color: #E88C2B;
+          color: #FFFFFF;
+          transform: scale(1.05);
+        }
+
+        /* Right Carousel Viewport */
+        .services-cards-carousel-wrapper {
+          position: relative;
+          width: 100%;
+          min-width: 0;
+        }
+
+        .services-cards-carousel {
+          display: flex;
           gap: 22px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding: 8px 4px 18px 4px;
+        }
+
+        .services-cards-carousel::-webkit-scrollbar {
+          display: none;
         }
 
         .service-editorial-card {
+          flex: 0 0 calc(50% - 11px);
+          min-width: 310px;
           background: #FFFFFF;
-          border: 1px solid rgba(78, 4, 1, 0.08);
-          border-radius: 16px;
+          border: 1.5px solid rgba(78, 4, 1, 0.10);
+          border-radius: 20px;
           overflow: hidden;
           display: flex;
           flex-direction: column;
           cursor: pointer;
-          box-shadow: 0 4px 16px rgba(78, 4, 1, 0.04);
-          transition: all 0.24s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 8px 24px rgba(78, 4, 1, 0.06);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
           text-align: left;
+          scroll-snap-align: start;
         }
 
         .service-editorial-card:hover {
-          transform: translateY(-5px);
-          border-color: rgba(232, 140, 43, 0.4);
-          box-shadow: 0 16px 32px -8px rgba(78, 4, 1, 0.12);
+          transform: translateY(-6px);
+          border-color: #E88C2B;
+          box-shadow: 0 20px 40px -10px rgba(78, 4, 1, 0.16);
         }
 
+        /* Big Card Image */
         .service-card-media {
+          position: relative;
           width: 100%;
-          height: 190px;
+          height: 250px;
           overflow: hidden;
           background: #F9F5EC;
         }
@@ -256,7 +381,7 @@ export default function ServicesSection() {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.4s ease;
+          transition: transform 0.5s ease;
         }
 
         .airport-card-img {
@@ -264,11 +389,18 @@ export default function ServicesSection() {
         }
 
         .service-editorial-card:hover .service-card-img {
-          transform: scale(1.05);
+          transform: scale(1.06);
+        }
+
+        .service-card-overlay-gradient {
+          position: absolute;
+          inset: 0;
+          background: linear-gradient(180deg, rgba(0, 0, 0, 0) 60%, rgba(0, 0, 0, 0.25) 100%);
+          pointer-events: none;
         }
 
         .service-card-content {
-          padding: 22px 20px;
+          padding: 22px 22px 24px 22px;
           display: flex;
           flex-direction: column;
           flex-grow: 1;
@@ -276,7 +408,7 @@ export default function ServicesSection() {
 
         .service-card-heading {
           font-family: var(--font-heading);
-          font-size: 1.22rem;
+          font-size: 1.28rem;
           font-weight: 800;
           color: #4E0401;
           margin: 0 0 10px 0;
@@ -285,8 +417,8 @@ export default function ServicesSection() {
         }
 
         .service-card-paragraph {
-          font-size: 0.88rem;
-          color: #786C6A;
+          font-size: 0.90rem;
+          color: #5A4E4D;
           line-height: 1.5;
           margin-bottom: 20px;
           flex-grow: 1;
@@ -294,7 +426,8 @@ export default function ServicesSection() {
 
         .service-card-action {
           display: flex;
-          justify-content: flex-start;
+          align-items: center;
+          gap: 10px;
         }
 
         .service-circle-arrow {
@@ -302,21 +435,63 @@ export default function ServicesSection() {
           height: 32px;
           border-radius: 50%;
           background: #FEFBF3;
-          border: 1px solid rgba(78, 4, 1, 0.12);
+          border: 1px solid rgba(78, 4, 1, 0.14);
           display: flex;
           align-items: center;
           justify-content: center;
-          transition: all 0.18s ease;
+          transition: all 0.2s ease;
+          flex-shrink: 0;
+        }
+
+        .service-action-label {
+          font-size: 0.80rem;
+          font-weight: 800;
+          letter-spacing: 0.05em;
+          text-transform: uppercase;
+          color: #4E0401;
+          transition: color 0.18s ease;
         }
 
         .service-editorial-card:hover .service-circle-arrow {
           background: #E88C2B;
           border-color: #E88C2B;
-          transform: translateX(3px);
+          transform: translateX(4px);
         }
 
         .service-editorial-card:hover .service-circle-arrow svg {
           stroke: #FFFFFF;
+        }
+
+        .service-editorial-card:hover .service-action-label {
+          color: #E88C2B;
+        }
+
+        /* Dots Indicator */
+        .services-dots-indicator-row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-top: 14px;
+        }
+
+        .srv-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(78, 4, 1, 0.2);
+          padding: 0;
+          cursor: pointer;
+          touch-action: manipulation;
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .srv-dot.active {
+          width: 24px;
+          border-radius: 9999px;
+          background: #E88C2B;
+          box-shadow: 0 2px 8px rgba(232, 140, 43, 0.45);
         }
 
         .desktop-services-title {
@@ -327,24 +502,23 @@ export default function ServicesSection() {
           display: none;
         }
 
-        .services-mobile-dots {
-          display: none;
-        }
-
         @media (max-width: 1080px) {
           .services-reference-layout {
             grid-template-columns: 1fr;
-            gap: 36px;
+            gap: 32px;
           }
           .services-left-intro {
             max-width: 600px;
           }
+          .service-editorial-card {
+            flex: 0 0 calc(50% - 10px);
+          }
         }
 
-        /* Strictly Mobile (<= 768px): Screen 4 Horizontal Swipe Cards */
+        /* Strictly Mobile (<= 768px) */
         @media (max-width: 768px) {
           .services-reference-section {
-            padding: 55px 0 60px 0;
+            padding: 55px 0 65px 0;
           }
 
           .desktop-services-title {
@@ -361,68 +535,27 @@ export default function ServicesSection() {
             margin-bottom: 10px;
           }
 
-          .btn-explore-services {
-            display: none;
-          }
-
-          .services-reference-layout {
-            grid-template-columns: 1fr;
-            gap: 24px;
-          }
-
-          .services-cards-trio-wrapper {
-            width: 100%;
-            overflow: hidden;
-          }
-
-          .services-cards-trio {
-            display: flex !important;
-            overflow-x: auto !important;
-            scroll-snap-type: x mandatory;
-            -webkit-overflow-scrolling: touch;
-            overscroll-behavior-x: contain;
-            gap: 16px;
-            padding: 4px 0 14px 0;
-            margin: 0;
-            scrollbar-width: none;
-          }
-
-          .services-cards-trio::-webkit-scrollbar {
+          .services-desktop-controls-row {
             display: none;
           }
 
           .service-editorial-card {
-            min-width: 88% !important;
-            max-width: 88% !important;
-            flex-shrink: 0 !important;
+            flex: 0 0 86%;
+            min-width: 86%;
+            max-width: 86%;
             scroll-snap-align: center;
           }
 
-          .services-mobile-dots {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 6px;
-            margin-top: 12px;
+          .service-card-media {
+            height: 220px;
           }
 
-          .srv-dot {
-            width: 7px;
-            height: 7px;
-            border-radius: 50%;
-            border: none;
-            background: rgba(78, 4, 1, 0.22);
-            padding: 0;
-            cursor: pointer;
-            touch-action: manipulation;
-            transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          .service-card-content {
+            padding: 18px;
           }
 
-          .srv-dot.active {
-            width: 20px;
-            border-radius: 9999px;
-            background: #E88C2B;
-            box-shadow: 0 2px 6px rgba(232, 140, 43, 0.4);
+          .service-card-heading {
+            font-size: 1.16rem;
           }
         }
       `}</style>

@@ -1,206 +1,252 @@
-import React from 'react';
-import { ArrowRight } from 'lucide-react';
-import { smoothScrollTo } from '../hooks/useLenis';
-
+import React, { useState, useRef, useEffect, useCallback } from 'react';
+import { ArrowRight, ChevronLeft, ChevronRight, Compass } from 'lucide-react';
 import { openBooking } from '../utils/bookingModal';
 
 const DESTINATIONS = [
   {
     id: 'airports',
-    title: 'Airports',
-    subtitle: 'IAH Bush & Hobby (HOU)',
+    title: 'Houston Airports',
+    subtitle: 'IAH Bush Intercontinental & William P. Hobby (HOU)',
+    kicker: 'AIRPORT TRANSFERS',
     image: '/images/owner_suburban_airport.jpg',
   },
   {
     id: 'business',
     title: 'Business Districts',
-    subtitle: 'Downtown & Galleria',
-    image: '/images/destination_houston.jpg',
+    subtitle: 'Downtown Core, Uptown Galleria & Greenway Plaza',
+    kicker: 'CORPORATE CORRIDORS',
+    image: '/images/dest_houston_skyline.jpg',
   },
   {
     id: 'hotels',
-    title: 'Hotels & Medical',
-    subtitle: 'TMC, Post Oak & Luxury Stays',
+    title: 'Hotels & Medical Hubs',
+    subtitle: 'Texas Medical Center, Post Oak Hotel & River Oaks',
+    kicker: 'LUXURY & HEALTHCARE',
     image: '/images/service_corporate.jpg',
   },
   {
-    id: 'tourist',
-    title: 'Tourist & Cruises',
-    subtitle: 'Galveston Port & Space Center',
-    image: '/images/service_cruise.jpg',
+    id: 'cruises',
+    title: 'Galveston Cruise Port',
+    subtitle: 'Terminal 10 & 25, Historic Pleasure Pier & Seawall',
+    kicker: 'CRUISE TERMINALS',
+    image: '/images/dest_galveston_pier.png',
+  },
+  {
+    id: 'stadiums',
+    title: 'NRG Stadium & Arena',
+    subtitle: 'Texans Games, RodeoHouston & World-Class Concerts',
+    kicker: 'SPORTS & CONCERTS',
+    image: '/images/dest_nrg_stadium.png',
   },
 ];
 
 export default function DestinationsSection() {
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [isPaused, setIsPaused] = useState(false);
+  const carouselRef = useRef(null);
+
+  const scrollToCard = useCallback((index) => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const cards = container.querySelectorAll('.destination-vertical-card');
+    if (cards[index]) {
+      const card = cards[index];
+      const targetScroll = card.offsetLeft - container.offsetLeft;
+      container.scrollTo({
+        left: targetScroll,
+        behavior: 'smooth',
+      });
+      setActiveIndex(index);
+    }
+  }, []);
+
+  const nextDestination = useCallback(() => {
+    const nextIdx = (activeIndex + 1) % DESTINATIONS.length;
+    scrollToCard(nextIdx);
+  }, [activeIndex, scrollToCard]);
+
+  const prevDestination = useCallback(() => {
+    const prevIdx = (activeIndex - 1 + DESTINATIONS.length) % DESTINATIONS.length;
+    scrollToCard(prevIdx);
+  }, [activeIndex, scrollToCard]);
+
+  // Automatic slide progression one by one
+  useEffect(() => {
+    if (isPaused) return;
+    const interval = setInterval(() => {
+      nextDestination();
+    }, 3500);
+    return () => clearInterval(interval);
+  }, [isPaused, nextDestination]);
+
+  const handleScroll = () => {
+    if (!carouselRef.current) return;
+    const container = carouselRef.current;
+    const scrollLeft = container.scrollLeft;
+    const cards = container.querySelectorAll('.destination-vertical-card');
+    if (!cards.length) return;
+    const cardWidth = cards[0].offsetWidth + 18;
+    const newIdx = Math.round(scrollLeft / cardWidth);
+    if (newIdx >= 0 && newIdx < DESTINATIONS.length && newIdx !== activeIndex) {
+      setActiveIndex(newIdx);
+    }
+  };
+
   const handleDestinationClick = () => {
     openBooking('suburban');
   };
 
   return (
-    <section id="destinations" className="destinations-maroon-section">
-      <div className="destinations-skyline-bg" />
+    <section id="destinations" className="destinations-bright-section">
+      <div className="destinations-ambient-glow" />
 
       <div className="container destinations-container">
-        {/* Desktop Layout Grid (Visible > 768px) */}
+        {/* Main Grid: Left Info & Right Auto-Moving Large Cards */}
         <div className="destinations-layout-grid">
-          {/* Left Column: Heading & Button */}
+          
+          {/* Left Column: Heading, Subtext & Navigation Buttons */}
           <div className="destinations-left-block reveal-on-scroll">
-            <span className="destinations-kicker">POPULAR DESTINATIONS</span>
+            <div className="destinations-kicker-tag">
+              <Compass size={14} color="#E88C2B" />
+              <span>POPULAR DESTINATIONS</span>
+            </div>
+
             <h2 className="destinations-headline">
               EXPLORE<br />
               THE CITY<br />
-              IN COMFORT
+              <span className="orange-accent">IN COMFORT</span>
             </h2>
 
             <p className="destinations-sub-text">
-              Direct point-to-point luxury transfers across Greater Houston, Texas Medical Center, and Galveston Island with zero surge pricing.
+              Direct point-to-point luxury transfers across Greater Houston, Texas Medical Center, and Galveston Island with zero surge pricing and guaranteed punctuality.
             </p>
 
-            <button
-              type="button"
-              onClick={handleDestinationClick}
-              className="btn-view-destinations"
-            >
-              <span>VIEW ALL DESTINATIONS</span>
-              <ArrowRight size={15} />
-            </button>
-          </div>
-
-          {/* Right Column: 4 Vertical Destination Cards */}
-          <div className="destinations-cards-quad">
-            {DESTINATIONS.map((d, idx) => (
-              <div
-                key={d.id}
-                className={`destination-vertical-card reveal-on-scroll reveal-delay-${idx + 1}`}
+            <div className="destinations-actions-row">
+              <button
+                type="button"
                 onClick={handleDestinationClick}
-                role="button"
-                tabIndex={0}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === ' ') {
-                    handleDestinationClick();
-                  }
-                }}
+                className="btn-view-destinations"
               >
-                <img
-                  src={d.image}
-                  alt={d.title}
-                  className="dest-card-bg-img"
-                />
-                <div className="dest-card-gradient-overlay" />
+                <span>BOOK A DESTINATION</span>
+                <ArrowRight size={15} />
+              </button>
 
-                <div className="dest-card-label-box">
-                  <span className="dest-card-title">{d.title}</span>
-                  <span className="dest-card-sub">{d.subtitle}</span>
-                </div>
+              {/* Slider Arrows */}
+              <div className="dest-nav-arrows">
+                <button
+                  type="button"
+                  onClick={prevDestination}
+                  className="dest-arrow-btn"
+                  aria-label="Previous destination"
+                >
+                  <ChevronLeft size={18} />
+                </button>
+                <button
+                  type="button"
+                  onClick={nextDestination}
+                  className="dest-arrow-btn"
+                  aria-label="Next destination"
+                >
+                  <ChevronRight size={18} />
+                </button>
               </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Mobile-Only Layout (Screen 7 - Visible ONLY on <= 768px) */}
-        <div className="mobile-destinations-layout">
-          <div className="destinations-mobile-header reveal-on-scroll">
-            <span className="destinations-kicker">POPULAR DESTINATIONS</span>
-            <h2 className="destinations-mobile-title">Explore Greater Houston</h2>
-            <p className="destinations-mobile-sub">
-              Fixed-rate executive transfers across Houston airports, business centers, medical hubs, and Galveston Island with zero surge pricing.
-            </p>
+            </div>
           </div>
 
-          {/* Featured Primary Card: Houston Airports (Most Popular) */}
+          {/* Right Column: Bigger Destination Cards Moving Automatically One by One */}
           <div 
-            className="mob-featured-dest-card"
-            onClick={handleDestinationClick}
-            role="button"
-            tabIndex={0}
+            className="destinations-carousel-wrapper"
+            onMouseEnter={() => setIsPaused(true)}
+            onMouseLeave={() => setIsPaused(false)}
           >
-            <img
-              src="/images/owner_suburban_airport.jpg"
-              alt="Houston Airports IAH Bush & Hobby HOU"
-              className="mob-feat-bg-img"
-            />
-            <div className="mob-feat-gradient-overlay" />
-            <div className="mob-feat-content">
-              <div>
-                <span className="mob-feat-kicker">MOST POPULAR ROUTE</span>
-                <h3 className="mob-feat-title">Houston Airports (IAH & HOU)</h3>
-                <p className="mob-feat-sub">Direct Terminal Curbside Meet & Greet</p>
-              </div>
-              <div className="mob-feat-circle-btn">
-                <ArrowRight size={16} color="#4E0401" />
-              </div>
+            <div 
+              className="destinations-carousel-track"
+              ref={carouselRef}
+              onScroll={handleScroll}
+            >
+              {DESTINATIONS.map((d, idx) => (
+                <div
+                  key={d.id}
+                  className={`destination-vertical-card ${activeIndex === idx ? 'active-dest-card' : ''}`}
+                  onClick={handleDestinationClick}
+                  role="button"
+                  tabIndex={0}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      handleDestinationClick();
+                    }
+                  }}
+                >
+                  {/* Big Card Image */}
+                  <img
+                    src={d.image}
+                    alt={d.title}
+                    className="dest-card-bg-img"
+                  />
+
+                  {/* Gradient Overlay for Crisp Text Readability */}
+                  <div className="dest-card-gradient-overlay" />
+
+                  {/* Top Kicker Tag Badge */}
+                  <div className="dest-card-top-badge">
+                    <span>{d.kicker}</span>
+                  </div>
+
+                  {/* Bottom Text Content & Action Button */}
+                  <div className="dest-card-label-box">
+                    <h3 className="dest-card-title">{d.title}</h3>
+                    <p className="dest-card-sub">{d.subtitle}</p>
+                    
+                    <div className="dest-card-footer-cta">
+                      <span className="dest-reserve-text">RESERVE CHAUFFEUR</span>
+                      <span className="dest-circle-arrow">
+                        <ArrowRight size={13} strokeWidth={2.4} />
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pagination Dots */}
+            <div className="destinations-dots-row">
+              {DESTINATIONS.map((_, idx) => (
+                <button
+                  key={idx}
+                  type="button"
+                  className={`dest-dot ${activeIndex === idx ? 'active' : ''}`}
+                  onClick={() => scrollToCard(idx)}
+                  aria-label={`Go to slide ${idx + 1}`}
+                />
+              ))}
             </div>
           </div>
 
-          {/* Secondary Destinations: 3 Legible Full-Width Touch Cards */}
-          <div className="mob-destinations-list-stack">
-            <div 
-              className="mob-dest-strip-card"
-              onClick={handleDestinationClick}
-              role="button"
-              tabIndex={0}
-            >
-              <img src="/images/destination_houston.jpg" alt="Business Districts" className="mob-strip-bg" />
-              <div className="mob-strip-overlay" />
-              <div className="mob-strip-info">
-                <h4 className="mob-strip-title">Business Districts</h4>
-                <p className="mob-strip-sub">Downtown & Galleria Area</p>
-              </div>
-              <span className="mob-strip-arrow"><ArrowRight size={14} color="#E88C2B" /></span>
-            </div>
-
-            <div 
-              className="mob-dest-strip-card"
-              onClick={handleDestinationClick}
-              role="button"
-              tabIndex={0}
-            >
-              <img src="/images/service_corporate.jpg" alt="Hotels & Medical" className="mob-strip-bg" />
-              <div className="mob-strip-overlay" />
-              <div className="mob-strip-info">
-                <h4 className="mob-strip-title">Hotels & Medical</h4>
-                <p className="mob-strip-sub">Post Oak & Texas Medical Center</p>
-              </div>
-              <span className="mob-strip-arrow"><ArrowRight size={14} color="#E88C2B" /></span>
-            </div>
-
-            <div 
-              className="mob-dest-strip-card"
-              onClick={handleDestinationClick}
-              role="button"
-              tabIndex={0}
-            >
-              <img src="/images/service_cruise.jpg" alt="Galveston Cruise & Space Center" className="mob-strip-bg" />
-              <div className="mob-strip-overlay" />
-              <div className="mob-strip-info">
-                <h4 className="mob-strip-title">Galveston & Space Center</h4>
-                <p className="mob-strip-sub">Cruise Terminal & NASA Johnson</p>
-              </div>
-              <span className="mob-strip-arrow"><ArrowRight size={14} color="#E88C2B" /></span>
-            </div>
-          </div>
         </div>
       </div>
 
       <style>{`
-        .destinations-maroon-section {
+        /* Bright Luxury Aesthetic Background */
+        .destinations-bright-section {
           position: relative;
-          background: #4E0401;
-          background: linear-gradient(135deg, #4E0401 0%, #350200 60%, #200100 100%);
+          background: #FFFFFF;
+          background: linear-gradient(180deg, #FFFFFF 0%, #FAF6EE 50%, #FFFFFF 100%);
           padding: 95px 0 105px 0;
           overflow: hidden;
-          color: #FFFFFF;
+          color: #1E293B;
+          border-top: 1px solid rgba(78, 4, 1, 0.08);
+          border-bottom: 1px solid rgba(78, 4, 1, 0.08);
         }
 
-        .destinations-skyline-bg {
+        .destinations-ambient-glow {
           position: absolute;
-          inset: 0;
-          background-image: url('/images/destination_houston.jpg');
-          background-size: cover;
-          background-position: center;
-          opacity: 0.12;
-          mix-blend-mode: luminosity;
+          top: -10%;
+          right: 5%;
+          width: 550px;
+          height: 550px;
+          background: radial-gradient(circle, rgba(232, 140, 43, 0.09) 0%, rgba(255, 255, 255, 0) 70%);
           pointer-events: none;
+          z-index: 1;
         }
 
         .destinations-container {
@@ -210,12 +256,12 @@ export default function DestinationsSection() {
 
         .destinations-layout-grid {
           display: grid;
-          grid-template-columns: 380px 1fr;
+          grid-template-columns: 360px 1fr;
           gap: 48px;
           align-items: center;
         }
 
-        /* Left Side */
+        /* Left Column */
         .destinations-left-block {
           text-align: left;
           display: flex;
@@ -223,33 +269,50 @@ export default function DestinationsSection() {
           align-items: flex-start;
         }
 
-        .destinations-kicker {
-          font-size: 0.8rem;
+        .destinations-kicker-tag {
+          display: inline-flex;
+          align-items: center;
+          gap: 7px;
+          font-size: 0.78rem;
           font-weight: 800;
-          letter-spacing: 0.18em;
+          letter-spacing: 0.16em;
           text-transform: uppercase;
           color: #E88C2B;
-          margin-bottom: 14px;
-          display: block;
+          background: rgba(232, 140, 43, 0.10);
+          border: 1px solid rgba(232, 140, 43, 0.25);
+          padding: 6px 14px;
+          border-radius: 9999px;
+          margin-bottom: 16px;
         }
 
         .destinations-headline {
           font-family: var(--font-heading);
-          font-size: clamp(2.6rem, 3.8vw, 3.4rem);
+          font-size: clamp(2.5rem, 3.8vw, 3.4rem);
           font-weight: 900;
-          color: #FFFFFF;
-          line-height: 1.1;
+          color: #4E0401;
+          line-height: 1.08;
           letter-spacing: -0.02em;
           margin: 0 0 18px 0;
           text-rendering: optimizeLegibility;
         }
 
+        .destinations-headline .orange-accent {
+          color: #E88C2B;
+        }
+
         .destinations-sub-text {
-          font-size: 0.96rem;
-          color: rgba(254, 251, 243, 0.8);
+          font-size: 1.02rem;
+          color: #5A4E4D;
           line-height: 1.6;
           margin-bottom: 32px;
-          max-width: 340px;
+          max-width: 350px;
+        }
+
+        .destinations-actions-row {
+          display: flex;
+          align-items: center;
+          gap: 14px;
+          flex-wrap: wrap;
         }
 
         .btn-view-destinations {
@@ -276,302 +339,257 @@ export default function DestinationsSection() {
           box-shadow: 0 8px 24px rgba(232, 140, 43, 0.45);
         }
 
-        /* Right 4 Cards Grid */
-        .destinations-cards-quad {
-          display: grid;
-          grid-template-columns: repeat(4, 1fr);
-          gap: 18px;
+        .dest-nav-arrows {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
         }
 
+        .dest-arrow-btn {
+          width: 42px;
+          height: 42px;
+          border-radius: 50%;
+          background: #FFFFFF;
+          border: 1.5px solid rgba(78, 4, 1, 0.16);
+          color: #4E0401;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.18s ease;
+        }
+
+        .dest-arrow-btn:hover {
+          background: #E88C2B;
+          border-color: #E88C2B;
+          color: #FFFFFF;
+          transform: scale(1.05);
+        }
+
+        /* Right Carousel Viewport */
+        .destinations-carousel-wrapper {
+          position: relative;
+          width: 100%;
+          min-width: 0;
+        }
+
+        .destinations-carousel-track {
+          display: flex;
+          gap: 20px;
+          overflow-x: auto;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          scrollbar-width: none;
+          padding: 10px 4px 20px 4px;
+        }
+
+        .destinations-carousel-track::-webkit-scrollbar {
+          display: none;
+        }
+
+        /* Bigger Destination Cards */
         .destination-vertical-card {
           position: relative;
-          height: 310px;
-          border-radius: 16px;
+          flex: 0 0 310px;
+          height: 410px;
+          border-radius: 22px;
           overflow: hidden;
           cursor: pointer;
-          border: 1px solid rgba(255, 255, 255, 0.12);
-          box-shadow: 0 8px 24px rgba(0, 0, 0, 0.25);
-          transition: all 0.26s cubic-bezier(0.16, 1, 0.3, 1);
+          border: 1.5px solid rgba(78, 4, 1, 0.12);
+          box-shadow: 0 12px 30px rgba(0, 0, 0, 0.10);
+          transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+          scroll-snap-align: start;
+          text-align: left;
+          background: #110518;
         }
 
         .destination-vertical-card:hover {
-          transform: translateY(-6px);
+          transform: translateY(-8px);
           border-color: #E88C2B;
-          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.35);
+          box-shadow: 0 20px 45px rgba(232, 140, 43, 0.22);
         }
 
         .dest-card-bg-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.4s ease;
+          transition: transform 0.6s ease;
         }
 
         .destination-vertical-card:hover .dest-card-bg-img {
           transform: scale(1.08);
         }
 
+        /* Gradient Overlay for Readability */
         .dest-card-gradient-overlay {
           position: absolute;
           inset: 0;
           background: linear-gradient(
             180deg,
-            rgba(78, 4, 1, 0.1) 0%,
-            rgba(53, 2, 0, 0.4) 45%,
-            rgba(32, 1, 0, 0.92) 100%
+            rgba(0, 0, 0, 0.45) 0%,
+            rgba(0, 0, 0, 0.10) 30%,
+            rgba(14, 3, 20, 0.70) 65%,
+            rgba(14, 3, 20, 0.95) 100%
           );
           transition: background 0.3s ease;
         }
 
-        .destination-vertical-card:hover .dest-card-gradient-overlay {
-          background: linear-gradient(
-            180deg,
-            rgba(78, 4, 1, 0.05) 0%,
-            rgba(53, 2, 0, 0.3) 40%,
-            rgba(32, 1, 0, 0.95) 100%
-          );
+        /* Top Kicker Badge */
+        .dest-card-top-badge {
+          position: absolute;
+          top: 16px;
+          left: 16px;
+          z-index: 3;
+          background: rgba(14, 3, 20, 0.75);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+          border-radius: 9999px;
+          padding: 5px 12px;
+          font-size: 0.68rem;
+          font-weight: 800;
+          letter-spacing: 0.10em;
+          color: #E88C2B;
+          text-transform: uppercase;
         }
 
+        /* Bottom Text Details */
         .dest-card-label-box {
           position: absolute;
           bottom: 20px;
-          left: 16px;
-          right: 16px;
-          z-index: 2;
-          text-align: left;
+          left: 18px;
+          right: 18px;
+          z-index: 3;
           display: flex;
           flex-direction: column;
-          gap: 4px;
+          gap: 6px;
         }
 
         .dest-card-title {
           font-family: var(--font-heading);
-          font-size: 1.15rem;
+          font-size: 1.25rem;
           font-weight: 800;
           color: #FFFFFF;
           line-height: 1.2;
+          margin: 0;
           text-rendering: optimizeLegibility;
         }
 
         .dest-card-sub {
-          font-size: 0.72rem;
+          font-size: 0.82rem;
+          color: #CBD5E1;
+          line-height: 1.4;
+          margin: 0;
+        }
+
+        .dest-card-footer-cta {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          margin-top: 10px;
+          padding-top: 10px;
+          border-top: 1px solid rgba(255, 255, 255, 0.14);
+        }
+
+        .dest-reserve-text {
+          font-size: 0.74rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
           color: #E88C2B;
-          font-weight: 600;
-          letter-spacing: 0.02em;
+          text-transform: uppercase;
         }
 
-        .mobile-destinations-layout {
-          display: none;
+        .dest-circle-arrow {
+          width: 26px;
+          height: 26px;
+          border-radius: 50%;
+          background: #E88C2B;
+          color: #FFFFFF;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          transition: transform 0.2s ease;
         }
 
-        @media (max-width: 1100px) and (min-width: 769px) {
+        .destination-vertical-card:hover .dest-circle-arrow {
+          transform: translateX(4px);
+        }
+
+        /* Dots */
+        .destinations-dots-row {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 8px;
+          margin-top: 14px;
+        }
+
+        .dest-dot {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          border: none;
+          background: rgba(78, 4, 1, 0.2);
+          padding: 0;
+          cursor: pointer;
+          touch-action: manipulation;
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .dest-dot.active {
+          width: 24px;
+          border-radius: 9999px;
+          background: #E88C2B;
+          box-shadow: 0 2px 8px rgba(232, 140, 43, 0.45);
+        }
+
+        @media (max-width: 1080px) {
           .destinations-layout-grid {
             grid-template-columns: 1fr;
-            gap: 36px;
+            gap: 32px;
           }
-          .destinations-cards-quad {
-            grid-template-columns: repeat(2, 1fr);
+          .destinations-left-block {
+            max-width: 600px;
           }
           .destination-vertical-card {
-            height: 240px;
+            flex: 0 0 290px;
           }
         }
 
-        /* Strictly Mobile (<= 768px): Screen 7 Layout */
+        /* Strictly Mobile (<= 768px) */
         @media (max-width: 768px) {
-          .destinations-maroon-section {
-            padding: 55px 0 65px 0;
+          .destinations-bright-section {
+            padding: 60px 0 70px 0;
           }
 
-          .destinations-layout-grid {
-            display: none !important;
+          .destinations-actions-row {
+            display: none;
           }
 
-          .mobile-destinations-layout {
-            display: flex !important;
-            flex-direction: column;
-            gap: 20px;
+          .destinations-headline {
+            font-size: clamp(2rem, 7.8vw, 2.6rem);
+            margin-bottom: 12px;
           }
 
-          .destinations-mobile-header {
-            text-align: center;
-            margin-bottom: 6px;
+          .destinations-sub-text {
+            font-size: 0.94rem;
+            margin-bottom: 20px;
           }
 
-          .destinations-mobile-title {
-            font-family: var(--font-heading);
-            font-size: 2.1rem;
-            font-weight: 900;
-            color: #FFFFFF;
-            line-height: 1.15;
-            margin: 6px 0 10px 0;
+          .destination-vertical-card {
+            flex: 0 0 84vw;
+            min-width: 84vw;
+            max-width: 84vw;
+            height: 360px;
+            scroll-snap-align: center;
           }
 
-          .destinations-mobile-sub {
-            font-size: 0.88rem;
-            color: rgba(255, 255, 255, 0.78);
-            line-height: 1.5;
-            margin: 0;
+          .dest-card-title {
+            font-size: 1.18rem;
           }
 
-          /* Featured Top Card */
-          .mob-featured-dest-card {
-            position: relative;
-            width: 100%;
-            height: 220px;
-            border-radius: 18px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.16);
-            box-shadow: 0 12px 32px rgba(0, 0, 0, 0.35);
-            cursor: pointer;
-          }
-
-          .mob-feat-bg-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-          }
-
-          .mob-feat-gradient-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-              180deg,
-              rgba(32, 1, 0, 0.1) 0%,
-              rgba(32, 1, 0, 0.5) 50%,
-              rgba(32, 1, 0, 0.95) 100%
-            );
-          }
-
-          .mob-feat-content {
-            position: absolute;
-            bottom: 16px;
-            left: 16px;
-            right: 16px;
-            display: flex;
-            align-items: flex-end;
-            justify-content: space-between;
-            z-index: 2;
-          }
-
-          .mob-feat-kicker {
-            font-size: 0.65rem;
-            font-weight: 800;
-            letter-spacing: 0.12em;
-            color: #E88C2B;
-            text-transform: uppercase;
-            display: block;
-            margin-bottom: 2px;
-          }
-
-          .mob-feat-title {
-            font-family: var(--font-heading);
-            font-size: 1.25rem;
-            font-weight: 900;
-            color: #FFFFFF;
-            margin: 0 0 4px 0;
-          }
-
-          .mob-feat-sub {
-            font-size: 0.78rem;
-            color: rgba(254, 251, 243, 0.85);
-            font-weight: 600;
-            margin: 0;
-          }
-
-          .mob-feat-circle-btn {
-            width: 36px;
-            height: 36px;
-            border-radius: 50%;
-            background: #FFFFFF;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
-          }
-
-          /* 3 Legible Strip Cards Stack */
-          .mob-destinations-list-stack {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-          }
-
-          .mob-dest-strip-card {
-            position: relative;
-            height: 82px;
-            border-radius: 14px;
-            overflow: hidden;
-            border: 1px solid rgba(255, 255, 255, 0.12);
-            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 16px;
-            touch-action: manipulation;
-            transition: all 0.16s ease;
-          }
-
-          .mob-dest-strip-card:active {
-            transform: scale(0.98);
-            border-color: #E88C2B;
-          }
-
-          .mob-strip-bg {
-            position: absolute;
-            inset: 0;
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            z-index: 1;
-          }
-
-          .mob-strip-overlay {
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(
-              90deg,
-              rgba(24, 2, 4, 0.94) 0%,
-              rgba(24, 2, 4, 0.82) 65%,
-              rgba(24, 2, 4, 0.65) 100%
-            );
-            z-index: 2;
-          }
-
-          .mob-strip-info {
-            position: relative;
-            z-index: 3;
-            text-align: left;
-          }
-
-          .mob-strip-title {
-            font-family: var(--font-heading);
-            font-size: 1.05rem;
-            font-weight: 800;
-            color: #FFFFFF;
-            margin: 0 0 3px 0;
-          }
-
-          .mob-strip-sub {
-            font-size: 0.74rem;
-            color: #E88C2B;
-            font-weight: 600;
-            margin: 0;
-          }
-
-          .mob-strip-arrow {
-            position: relative;
-            z-index: 3;
-            width: 30px;
-            height: 30px;
-            border-radius: 50%;
-            background: rgba(255, 255, 255, 0.12);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
+          .dest-card-sub {
+            font-size: 0.80rem;
           }
         }
       `}</style>

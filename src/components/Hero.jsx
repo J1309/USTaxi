@@ -152,11 +152,12 @@ export default function Hero({ onSelectVehicle }) {
         }
 
         .hero-sub-description {
-          font-size: 0.98rem;
-          color: #4A3E3D;
-          line-height: 1.5;
-          margin-bottom: 20px;
-          max-width: 520px;
+          font-size: 1.10rem;
+          font-weight: 600;
+          color: #382C2B;
+          line-height: 1.55;
+          margin-bottom: 22px;
+          max-width: 540px;
         }
 
         .hero-cta-buttons-row {
@@ -214,11 +215,11 @@ export default function Hero({ onSelectVehicle }) {
           display: none;
         }
 
-        /* Floating Booking Dock */
+        /* Floating Booking Dock - Shifted lower */
         .hero-booking-dock {
           position: relative;
           z-index: 10;
-          margin-top: 40px;
+          margin-top: 85px;
         }
 
         /* Minimal, Clean, Professional Mobile Hero (< 768px) */
@@ -291,12 +292,13 @@ export default function Hero({ onSelectVehicle }) {
           }
 
           .hero-sub-description {
-            font-size: 0.94rem;
-            line-height: 1.55;
+            font-size: 1.05rem;
+            font-weight: 600;
+            line-height: 1.6;
             margin-bottom: 0;
-            color: rgba(255, 255, 255, 0.92) !important;
-            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.95);
-            max-width: 480px;
+            color: rgba(255, 255, 255, 0.95) !important;
+            text-shadow: 0 2px 14px rgba(0, 0, 0, 0.95);
+            max-width: 500px;
           }
 
           .hero-cta-buttons-row {
