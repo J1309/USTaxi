@@ -9,6 +9,12 @@ import AboutPage from './pages/AboutPage';
 import { useLenis, smoothScrollTo } from './hooks/useLenis';
 import { useScrollReveal } from './hooks/useScrollReveal';
 
+// Dynamic lazy import so Agentation is only loaded on dev/localhost without bloating production bundles
+const Agentation = React.lazy(async () => {
+  const mod = await import('agentation');
+  return { default: mod.Agentation };
+});
+
 /**
  * Handles smooth scrolling to anchor hash on page load/route change,
  * or immediate top scroll when switching pages without hash.
@@ -74,6 +80,15 @@ function AppContent() {
 
       {/* Mobile Conversion Sticky Bar */}
       <MobileStickyBar />
+
+      {/* Visual Feedback for AI coding agents (Localhost / Dev only) */}
+      {(import.meta.env.DEV ||
+        (typeof window !== 'undefined' &&
+          (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1'))) && (
+        <React.Suspense fallback={null}>
+          <Agentation />
+        </React.Suspense>
+      )}
     </div>
   );
 }
