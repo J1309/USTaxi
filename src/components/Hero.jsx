@@ -24,10 +24,6 @@ export default function Hero({ onSelectVehicle }) {
       <div className="container hero-content-container">
         {/* Left Side: Headlines, CTAs */}
         <div className="hero-text-block reveal-on-scroll">
-          <div className="hero-kicker-tag">
-            <span>ARRIVE IN STYLE</span>
-          </div>
-
           <h1 className="hero-main-heading">
             PREMIUM<br />
             TAXI SERVICES<br />
@@ -122,17 +118,6 @@ export default function Hero({ onSelectVehicle }) {
         .hero-text-block {
           max-width: 620px;
           text-align: left;
-        }
-
-        .hero-kicker-tag {
-          display: inline-block;
-          font-family: inherit;
-          font-size: 0.78rem;
-          font-weight: 800;
-          letter-spacing: 0.16em;
-          color: #E88C2B;
-          text-transform: uppercase;
-          margin-bottom: 8px;
         }
 
         .hero-main-heading {
@@ -263,14 +248,6 @@ export default function Hero({ onSelectVehicle }) {
             margin-bottom: 0;
             position: relative;
             z-index: 5;
-          }
-
-          .hero-kicker-tag span {
-            color: #E88C2B;
-            font-weight: 800;
-            font-size: 0.78rem;
-            letter-spacing: 0.18em;
-            text-shadow: 0 2px 8px rgba(0, 0, 0, 0.8);
           }
 
           /* Preserves exact desktop typography (uppercase, bold, thick Outfit heading) */

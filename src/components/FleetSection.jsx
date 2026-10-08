@@ -8,7 +8,6 @@ import {
   ChevronRight, 
   ShieldCheck, 
   Phone,
-  Sparkles,
   VolumeX,
   Compass
 } from 'lucide-react';
@@ -151,10 +150,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             1. SECTION HEADER
             ===================================================================== */}
         <div className="fleet-header-block reveal-on-scroll">
-          <div className="fleet-kicker-badge">
-            <Sparkles size={14} color="#E88C2B" />
-            <span>OUR FLEET & CABIN INTERIORS</span>
-          </div>
           <h2 className="fleet-main-heading">
             Exceptional Vehicles & First-Class Interiors
           </h2>
@@ -441,22 +436,6 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           text-align: center;
           max-width: 760px;
           margin: 0 auto 36px auto;
-        }
-
-        .fleet-kicker-badge {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          background: rgba(232, 140, 43, 0.12);
-          border: 1px solid rgba(232, 140, 43, 0.25);
-          color: #B45309;
-          font-size: 0.76rem;
-          font-weight: 800;
-          letter-spacing: 0.14em;
-          padding: 6px 14px;
-          border-radius: 9999px;
-          margin-bottom: 12px;
-          text-transform: uppercase;
         }
 
         .fleet-main-heading {

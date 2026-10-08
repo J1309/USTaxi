@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect, useCallback } from 'react';
-import { ArrowRight, ChevronLeft, ChevronRight, Compass } from 'lucide-react';
+import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { openBooking } from '../utils/bookingModal';
 
 const DESTINATIONS = [
@@ -106,11 +106,6 @@ export default function DestinationsSection() {
           
           {/* Left Column: Heading, Subtext & Navigation Buttons */}
           <div className="destinations-left-block reveal-on-scroll">
-            <div className="destinations-kicker-tag">
-              <Compass size={14} color="#E88C2B" />
-              <span>POPULAR DESTINATIONS</span>
-            </div>
-
             <h2 className="destinations-headline">
               EXPLORE<br />
               THE CITY<br />
@@ -187,11 +182,6 @@ export default function DestinationsSection() {
                   {/* Gradient Overlay for Crisp Text Readability */}
                   <div className="dest-card-gradient-overlay" />
 
-                  {/* Top Kicker Tag Badge */}
-                  <div className="dest-card-top-badge">
-                    <span>{d.kicker}</span>
-                  </div>
-
                   {/* Bottom Text Content & Action Button */}
                   <div className="dest-card-label-box">
                     <h3 className="dest-card-title">{d.title}</h3>
@@ -267,22 +257,6 @@ export default function DestinationsSection() {
           display: flex;
           flex-direction: column;
           align-items: flex-start;
-        }
-
-        .destinations-kicker-tag {
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-          font-size: 0.78rem;
-          font-weight: 800;
-          letter-spacing: 0.16em;
-          text-transform: uppercase;
-          color: #E88C2B;
-          background: rgba(232, 140, 43, 0.10);
-          border: 1px solid rgba(232, 140, 43, 0.25);
-          padding: 6px 14px;
-          border-radius: 9999px;
-          margin-bottom: 16px;
         }
 
         .destinations-headline {
@@ -432,25 +406,6 @@ export default function DestinationsSection() {
             rgba(14, 3, 20, 0.95) 100%
           );
           transition: background 0.3s ease;
-        }
-
-        /* Top Kicker Badge */
-        .dest-card-top-badge {
-          position: absolute;
-          top: 16px;
-          left: 16px;
-          z-index: 3;
-          background: rgba(14, 3, 20, 0.75);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          border: 1px solid rgba(255, 255, 255, 0.2);
-          border-radius: 9999px;
-          padding: 5px 12px;
-          font-size: 0.68rem;
-          font-weight: 800;
-          letter-spacing: 0.10em;
-          color: #E88C2B;
-          text-transform: uppercase;
         }
 
         /* Bottom Text Details */

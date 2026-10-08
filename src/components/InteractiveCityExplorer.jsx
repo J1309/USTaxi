@@ -9,7 +9,6 @@ import {
   Sun, 
   Sunset,
   Car,
-  Compass,
   CheckCircle2
 } from 'lucide-react';
 import { openBooking } from '../utils/bookingModal';
@@ -148,11 +147,6 @@ export default function InteractiveCityExplorer() {
         
         {/* Section Header */}
         <div className="city-header-block reveal-on-scroll">
-          <div className="city-kicker-tag">
-            <Compass size={14} color="#E88C2B" />
-            <span>INTERACTIVE CITY EXPLORER</span>
-          </div>
-
           <h2 className="city-main-heading">
             HOUSTON’S ICONIC CORRIDORS<br />
             <span className="orange-accent">& SIGNATURE DESTINATIONS</span>
@@ -420,23 +414,6 @@ export default function InteractiveCityExplorer() {
           text-align: center;
           max-width: 780px;
           margin: 0 auto 52px auto;
-        }
-
-        .city-kicker-tag {
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-          font-family: inherit;
-          font-size: 0.80rem;
-          font-weight: 800;
-          letter-spacing: 0.16em;
-          color: #E88C2B;
-          text-transform: uppercase;
-          background: rgba(232, 140, 43, 0.12);
-          border: 1px solid rgba(232, 140, 43, 0.28);
-          padding: 6px 14px;
-          border-radius: 9999px;
-          margin-bottom: 16px;
         }
 
         .city-main-heading {
@@ -1051,11 +1028,6 @@ export default function InteractiveCityExplorer() {
           .city-header-block {
             text-align: left;
             margin-bottom: 24px;
-          }
-
-          .city-kicker-tag {
-            font-size: 0.74rem;
-            margin-bottom: 12px;
           }
 
           .city-main-heading {
