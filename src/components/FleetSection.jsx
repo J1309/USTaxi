@@ -6,10 +6,10 @@ import {
   Check, 
   ChevronLeft, 
   ChevronRight, 
-  ShieldCheck, 
   Phone,
+  ShieldCheck,
   VolumeX,
-  Compass
+  Maximize2
 } from 'lucide-react';
 import { smoothScrollTo } from '../hooks/useLenis';
 import { openBooking } from '../utils/bookingModal';
@@ -25,38 +25,44 @@ const FLEET_DATA = [
     passengers: 'Up to 7 Passengers',
     luggage: '6 Large Suitcases + Carry-ons',
     drive: 'Extended Wheelbase Luxury Chauffeur Edition',
-    description: 'Our premier flagship SUV delivers unmatched presence, whisper-quiet highway ride quality, and vast multi-passenger cabin room for corporate roadshows, IAH / HOU airport transfers, and Galveston cruise groups.',
+    description: 'Our premier flagship SUV delivers unmatched road presence, whisper-quiet highway ride quality, and vast multi-passenger cabin room for corporate roadshows, IAH / HOU airport transfers, and Galveston cruise groups.',
+    specs: [
+      { label: 'SEATING CAPACITY', value: '7 Passengers', detail: 'Captain\'s chairs + full 3rd row' },
+      { label: 'LUGGAGE BAY', value: '6 Large Suitcases', detail: '41.5 cu. ft. extended cargo' },
+      { label: 'CHASSIS / DRIVETRAIN', value: 'Extended Wheelbase', detail: 'Magnetic ride acoustic chassis' },
+      { label: 'CABIN ACOUSTICS', value: 'Whisper Quiet', detail: 'Acoustic laminated privacy glass' },
+    ],
     features: [
-      'Handcrafted jet-black leather interior with heated & ventilated seats',
-      'Dual rear 12.6" HD entertainment displays with streaming connectivity',
+      'Handcrafted jet-black leather interior with heated & ventilated seating',
+      'Dual rear 12.6" HD executive entertainment displays with streaming connectivity',
       'Acoustic laminated privacy whisper glass for confidential conversations',
-      'Tri-zone independent climate control with personal overhead vents',
-      'Complimentary chilled bottled water, mints, and executive Wi-Fi hotspot',
-      'High-speed multi-device USB-C fast charging at all rows',
+      'Tri-zone independent climate control with personal overhead ventilation',
+      'Complimentary chilled bottled spring water, mints, and executive Wi-Fi hotspot',
+      'High-speed multi-device USB-C fast charging accessible at all rows',
     ],
     interiorViews: [
       {
         id: 'suburban-second-row',
-        title: "Second Row Captain's Chairs",
-        badge: "CABIN PERSPECTIVE 1 OF 3",
-        subtitle: "Executive VIP Seating",
+        title: "Second-Row Captain's Chairs",
+        indexLabel: '01 OF 03',
+        subtitle: 'Executive VIP Seating',
         desc: "Individual reclining captain's chairs with contoured armrests, expansive 42-inch legroom, and independent rear digital climate console.",
         src: '/images/suburban_second-row.png',
       },
       {
         id: 'suburban-third-row',
         title: 'Spacious 3rd-Row Adult Seating',
-        badge: 'CABIN PERSPECTIVE 2 OF 3',
-        subtitle: 'Generous Full-Size Clearance',
-        desc: 'Comfortable full-size 3-passenger third row with dedicated overhead air vents, cup holders, and individual reading lamps.',
+        indexLabel: '02 OF 03',
+        subtitle: 'Full-Size Legroom Clearance',
+        desc: 'Comfortable full-size 3-passenger third row with dedicated overhead air vents, cup holders, and individual reading illumination.',
         src: '/images/suburban_third_row.png',
       },
       {
         id: 'suburban-rear-cargo',
         title: 'Extended Rear Cargo Trunk',
-        badge: 'CABIN PERSPECTIVE 3 OF 3',
+        indexLabel: '03 OF 03',
         subtitle: 'Vast Luggage Clearance',
-        desc: 'Vast 41.5 cu. ft. luggage bay effortlessly accommodating 6+ large overseas bags, golf sets, strollers, and cruise luggage.',
+        desc: 'Expansive 41.5 cu. ft. luggage bay effortlessly accommodating 6+ large overseas bags, golf sets, strollers, and cruise luggage.',
         src: '/images/suburban_rear_cargo.png',
       },
     ],
@@ -71,6 +77,12 @@ const FLEET_DATA = [
     luggage: '3 Suitcases + Carry-ons',
     drive: 'Whisper-Quiet Executive Hybrid Sedan',
     description: 'Engineered for tranquil journeys across Houston. Plush perforated leather, smooth acoustic dampening, and executive prestige make it the preferred vehicle for business leaders and solo travelers.',
+    specs: [
+      { label: 'SEATING CAPACITY', value: '4 Passengers', detail: 'Plush contoured leather seats' },
+      { label: 'LUGGAGE BAY', value: '3 Suitcases', detail: 'Deep luggage trunk + carry-ons' },
+      { label: 'CHASSIS / DRIVETRAIN', value: 'Lexus Hybrid Drive', detail: 'Ultra-smooth acoustic suspension' },
+      { label: 'CABIN ACOUSTICS', value: 'Silent Sanctuary', detail: 'Active cabin noise cancellation' },
+    ],
     features: [
       'Whisper-quiet acoustic hybrid engineering with noise-cancelling cabin',
       'Plush perforated leather seating with lumbar contour support',
@@ -82,7 +94,7 @@ const FLEET_DATA = [
       {
         id: 'lexus-rear-seats',
         title: 'Executive Rear Passenger Cabin',
-        badge: 'CABIN PERSPECTIVE 1 OF 2',
+        indexLabel: '01 OF 02',
         subtitle: 'Quiet Acoustic Sanctuary',
         desc: 'Ultra-quiet acoustic passenger compartment with soft perforated leather seating, fold-down center armrest, and rear climate vents.',
         src: '/images/lexus_rear_seats.png',
@@ -90,7 +102,7 @@ const FLEET_DATA = [
       {
         id: 'lexus-trunk',
         title: 'Executive Luggage Trunk',
-        badge: 'CABIN PERSPECTIVE 2 OF 2',
+        indexLabel: '02 OF 02',
         subtitle: 'Deep Luggage Capacity',
         desc: 'Spacious luggage trunk easily holding 3 full-size suitcases plus briefcases, laptops, and executive carry-on bags.',
         src: '/images/lexus_trunk_cargo.png',
@@ -120,7 +132,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
   const handleMobileInteriorScroll = () => {
     if (!mobileInteriorReelRef.current) return;
     const scrollLeft = mobileInteriorReelRef.current.scrollLeft;
-    const cardWidth = mobileInteriorReelRef.current.offsetWidth * 0.84;
+    const cardWidth = mobileInteriorReelRef.current.offsetWidth * 0.86;
     const newIdx = Math.round(scrollLeft / cardWidth);
     if (newIdx >= 0 && newIdx < activeVehicle.interiorViews.length && newIdx !== activeMobileInteriorIndex) {
       setActiveMobileInteriorIndex(newIdx);
@@ -143,41 +155,46 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
   };
 
   return (
-    <section id="fleet" className="dedicated-fleet-interior-section">
+    <section id="fleet" className="luxury-fleet-section" aria-label="Executive Fleet & Interior Suite">
       <div className="container">
         
         {/* =====================================================================
-            1. SECTION HEADER
+            1. SECTION HEADER (NO PILLS / NO SPARKLES / THICK HEADINGS)
             ===================================================================== */}
-        <div className="fleet-header-block reveal-on-scroll">
+        <header className="fleet-header-block reveal-on-scroll">
+          <span className="fleet-pre-heading">THE PRIVATE FLEET</span>
           <h2 className="fleet-main-heading">
-            Exceptional Vehicles & First-Class Interiors
+            EXCEPTIONAL VEHICLES & FIRST-CLASS INTERIORS
           </h2>
           <p className="fleet-sub-heading">
-            Directly examine our private collection inside and out. View complete passenger specs, executive amenities, and high-resolution interior cabin views below.
+            Directly examine our private collection inside and out. Transparent passenger specifications, executive appointments, and high-resolution cabin photography.
           </p>
-        </div>
+        </header>
 
         {/* =====================================================================
-            2. LUXURY VEHICLE SELECTOR TABS
+            2. ARCHITECTURAL VEHICLE SELECTOR
             ===================================================================== */}
-        <div className="fleet-vehicle-tabs-bar reveal-on-scroll">
+        <div className="fleet-selector-track reveal-on-scroll" role="tablist" aria-label="Select vehicle model">
           {FLEET_DATA.map((v) => {
             const isActive = v.id === activeVehicleId;
             return (
               <button
                 key={v.id}
                 type="button"
+                role="tab"
+                aria-selected={isActive}
                 onClick={() => handleVehicleSwitch(v.id)}
-                className={`fleet-tab-btn ${isActive ? 'active' : ''}`}
-                aria-pressed={isActive}
+                className={`fleet-selector-tab ${isActive ? 'is-active' : ''}`}
               >
-                <div className="tab-btn-content">
-                  <span className="tab-bullet">{isActive ? '✦' : '•'}</span>
-                  <div className="tab-text-group">
-                    <span className="tab-name">{v.name}</span>
-                    <span className="tab-meta">{v.passengers} · {v.category.includes('SUV') ? 'Flagship SUV' : 'Luxury Sedan'}</span>
-                  </div>
+                <div className="selector-tab-header">
+                  <span className="selector-tab-code">
+                    {v.id === 'suburban' ? '01 / FLAGSHIP SUV' : '02 / EXECUTIVE SEDAN'}
+                  </span>
+                  <span className="selector-tab-indicator" />
+                </div>
+                <div className="selector-tab-body">
+                  <h3 className="selector-tab-name">{v.name}</h3>
+                  <p className="selector-tab-meta">{v.passengers} · {v.luggage}</p>
                 </div>
               </button>
             );
@@ -185,81 +202,81 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
         </div>
 
         {/* =====================================================================
-            3. PART A: VEHICLE OVERVIEW & SPECS CARD
+            3. VEHICLE SPECIFICATION & PRESENTATION CARD
             ===================================================================== */}
-        <div className="vehicle-overview-card reveal-on-scroll">
-          <div className="vehicle-overview-grid">
+        <div className="vehicle-presentation-card reveal-on-scroll">
+          <div className="vehicle-presentation-grid">
             
-            {/* Left: Exterior Vehicle Photo with Floating Badge */}
-            <div className="vehicle-photo-column">
-              <div className="vehicle-photo-wrapper">
-                <img
-                  src={activeVehicle.image}
-                  alt={activeVehicle.name}
-                  className="vehicle-exterior-img"
-                  loading="lazy"
-                />
-                <div className="vehicle-category-floating-badge">
-                  <span>{activeVehicle.category}</span>
+            {/* Left: Exterior Vehicle Photo & Telemetry Spec Grid */}
+            <div className="vehicle-visual-side">
+              <div className="vehicle-photo-stage">
+                <div className="vehicle-stage-topbar">
+                  <span className="vehicle-badge-category">{activeVehicle.category}</span>
+                  <span className="vehicle-badge-edition">HOUSTON CHAUFFEUR EDITION</span>
+                </div>
+                <div className="vehicle-photo-canvas">
+                  <img
+                    src={activeVehicle.image}
+                    alt={activeVehicle.name}
+                    className="vehicle-exterior-img"
+                    loading="lazy"
+                  />
                 </div>
               </div>
 
-              {/* Quick Spec Metric Badges */}
-              <div className="vehicle-specs-row">
-                <div className="spec-pill">
-                  <Users size={16} color="#E88C2B" />
-                  <span className="spec-text">{activeVehicle.passengers}</span>
-                </div>
-                <div className="spec-pill">
-                  <Briefcase size={16} color="#E88C2B" />
-                  <span className="spec-text">{activeVehicle.luggage}</span>
-                </div>
-                <div className="spec-pill">
-                  <VolumeX size={16} color="#E88C2B" />
-                  <span className="spec-text">Whisper Quiet</span>
-                </div>
+              {/* 4 Clean Minimalist Spec Data Blocks */}
+              <div className="vehicle-specs-grid">
+                {activeVehicle.specs.map((item, idx) => (
+                  <div key={idx} className="spec-metric-box">
+                    <span className="spec-label">{item.label}</span>
+                    <strong className="spec-value">{item.value}</strong>
+                    <span className="spec-detail">{item.detail}</span>
+                  </div>
+                ))}
               </div>
             </div>
 
-            {/* Right: Vehicle Details, Amenities, & Action CTA */}
-            <div className="vehicle-details-column">
-              <span className="vehicle-tagline-kicker">{activeVehicle.tagline}</span>
-              <h3 className="vehicle-headline-name">{activeVehicle.name}</h3>
-              <p className="vehicle-body-description">{activeVehicle.description}</p>
+            {/* Right: Narrative Editorial, Amenities Checklist & Actions */}
+            <div className="vehicle-editorial-side">
+              <div className="vehicle-editorial-header">
+                <span className="vehicle-tagline-lead">{activeVehicle.tagline}</span>
+                <h3 className="vehicle-title-thick">{activeVehicle.name}</h3>
+                <p className="vehicle-body-text">{activeVehicle.description}</p>
+              </div>
 
-              {/* Amenity Checklist */}
-              <div className="vehicle-amenities-group">
-                <h4 className="amenities-subheading">EXECUTIVE AMENITIES & CABIN HIGHLIGHTS</h4>
-                <ul className="amenities-list">
+              {/* Amenities */}
+              <div className="vehicle-amenities-section">
+                <h4 className="amenities-title-thick">CABIN HIGHLIGHTS & EXECUTIVE APPOINTMENTS</h4>
+                <ul className="amenities-checklist">
                   {activeVehicle.features.map((feature, idx) => (
-                    <li key={idx} className="amenity-item">
-                      <div className="check-icon-circle">
-                        <Check size={12} color="#FFFFFF" strokeWidth={3} />
+                    <li key={idx} className="amenity-row">
+                      <div className="amenity-bullet-icon">
+                        <Check size={13} strokeWidth={3} />
                       </div>
-                      <span className="amenity-text">{feature}</span>
+                      <span className="amenity-label">{feature}</span>
                     </li>
                   ))}
                 </ul>
               </div>
 
-              {/* CTA Booking & Dispatch Row */}
-              <div className="vehicle-card-action-bar">
+              {/* Reservation & Phone Dispatch */}
+              <div className="vehicle-action-deck">
                 <button
                   type="button"
                   onClick={() => handleSelectBooking(activeVehicle.id)}
-                  className="btn-reserve-vehicle-gold"
+                  className="btn-reserve-luxury"
                 >
-                  <span>Reserve This {activeVehicle.id === 'suburban' ? 'Suburban' : 'Lexus'}</span>
-                  <ArrowRight size={16} />
+                  <span>RESERVE THIS {activeVehicle.id === 'suburban' ? 'SUBURBAN' : 'LEXUS'}</span>
+                  <ArrowRight size={17} strokeWidth={2.4} />
                 </button>
 
                 <a
                   href={`tel:+${OWNER_PHONE_RAW}`}
-                  className="btn-call-dispatch-outline"
-                  title={`Call ${OWNER_PHONE_DISPLAY}`}
+                  className="btn-dispatch-call"
+                  title={`Call Chauffeur Dispatch: ${OWNER_PHONE_DISPLAY}`}
                 >
-                  <Phone size={15} />
-                  <span>Call {OWNER_PHONE_DISPLAY}</span>
+                  <Phone size={15} strokeWidth={2.4} />
+                  <span>CALL {OWNER_PHONE_DISPLAY}</span>
                 </a>
               </div>
             </div>
@@ -268,64 +285,68 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
         </div>
 
         {/* =====================================================================
-            4. PART B: DEDICATED IN-PAGE CABIN & INTERIOR GALLERY
-               (Zero clicks/modals required: visible directly on the page!)
+            4. FIRST-CLASS PASSENGER CABIN SUITE (REAL IN-CABIN VIEWS)
             ===================================================================== */}
-        <div className="dedicated-interior-suite-box reveal-on-scroll">
+        <div className="cabin-suite-container reveal-on-scroll">
           
-          {/* Interior Suite Header */}
-          <div className="interior-suite-header">
-            <div className="suite-header-left">
-              <span className="suite-kicker">FIRST-CLASS CABIN SUITE</span>
-              <h3 className="suite-title">
-                {activeVehicle.name} · Real Cabin Interior Views
+          {/* Cabin Header */}
+          <div className="cabin-suite-header">
+            <div className="cabin-suite-title-block">
+              <span className="cabin-suite-pre">CABIN INSPECTION</span>
+              <h3 className="cabin-suite-title">
+                {activeVehicle.name.toUpperCase()} · PASSENGER INTERIOR
               </h3>
-              <p className="suite-subtitle">
+              <p className="cabin-suite-subtitle">
                 High-resolution interior photography of our active Houston chauffeur vehicle.
               </p>
             </div>
 
-            {/* Desktop Navigation Arrows for Featured View */}
-            <div className="desktop-interior-nav-arrows">
+            {/* Viewport Nav Controls */}
+            <div className="cabin-nav-controls">
               <button
                 type="button"
                 onClick={prevInterior}
-                className="interior-arrow-btn"
+                className="cabin-arrow-button"
                 aria-label="Previous interior photo"
               >
-                <ChevronLeft size={18} />
+                <ChevronLeft size={18} strokeWidth={2.4} />
               </button>
-              <span className="interior-counter-chip">
+              <span className="cabin-counter-label">
                 {activeInteriorIndex + 1} / {activeVehicle.interiorViews.length}
               </span>
               <button
                 type="button"
                 onClick={nextInterior}
-                className="interior-arrow-btn"
+                className="cabin-arrow-button"
                 aria-label="Next interior photo"
               >
-                <ChevronRight size={18} />
+                <ChevronRight size={18} strokeWidth={2.4} />
               </button>
             </div>
           </div>
 
-          {/* DESKTOP VIEW: Cinematic Featured Viewport + Direct Thumbnails Strip */}
-          <div className="desktop-interior-experience">
-            <div className="featured-interior-viewport">
+          {/* DESKTOP EXPERIENCE: Cinema Viewport & Thumbnails */}
+          <div className="desktop-cabin-suite">
+            <div className="cabin-cinema-viewport">
               <img
                 src={activeInterior.src}
                 alt={`${activeVehicle.name} - ${activeInterior.title}`}
-                className="featured-interior-img"
+                className="cabin-cinema-img"
               />
-              <div className="featured-caption-glass-pill">
-                <span className="caption-badge">{activeInterior.badge}</span>
-                <h4 className="caption-title">{activeInterior.title}</h4>
-                <p className="caption-desc">{activeInterior.desc}</p>
+              
+              {/* Architectural Caption Bar */}
+              <div className="cabin-caption-plate">
+                <div className="caption-plate-meta">
+                  <span className="caption-perspective-tag">{activeInterior.indexLabel}</span>
+                  <span className="caption-category-tag">{activeInterior.subtitle}</span>
+                </div>
+                <h4 className="caption-title-thick">{activeInterior.title}</h4>
+                <p className="caption-desc-text">{activeInterior.desc}</p>
               </div>
             </div>
 
-            {/* Direct Thumbnail Cards Strip */}
-            <div className="interior-thumbnails-grid">
+            {/* Direct Thumbnail Strip */}
+            <div className="cabin-thumbnails-grid">
               {activeVehicle.interiorViews.map((view, idx) => {
                 const isSelected = idx === activeInteriorIndex;
                 return (
@@ -333,15 +354,15 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
                     key={view.id}
                     type="button"
                     onClick={() => setActiveInteriorIndex(idx)}
-                    className={`interior-thumb-card ${isSelected ? 'active' : ''}`}
+                    className={`cabin-thumb-item ${isSelected ? 'is-selected' : ''}`}
                   >
-                    <div className="thumb-photo-box">
-                      <img src={view.src} alt={view.title} className="thumb-img" />
-                      {isSelected && <div className="thumb-active-dot" />}
+                    <div className="cabin-thumb-image-wrap">
+                      <img src={view.src} alt={view.title} className="cabin-thumb-img" />
+                      <span className="cabin-thumb-number">0{idx + 1}</span>
                     </div>
-                    <div className="thumb-text-box">
-                      <span className="thumb-title">{view.title}</span>
-                      <span className="thumb-sub">{view.subtitle}</span>
+                    <div className="cabin-thumb-text">
+                      <strong className="cabin-thumb-heading">{view.title}</strong>
+                      <span className="cabin-thumb-sub">{view.subtitle}</span>
                     </div>
                   </button>
                 );
@@ -349,45 +370,47 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             </div>
           </div>
 
-          {/* MOBILE VIEW: Continuous Scrollable Interior Cards Reel */}
-          <div className="mobile-interior-reel-wrapper">
-            <div className="mobile-reel-instruction-bar">
-              <span className="mobile-swipe-instruction">Swipe to inspect all {activeVehicle.interiorViews.length} cabin perspectives</span>
-              <span className="mobile-reel-counter">{activeMobileInteriorIndex + 1} / {activeVehicle.interiorViews.length}</span>
+          {/* MOBILE EXPERIENCE: Touch-friendly horizontal swipe cards */}
+          <div className="mobile-cabin-suite">
+            <div className="mobile-cabin-counter-bar">
+              <span className="mobile-swipe-hint">Swipe to inspect all perspectives</span>
+              <span className="mobile-index-chip">
+                {activeMobileInteriorIndex + 1} / {activeVehicle.interiorViews.length}
+              </span>
             </div>
 
             <div 
-              className="mobile-interior-scroll-reel" 
+              className="mobile-cabin-reel"
               ref={mobileInteriorReelRef}
               onScroll={handleMobileInteriorScroll}
             >
               {activeVehicle.interiorViews.map((view, idx) => (
-                <div key={view.id} className="mobile-interior-card">
-                  <div className="mobile-interior-photo-box">
-                    <img src={view.src} alt={view.title} className="mobile-interior-img" />
-                    <span className="mobile-interior-badge">{view.badge}</span>
+                <div key={view.id} className="mobile-cabin-card">
+                  <div className="mobile-cabin-photo">
+                    <img src={view.src} alt={view.title} className="mobile-cabin-img" />
+                    <span className="mobile-perspective-label">{view.indexLabel}</span>
                   </div>
-                  <div className="mobile-interior-card-body">
-                    <h4 className="mobile-interior-title">{view.title}</h4>
-                    <p className="mobile-interior-desc">{view.desc}</p>
+                  <div className="mobile-cabin-info">
+                    <span className="mobile-cabin-sub">{view.subtitle}</span>
+                    <h4 className="mobile-cabin-title">{view.title}</h4>
+                    <p className="mobile-cabin-desc">{view.desc}</p>
                   </div>
                 </div>
               ))}
             </div>
 
-            {/* Mobile Reel Dots */}
-            <div className="mobile-interior-reel-dots">
+            <div className="mobile-cabin-dots">
               {activeVehicle.interiorViews.map((_, idx) => (
                 <span 
                   key={idx} 
-                  className={`interior-dot ${activeMobileInteriorIndex === idx ? 'active' : ''}`} 
+                  className={`cabin-dot ${activeMobileInteriorIndex === idx ? 'is-active' : ''}`} 
                 />
               ))}
             </div>
           </div>
 
-          {/* Bottom Switcher: Quick jump to other vehicle */}
-          <div className="other-vehicle-switch-bar">
+          {/* Alternate Vehicle Quick Switcher */}
+          <div className="fleet-alternate-bar">
             {activeVehicleId === 'suburban' ? (
               <button
                 type="button"
@@ -395,9 +418,9 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
                   handleVehicleSwitch('lexus');
                   smoothScrollTo('#fleet');
                 }}
-                className="btn-switch-other-vehicle"
+                className="btn-alternate-vehicle"
               >
-                <span>View Lexus Luxury Sedan Specifications & Interior</span>
+                <span>SWITCH TO LEXUS LUXURY SEDAN SPECIFICATIONS</span>
                 <ArrowRight size={15} />
               </button>
             ) : (
@@ -407,9 +430,9 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
                   handleVehicleSwitch('suburban');
                   smoothScrollTo('#fleet');
                 }}
-                className="btn-switch-other-vehicle"
+                className="btn-alternate-vehicle"
               >
-                <span>View Chevrolet Suburban Specifications & Interior</span>
+                <span>SWITCH TO CHEVROLET SUBURBAN SPECIFICATIONS</span>
                 <ArrowRight size={15} />
               </button>
             )}
@@ -421,371 +444,458 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
 
       <style>{`
         /* ==========================================================================
-           MAIN DEDICATED SECTION CONTAINER
+           LUXURY FLEET & FIRST-CLASS INTERIORS — AESTHETIC MINIMAL REDESIGN
            ========================================================================== */
-        .dedicated-fleet-interior-section {
+        .luxury-fleet-section {
           background: #FEFBF3;
-          padding: 85px 0 95px 0;
+          padding: 100px 0 110px 0;
           position: relative;
           width: 100%;
-          overflow: hidden;
+          color: #1C0C0B;
         }
 
         /* 1. Header */
         .fleet-header-block {
           text-align: center;
-          max-width: 760px;
-          margin: 0 auto 36px auto;
+          max-width: 860px;
+          margin: 0 auto 48px auto;
+        }
+
+        .fleet-pre-heading {
+          font-family: var(--font-body);
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #E88C2B;
+          display: block;
+          margin-bottom: 12px;
         }
 
         .fleet-main-heading {
           font-family: var(--font-heading);
-          font-size: clamp(2rem, 3.4vw, 2.9rem);
+          font-size: clamp(2.2rem, 3.8vw, 3.2rem);
           font-weight: 900;
           color: #4E0401;
-          line-height: 1.1;
-          margin-bottom: 14px;
+          line-height: 1.08;
+          letter-spacing: -0.02em;
+          margin-bottom: 16px;
+          text-transform: uppercase;
           text-rendering: optimizeLegibility;
         }
 
         .fleet-sub-heading {
-          font-size: 1.02rem;
+          font-size: 1.05rem;
           color: #5C4D4B;
-          line-height: 1.6;
-          margin: 0;
+          line-height: 1.65;
+          max-width: 680px;
+          margin: 0 auto;
         }
 
-        /* 2. Vehicle Selector Tabs */
-        .fleet-vehicle-tabs-bar {
-          display: flex;
-          justify-content: center;
-          gap: 16px;
-          margin-bottom: 40px;
-          flex-wrap: wrap;
+        /* 2. Architectural Vehicle Selector Track */
+        .fleet-selector-track {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 20px;
+          max-width: 980px;
+          margin: 0 auto 44px auto;
         }
 
-        .fleet-tab-btn {
-          display: flex;
-          align-items: center;
+        .fleet-selector-tab {
           background: #FFFFFF;
-          border: 2px solid rgba(78, 4, 1, 0.1);
-          border-radius: 14px;
-          padding: 12px 24px;
+          border: 1px solid rgba(78, 4, 1, 0.12);
+          border-radius: 16px;
+          padding: 20px 24px;
+          text-align: left;
           cursor: pointer;
-          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 2px 10px rgba(78, 4, 1, 0.04);
+          transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 4px 14px rgba(78, 4, 1, 0.04);
+          position: relative;
+          overflow: hidden;
         }
 
-        .fleet-tab-btn:hover {
+        .fleet-selector-tab:hover {
           border-color: #E88C2B;
           transform: translateY(-2px);
-          box-shadow: 0 6px 18px rgba(78, 4, 1, 0.08);
+          box-shadow: 0 8px 24px rgba(78, 4, 1, 0.08);
         }
 
-        .fleet-tab-btn.active {
+        .fleet-selector-tab.is-active {
           background: #4E0401;
           border-color: #4E0401;
-          box-shadow: 0 8px 24px rgba(78, 4, 1, 0.22);
+          box-shadow: 0 12px 30px rgba(78, 4, 1, 0.24);
         }
 
-        .tab-btn-content {
+        .selector-tab-header {
           display: flex;
           align-items: center;
-          gap: 12px;
-          text-align: left;
+          justify-content: space-between;
+          margin-bottom: 8px;
         }
 
-        .tab-bullet {
-          font-size: 1.1rem;
+        .selector-tab-code {
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
           color: #E88C2B;
+          text-transform: uppercase;
         }
 
-        .fleet-tab-btn.active .tab-bullet {
+        .fleet-selector-tab.is-active .selector-tab-code {
           color: #FBBF24;
         }
 
-        .tab-text-group {
-          display: flex;
-          flex-direction: column;
+        .selector-tab-indicator {
+          width: 8px;
+          height: 8px;
+          border-radius: 50%;
+          background: rgba(78, 4, 1, 0.2);
+          transition: all 0.2s ease;
         }
 
-        .tab-name {
+        .fleet-selector-tab.is-active .selector-tab-indicator {
+          background: #FBBF24;
+          box-shadow: 0 0 8px #FBBF24;
+        }
+
+        .selector-tab-name {
           font-family: var(--font-heading);
-          font-size: 1.05rem;
-          font-weight: 800;
+          font-size: 1.35rem;
+          font-weight: 900;
           color: #4E0401;
-          line-height: 1.15;
-          letter-spacing: 0.01em;
+          margin: 0 0 4px 0;
+          letter-spacing: -0.01em;
+          line-height: 1.2;
         }
 
-        .fleet-tab-btn.active .tab-name {
+        .fleet-selector-tab.is-active .selector-tab-name {
           color: #FFFFFF;
         }
 
-        .tab-meta {
-          font-size: 0.74rem;
-          font-weight: 700;
+        .selector-tab-meta {
+          font-size: 0.85rem;
           color: #786C6A;
-          margin-top: 2px;
+          margin: 0;
+          font-weight: 600;
         }
 
-        .fleet-tab-btn.active .tab-meta {
+        .fleet-selector-tab.is-active .selector-tab-meta {
           color: #E2E8F0;
         }
 
-        /* 3. Vehicle Overview Card */
-        .vehicle-overview-card {
+        /* 3. Main Vehicle Presentation Card */
+        .vehicle-presentation-card {
           background: #FFFFFF;
           border: 1px solid rgba(78, 4, 1, 0.1);
           border-radius: 24px;
-          padding: 38px 42px;
-          box-shadow: 0 10px 32px rgba(78, 4, 1, 0.05);
-          margin-bottom: 40px;
+          padding: 44px;
+          box-shadow: 0 16px 40px rgba(78, 4, 1, 0.05);
+          margin-bottom: 48px;
         }
 
-        .vehicle-overview-grid {
+        .vehicle-presentation-grid {
           display: grid;
-          grid-template-columns: 1.1fr 1fr;
-          gap: 48px;
+          grid-template-columns: 1.15fr 1fr;
+          gap: 52px;
           align-items: center;
         }
 
-        .vehicle-photo-column {
+        /* Left Visual Side */
+        .vehicle-visual-side {
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 24px;
         }
 
-        .vehicle-photo-wrapper {
-          position: relative;
-          background: radial-gradient(circle at 50% 50%, #FAF6EE 0%, #F3ECE0 100%);
-          border-radius: 18px;
-          padding: 24px 20px;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          overflow: hidden;
-          border: 1px solid rgba(78, 4, 1, 0.06);
-        }
-
-        .vehicle-exterior-img {
-          width: 100%;
-          max-height: 280px;
-          object-fit: contain;
-          transition: transform 0.3s ease;
-        }
-
-        .vehicle-photo-wrapper:hover .vehicle-exterior-img {
-          transform: scale(1.03);
-        }
-
-        .vehicle-category-floating-badge {
-          position: absolute;
-          top: 14px;
-          left: 14px;
-          background: #4E0401;
-          color: #FFFFFF;
-          font-size: 0.68rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
-          padding: 4px 12px;
-          border-radius: 9999px;
-          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        .vehicle-specs-row {
-          display: flex;
-          gap: 10px;
-          flex-wrap: wrap;
-        }
-
-        .spec-pill {
-          display: inline-flex;
-          align-items: center;
-          gap: 7px;
-          background: #FAF6EE;
+        .vehicle-photo-stage {
+          background: radial-gradient(circle at 50% 50%, #FAF6EE 0%, #F1E9DC 100%);
           border: 1px solid rgba(78, 4, 1, 0.08);
-          border-radius: 9999px;
-          padding: 6px 14px;
-          font-size: 0.8rem;
-          font-weight: 700;
+          border-radius: 20px;
+          padding: 24px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .vehicle-stage-topbar {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          margin-bottom: 12px;
+        }
+
+        .vehicle-badge-category {
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
           color: #4E0401;
+          text-transform: uppercase;
         }
 
-        .vehicle-details-column {
-          text-align: left;
-        }
-
-        .vehicle-tagline-kicker {
-          font-size: 0.76rem;
+        .vehicle-badge-edition {
+          font-size: 0.68rem;
           font-weight: 800;
           letter-spacing: 0.12em;
           color: #E88C2B;
           text-transform: uppercase;
-          display: block;
-          margin-bottom: 6px;
         }
 
-        .vehicle-headline-name {
-          font-family: var(--font-heading);
-          font-size: clamp(1.8rem, 2.5vw, 2.3rem);
-          font-weight: 900;
-          color: #4E0401;
-          margin-bottom: 12px;
-          text-rendering: optimizeLegibility;
-        }
-
-        .vehicle-body-description {
-          font-size: 0.96rem;
-          color: #5C4D4B;
-          line-height: 1.6;
-          margin-bottom: 22px;
-        }
-
-        .vehicle-amenities-group {
-          margin-bottom: 28px;
-        }
-
-        .amenities-subheading {
-          font-size: 0.72rem;
-          font-weight: 800;
-          letter-spacing: 0.14em;
-          color: #786C6A;
-          margin-bottom: 12px;
-          text-transform: uppercase;
-        }
-
-        .amenities-list {
-          list-style: none;
-          display: flex;
-          flex-direction: column;
-          gap: 10px;
-          padding: 0;
-          margin: 0;
-        }
-
-        .amenity-item {
+        .vehicle-photo-canvas {
           display: flex;
           align-items: center;
-          gap: 10px;
-          font-size: 0.9rem;
-          color: #4A3E3D;
+          justify-content: center;
+          padding: 16px 0;
+        }
+
+        .vehicle-exterior-img {
+          width: 100%;
+          max-height: 290px;
+          object-fit: contain;
+          transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+          filter: drop-shadow(0 14px 24px rgba(78, 4, 1, 0.12));
+        }
+
+        .vehicle-photo-stage:hover .vehicle-exterior-img {
+          transform: scale(1.03);
+        }
+
+        /* Minimalist 4-block Spec Grid */
+        .vehicle-specs-grid {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 12px;
+        }
+
+        .spec-metric-box {
+          background: #FAF6EE;
+          border: 1px solid rgba(78, 4, 1, 0.08);
+          border-radius: 14px;
+          padding: 14px 16px;
+          text-align: left;
+        }
+
+        .spec-label {
+          display: block;
+          font-size: 0.68rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: #786C6A;
+          text-transform: uppercase;
+          margin-bottom: 4px;
+        }
+
+        .spec-value {
+          display: block;
+          font-family: var(--font-heading);
+          font-size: 1.15rem;
+          font-weight: 900;
+          color: #4E0401;
+          line-height: 1.15;
+          margin-bottom: 2px;
+        }
+
+        .spec-detail {
+          display: block;
+          font-size: 0.75rem;
+          color: #8C7B79;
           font-weight: 600;
         }
 
-        .check-icon-circle {
+        /* Right Editorial Side */
+        .vehicle-editorial-side {
+          text-align: left;
+        }
+
+        .vehicle-tagline-lead {
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.14em;
+          color: #E88C2B;
+          text-transform: uppercase;
+          display: block;
+          margin-bottom: 8px;
+        }
+
+        .vehicle-title-thick {
+          font-family: var(--font-heading);
+          font-size: clamp(2rem, 2.7vw, 2.5rem);
+          font-weight: 900;
+          color: #4E0401;
+          line-height: 1.1;
+          letter-spacing: -0.02em;
+          margin-bottom: 14px;
+          text-transform: uppercase;
+          text-rendering: optimizeLegibility;
+        }
+
+        .vehicle-body-text {
+          font-size: 1rem;
+          color: #5C4D4B;
+          line-height: 1.65;
+          margin-bottom: 26px;
+        }
+
+        /* Amenities */
+        .vehicle-amenities-section {
+          margin-bottom: 32px;
+          border-top: 1px solid rgba(78, 4, 1, 0.08);
+          padding-top: 22px;
+        }
+
+        .amenities-title-thick {
+          font-size: 0.76rem;
+          font-weight: 900;
+          letter-spacing: 0.16em;
+          color: #786C6A;
+          text-transform: uppercase;
+          margin-bottom: 14px;
+        }
+
+        .amenities-checklist {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          display: flex;
+          flex-direction: column;
+          gap: 11px;
+        }
+
+        .amenity-row {
+          display: flex;
+          align-items: flex-start;
+          gap: 12px;
+        }
+
+        .amenity-bullet-icon {
           width: 20px;
           height: 20px;
-          border-radius: 50%;
-          background: #E88C2B;
+          border-radius: 6px;
+          background: #FAF6EE;
+          border: 1px solid rgba(232, 140, 43, 0.4);
+          color: #E88C2B;
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
+          margin-top: 1px;
         }
 
-        .vehicle-card-action-bar {
+        .amenity-label {
+          font-size: 0.92rem;
+          font-weight: 600;
+          color: #4A3E3D;
+          line-height: 1.45;
+        }
+
+        /* Action Deck */
+        .vehicle-action-deck {
           display: flex;
           align-items: center;
-          gap: 14px;
+          gap: 16px;
           flex-wrap: wrap;
         }
 
-        .btn-reserve-vehicle-gold {
+        .btn-reserve-luxury {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
-          background: linear-gradient(135deg, #E88C2B 0%, #D2791C 100%);
+          gap: 10px;
+          background: #E88C2B;
           color: #FFFFFF;
-          font-size: 0.9rem;
+          font-family: inherit;
+          font-size: 0.92rem;
           font-weight: 800;
-          padding: 12px 24px;
-          border-radius: 9999px;
+          letter-spacing: 0.06em;
+          padding: 15px 30px;
+          border-radius: 12px;
           border: none;
-          box-shadow: 0 4px 14px rgba(232, 140, 43, 0.35);
           cursor: pointer;
-          transition: all 0.2s ease;
+          transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.35);
         }
 
-        .btn-reserve-vehicle-gold:hover {
+        .btn-reserve-luxury:hover {
+          background: #D2791C;
           transform: translateY(-2px);
-          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.48);
+          box-shadow: 0 10px 26px rgba(232, 140, 43, 0.48);
         }
 
-        .btn-call-dispatch-outline {
+        .btn-dispatch-call {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
+          gap: 9px;
           background: #FFFFFF;
           border: 1.5px solid rgba(78, 4, 1, 0.18);
           color: #4E0401;
+          font-family: inherit;
           font-size: 0.88rem;
-          font-weight: 700;
-          padding: 11px 20px;
-          border-radius: 9999px;
+          font-weight: 800;
+          letter-spacing: 0.04em;
+          padding: 14px 22px;
+          border-radius: 12px;
           text-decoration: none;
           transition: all 0.2s ease;
         }
 
-        .btn-call-dispatch-outline:hover {
+        .btn-dispatch-call:hover {
           border-color: #E88C2B;
           color: #E88C2B;
         }
 
-        /* 4. Dedicated Interior Suite Box */
-        .dedicated-interior-suite-box {
+        /* 4. First-Class Passenger Cabin Suite */
+        .cabin-suite-container {
           background: #FFFFFF;
-          border: 1.5px solid rgba(78, 4, 1, 0.12);
+          border: 1px solid rgba(78, 4, 1, 0.1);
           border-radius: 24px;
-          padding: 38px 42px;
-          box-shadow: 0 12px 36px rgba(78, 4, 1, 0.06);
+          padding: 44px;
+          box-shadow: 0 16px 40px rgba(78, 4, 1, 0.05);
         }
 
-        .interior-suite-header {
+        .cabin-suite-header {
           display: flex;
           align-items: flex-end;
           justify-content: space-between;
           border-bottom: 1px solid rgba(78, 4, 1, 0.08);
-          padding-bottom: 20px;
-          margin-bottom: 28px;
+          padding-bottom: 24px;
+          margin-bottom: 32px;
           text-align: left;
         }
 
-        .suite-kicker {
-          font-size: 0.74rem;
+        .cabin-suite-pre {
+          font-size: 0.72rem;
           font-weight: 800;
-          letter-spacing: 0.14em;
+          letter-spacing: 0.16em;
           color: #E88C2B;
           text-transform: uppercase;
           display: block;
           margin-bottom: 4px;
         }
 
-        .suite-title {
+        .cabin-suite-title {
           font-family: var(--font-heading);
-          font-size: clamp(1.4rem, 2.2vw, 1.85rem);
+          font-size: clamp(1.5rem, 2.3vw, 2rem);
           font-weight: 900;
           color: #4E0401;
-          margin-bottom: 4px;
+          line-height: 1.15;
+          letter-spacing: -0.01em;
+          margin: 0 0 6px 0;
           text-rendering: optimizeLegibility;
         }
 
-        .suite-subtitle {
-          font-size: 0.9rem;
+        .cabin-suite-subtitle {
+          font-size: 0.94rem;
           color: #786C6A;
           margin: 0;
         }
 
-        .desktop-interior-nav-arrows {
+        .cabin-nav-controls {
           display: flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
         }
 
-        .interior-arrow-btn {
-          width: 36px;
-          height: 36px;
-          border-radius: 50%;
+        .cabin-arrow-button {
+          width: 40px;
+          height: 40px;
+          border-radius: 10px;
           background: #FAF6EE;
           border: 1px solid rgba(78, 4, 1, 0.12);
           color: #4E0401;
@@ -796,338 +906,365 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           transition: all 0.18s ease;
         }
 
-        .interior-arrow-btn:hover {
+        .cabin-arrow-button:hover {
           background: #E88C2B;
           color: #FFFFFF;
           border-color: #E88C2B;
         }
 
-        .interior-counter-chip {
-          font-size: 0.8rem;
+        .cabin-counter-label {
+          font-size: 0.85rem;
           font-weight: 800;
           color: #786C6A;
-          padding: 0 4px;
+          padding: 0 6px;
+          font-variant-numeric: tabular-nums;
         }
 
-        /* Desktop Featured Viewport */
-        .desktop-interior-experience {
+        /* Desktop Viewport */
+        .desktop-cabin-suite {
           display: flex;
           flex-direction: column;
-          gap: 20px;
+          gap: 24px;
         }
 
-        .featured-interior-viewport {
+        .cabin-cinema-viewport {
           position: relative;
           width: 100%;
-          height: 480px;
-          border-radius: 18px;
+          height: 500px;
+          border-radius: 20px;
           overflow: hidden;
-          background: #000000;
-          box-shadow: 0 10px 28px rgba(0, 0, 0, 0.18);
+          background: #0B030A;
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.22);
         }
 
-        .featured-interior-img {
+        .cabin-cinema-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          transition: transform 0.4s ease;
+          display: block;
         }
 
-        .featured-caption-glass-pill {
+        .cabin-caption-plate {
           position: absolute;
-          bottom: 18px;
-          left: 18px;
-          right: 18px;
-          background: rgba(14, 4, 15, 0.78);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.14);
-          border-radius: 14px;
-          padding: 16px 22px;
+          bottom: 20px;
+          left: 20px;
+          right: 20px;
+          background: rgba(14, 3, 16, 0.85);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(255, 255, 255, 0.16);
+          border-radius: 16px;
+          padding: 20px 26px;
           color: #FFFFFF;
           text-align: left;
         }
 
-        .caption-badge {
-          display: inline-block;
-          font-size: 0.68rem;
-          font-weight: 800;
-          letter-spacing: 0.1em;
+        .caption-plate-meta {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          margin-bottom: 6px;
+        }
+
+        .caption-perspective-tag {
+          font-size: 0.70rem;
+          font-weight: 900;
+          letter-spacing: 0.14em;
           color: #E88C2B;
           text-transform: uppercase;
-          margin-bottom: 4px;
         }
 
-        .caption-title {
-          font-family: var(--font-heading);
-          font-size: 1.28rem;
-          font-weight: 800;
-          color: #FFFFFF;
-          margin-bottom: 4px;
-        }
-
-        .caption-desc {
-          font-size: 0.88rem;
+        .caption-category-tag {
+          font-size: 0.70rem;
+          font-weight: 700;
           color: #CBD5E1;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
+        .caption-title-thick {
+          font-family: var(--font-heading);
+          font-size: 1.4rem;
+          font-weight: 900;
+          color: #FFFFFF;
+          margin: 0 0 6px 0;
+          letter-spacing: -0.01em;
+        }
+
+        .caption-desc-text {
+          font-size: 0.92rem;
+          color: #E2E8F0;
+          line-height: 1.5;
           margin: 0;
-          line-height: 1.45;
+          max-width: 820px;
         }
 
         /* Thumbnails Strip */
-        .interior-thumbnails-grid {
+        .cabin-thumbnails-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
-          gap: 14px;
+          grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+          gap: 16px;
         }
 
-        .interior-thumb-card {
+        .cabin-thumb-item {
           display: flex;
-          flex-direction: column;
+          align-items: center;
+          gap: 14px;
           background: #FAF6EE;
           border: 2px solid transparent;
           border-radius: 14px;
-          overflow: hidden;
+          padding: 8px 12px 8px 8px;
           cursor: pointer;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-          padding: 6px;
           text-align: left;
         }
 
-        .interior-thumb-card:hover {
+        .cabin-thumb-item:hover {
           transform: translateY(-2px);
-          border-color: rgba(232, 140, 43, 0.4);
+          border-color: rgba(232, 140, 43, 0.45);
         }
 
-        .interior-thumb-card.active {
+        .cabin-thumb-item.is-selected {
           border-color: #E88C2B;
-          background: #FFFBF5;
-          box-shadow: 0 4px 16px rgba(232, 140, 43, 0.2);
+          background: #FFFDF9;
+          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.18);
         }
 
-        .thumb-photo-box {
+        .cabin-thumb-image-wrap {
           position: relative;
-          width: 100%;
-          height: 95px;
-          border-radius: 10px;
+          width: 80px;
+          height: 60px;
+          border-radius: 8px;
           overflow: hidden;
           background: #110204;
+          flex-shrink: 0;
         }
 
-        .thumb-img {
+        .cabin-thumb-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
 
-        .thumb-active-dot {
+        .cabin-thumb-number {
           position: absolute;
-          top: 6px;
-          right: 6px;
-          width: 8px;
-          height: 8px;
-          border-radius: 50%;
-          background: #E88C2B;
-          box-shadow: 0 0 6px #E88C2B;
+          top: 4px;
+          left: 4px;
+          background: rgba(0, 0, 0, 0.7);
+          color: #FFFFFF;
+          font-size: 0.6rem;
+          font-weight: 800;
+          padding: 1px 4px;
+          border-radius: 4px;
         }
 
-        .thumb-text-box {
-          padding: 8px 6px 4px 6px;
+        .cabin-thumb-text {
           display: flex;
           flex-direction: column;
+          overflow: hidden;
         }
 
-        .thumb-title {
+        .cabin-thumb-heading {
           font-family: var(--font-heading);
-          font-size: 0.84rem;
-          font-weight: 800;
+          font-size: 0.90rem;
+          font-weight: 900;
           color: #4E0401;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
         }
 
-        .thumb-sub {
-          font-size: 0.7rem;
+        .cabin-thumb-sub {
+          font-size: 0.74rem;
           color: #786C6A;
           white-space: nowrap;
           overflow: hidden;
           text-overflow: ellipsis;
-          margin-top: 1px;
+          margin-top: 2px;
         }
 
-        /* Mobile Interior Scroll Reel (Hidden on Desktop) */
-        .mobile-interior-reel-wrapper,
-        .mobile-interior-scroll-reel,
-        .mobile-reel-instruction-bar,
-        .mobile-interior-reel-dots {
+        /* Mobile Cabin (Hidden on Desktop) */
+        .mobile-cabin-suite {
           display: none;
         }
 
-        /* Bottom Switcher */
-        .other-vehicle-switch-bar {
-          margin-top: 28px;
-          padding-top: 20px;
+        /* Alternate Bar */
+        .fleet-alternate-bar {
+          margin-top: 36px;
+          padding-top: 24px;
           border-top: 1px solid rgba(78, 4, 1, 0.08);
           display: flex;
           justify-content: center;
         }
 
-        .btn-switch-other-vehicle {
+        .btn-alternate-vehicle {
           display: inline-flex;
           align-items: center;
-          gap: 8px;
+          gap: 10px;
           background: transparent;
           border: none;
           color: #E88C2B;
-          font-size: 0.92rem;
-          font-weight: 800;
+          font-family: inherit;
+          font-size: 0.88rem;
+          font-weight: 900;
+          letter-spacing: 0.08em;
           cursor: pointer;
-          transition: all 0.18s ease;
-          padding: 6px 12px;
+          transition: all 0.2s ease;
+          padding: 8px 16px;
         }
 
-        .btn-switch-other-vehicle:hover {
+        .btn-alternate-vehicle:hover {
           color: #4E0401;
           transform: translateX(4px);
         }
 
         /* ==========================================================================
-           RESPONSIVE REFINEMENTS (TABLET & MOBILE)
+           RESPONSIVE REFINEMENTS
            ========================================================================== */
-        @media (max-width: 900px) {
-          .vehicle-overview-grid {
+        @media (max-width: 1024px) {
+          .vehicle-presentation-grid {
             grid-template-columns: 1fr;
-            gap: 28px;
+            gap: 36px;
           }
-          .vehicle-overview-card,
-          .dedicated-interior-suite-box {
-            padding: 28px 22px;
-          }
-          .featured-interior-viewport {
-            height: 380px;
+
+          .cabin-cinema-viewport {
+            height: 420px;
           }
         }
 
         @media (max-width: 768px) {
-          .dedicated-fleet-interior-section {
-            padding: 55px 0 70px 0;
+          .luxury-fleet-section {
+            padding: 60px 0 75px 0;
           }
 
           .fleet-header-block {
-            margin-bottom: 24px;
+            text-align: left;
+            margin-bottom: 28px;
+          }
+
+          .fleet-pre-heading {
+            font-size: 0.72rem;
+            margin-bottom: 8px;
           }
 
           .fleet-main-heading {
-            font-size: 1.85rem;
+            font-size: 2rem;
+            margin-bottom: 12px;
           }
 
           .fleet-sub-heading {
-            font-size: 0.92rem;
+            font-size: 0.94rem;
           }
 
-          .fleet-vehicle-tabs-bar {
-            flex-direction: column;
-            gap: 10px;
-            margin-bottom: 26px;
+          .fleet-selector-track {
+            grid-template-columns: 1fr;
+            gap: 12px;
+            margin-bottom: 30px;
           }
 
-          .fleet-tab-btn {
-            width: 100%;
-            justify-content: flex-start;
-            padding: 12px 18px;
+          .fleet-selector-tab {
+            padding: 16px 18px;
           }
 
-          .vehicle-overview-card {
-            padding: 20px 16px;
-            border-radius: 18px;
-            margin-bottom: 26px;
+          .selector-tab-name {
+            font-size: 1.2rem;
           }
 
-          .vehicle-photo-wrapper {
-            padding: 18px 12px;
+          .vehicle-presentation-card,
+          .cabin-suite-container {
+            padding: 24px 18px;
+            border-radius: 20px;
+            margin-bottom: 32px;
+          }
+
+          .vehicle-photo-stage {
+            padding: 16px 12px;
           }
 
           .vehicle-exterior-img {
             max-height: 220px;
           }
 
-          .vehicle-specs-row {
-            gap: 6px;
-          }
-
-          .spec-pill {
-            font-size: 0.75rem;
-            padding: 5px 10px;
-          }
-
-          .vehicle-tagline-kicker {
-            font-size: 0.72rem;
-          }
-
-          .vehicle-headline-name {
-            font-size: 1.55rem;
-          }
-
-          .vehicle-body-description {
-            font-size: 0.88rem;
-            margin-bottom: 16px;
-          }
-
-          .amenity-item {
-            font-size: 0.84rem;
-          }
-
-          .vehicle-card-action-bar {
-            flex-direction: column;
-            width: 100%;
+          .vehicle-specs-grid {
+            grid-template-columns: 1fr;
             gap: 10px;
           }
 
-          .btn-reserve-vehicle-gold,
-          .btn-call-dispatch-outline {
+          .vehicle-title-thick {
+            font-size: 1.7rem;
+          }
+
+          .vehicle-body-text {
+            font-size: 0.92rem;
+            margin-bottom: 20px;
+          }
+
+          .vehicle-action-deck {
+            flex-direction: column;
+            width: 100%;
+          }
+
+          .btn-reserve-luxury,
+          .btn-dispatch-call {
             width: 100%;
             justify-content: center;
+            text-align: center;
           }
 
-          /* Dedicated Interior Suite on Mobile */
-          .dedicated-interior-suite-box {
-            padding: 22px 16px;
-            border-radius: 18px;
-          }
-
-          .desktop-interior-nav-arrows,
-          .desktop-interior-experience {
+          /* Hide desktop cabin viewport on mobile */
+          .desktop-cabin-suite,
+          .cabin-nav-controls {
             display: none !important;
           }
 
-          .mobile-interior-reel-wrapper {
+          .mobile-cabin-suite {
             display: block;
           }
 
-          /* Smooth Mobile Horizontal Scroll Reel */
-          .mobile-interior-scroll-reel {
+          .mobile-cabin-counter-bar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 12px;
+          }
+
+          .mobile-swipe-hint {
+            font-size: 0.74rem;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            color: #E88C2B;
+            text-transform: uppercase;
+          }
+
+          .mobile-index-chip {
+            font-size: 0.74rem;
+            font-weight: 800;
+            color: #4E0401;
+            background: #FAF6EE;
+            border: 1px solid rgba(78, 4, 1, 0.1);
+            padding: 2px 8px;
+            border-radius: 6px;
+          }
+
+          .mobile-cabin-reel {
             display: flex;
             gap: 14px;
             overflow-x: auto;
             scroll-snap-type: x mandatory;
             -webkit-overflow-scrolling: touch;
-            padding-bottom: 12px;
-            margin: 0 -16px;
-            padding-left: 16px;
-            padding-right: 16px;
+            padding-bottom: 10px;
+            margin: 0 -18px;
+            padding-left: 18px;
+            padding-right: 18px;
+            scrollbar-width: none;
           }
 
-          .mobile-interior-scroll-reel::-webkit-scrollbar {
-            height: 4px;
+          .mobile-cabin-reel::-webkit-scrollbar {
+            display: none;
           }
 
-          .mobile-interior-scroll-reel::-webkit-scrollbar-thumb {
-            background: rgba(232, 140, 43, 0.4);
-            border-radius: 4px;
-          }
-
-          .mobile-interior-card {
-            flex: 0 0 84vw;
+          .mobile-cabin-card {
+            flex: 0 0 85vw;
             max-width: 320px;
             scroll-snap-align: center;
             background: #FAF6EE;
@@ -1138,104 +1275,83 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
             flex-direction: column;
           }
 
-          .mobile-interior-photo-box {
+          .mobile-cabin-photo {
             position: relative;
             width: 100%;
             height: 200px;
-            background: #110204;
+            background: #0B030A;
           }
 
-          .mobile-interior-img {
+          .mobile-cabin-img {
             width: 100%;
             height: 100%;
             object-fit: cover;
           }
 
-          .mobile-interior-badge {
+          .mobile-perspective-label {
             position: absolute;
             top: 10px;
             left: 10px;
-            background: rgba(14, 4, 15, 0.85);
-            backdrop-filter: blur(8px);
+            background: rgba(14, 3, 16, 0.85);
             color: #E88C2B;
             font-size: 0.65rem;
-            font-weight: 800;
-            padding: 4px 10px;
-            border-radius: 9999px;
+            font-weight: 900;
+            letter-spacing: 0.1em;
+            padding: 3px 8px;
+            border-radius: 4px;
             border: 1px solid rgba(255, 255, 255, 0.15);
           }
 
-          .mobile-interior-card-body {
-            padding: 14px;
+          .mobile-cabin-info {
+            padding: 16px;
             text-align: left;
           }
 
-          .mobile-interior-title {
-            font-family: var(--font-heading);
-            font-size: 1.05rem;
+          .mobile-cabin-sub {
+            font-size: 0.70rem;
             font-weight: 800;
-            color: #4E0401;
+            letter-spacing: 0.1em;
+            color: #786C6A;
+            text-transform: uppercase;
+            display: block;
             margin-bottom: 4px;
           }
 
-          .mobile-interior-desc {
-            font-size: 0.82rem;
+          .mobile-cabin-title {
+            font-family: var(--font-heading);
+            font-size: 1.15rem;
+            font-weight: 900;
+            color: #4E0401;
+            margin-bottom: 6px;
+          }
+
+          .mobile-cabin-desc {
+            font-size: 0.85rem;
             color: #5C4D4B;
             line-height: 1.45;
             margin: 0;
           }
 
-          .btn-switch-other-vehicle {
-            font-size: 0.82rem;
-            text-align: center;
-          }
-
-          .mobile-reel-instruction-bar {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-            padding: 0 2px;
-          }
-
-          .mobile-swipe-instruction {
-            font-size: 0.74rem;
-            font-weight: 700;
-            color: #E88C2B;
-            letter-spacing: 0.02em;
-          }
-
-          .mobile-reel-counter {
-            font-size: 0.72rem;
-            font-weight: 800;
-            color: #4E0401;
-            background: #FDF3E7;
-            border: 1px solid rgba(232, 140, 43, 0.25);
-            padding: 2px 8px;
-            border-radius: 9999px;
-          }
-
-          .mobile-interior-reel-dots {
+          .mobile-cabin-dots {
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 6px;
-            margin-top: 12px;
+            margin-top: 14px;
           }
 
-          .interior-dot {
+          .cabin-dot {
             width: 6px;
             height: 6px;
             border-radius: 50%;
             background: rgba(78, 4, 1, 0.2);
-            transition: all 0.22s ease;
+            transition: all 0.2s ease;
           }
 
-          .interior-dot.active {
-            width: 18px;
-            border-radius: 9999px;
+          .cabin-dot.is-active {
+            width: 20px;
+            border-radius: 6px;
             background: #E88C2B;
-            box-shadow: 0 2px 6px rgba(232, 140, 43, 0.4);
           }
         }
       `}</style>

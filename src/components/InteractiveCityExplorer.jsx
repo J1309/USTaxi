@@ -1,21 +1,20 @@
 import React, { useState } from 'react';
 import { 
-  MapPin, 
   Navigation, 
   Clock, 
-  ShieldCheck, 
   ArrowRight, 
-  Sparkles, 
   Sun, 
   Sunset,
   Car,
-  CheckCircle2
+  CheckCircle2,
+  Compass
 } from 'lucide-react';
 import { openBooking } from '../utils/bookingModal';
 
 const HUBS_DATA = [
   {
     id: 'downtown',
+    code: '01 / CENTRAL CORE',
     name: 'Downtown & Skyline',
     badge: 'CENTRAL BUSINESS & ARTS',
     subtitle: 'The corporate epicenter, Theater District & luxury high-rise hotels',
@@ -29,20 +28,21 @@ const HUBS_DATA = [
       recommendedId: 'lexus'
     },
     hotspots: [
-      { id: 'dt-1', x: 38, y: 38, title: 'Corporate Towers', desc: 'Direct drop-off at Shell, Chevron & JPMorgan high-rises' },
-      { id: 'dt-2', x: 56, y: 72, title: 'I-45 Highway Hub', desc: 'Direct elevated express routing bypassing street gridlock' },
+      { id: 'dt-1', x: 38, y: 38, title: 'Corporate High-Rise Towers', desc: 'Direct drop-off at Shell, Chevron & JPMorgan executive campuses' },
+      { id: 'dt-2', x: 56, y: 72, title: 'I-45 Highway Hub', desc: 'Elevated express routing bypassing downtown surface traffic' },
       { id: 'dt-3', x: 74, y: 44, title: 'Minute Maid & Theater Dist.', desc: 'VIP curb arrival for Astros games & symphony evenings' }
     ],
     highlights: [
       'Curb-to-lobby arrival at Four Seasons, Post Oak & Marriott Marquis',
       'FAA radar tracking guarantees immediate airport pick-up',
-      'Quiet acoustic cabin for mobile executive conferences'
+      'Quiet acoustic cabin for confidential mobile conferences'
     ]
   },
   {
     id: 'galveston',
+    code: '02 / GULF TERMINAL',
     name: 'Galveston & Cruise Port',
-    badge: 'GULF COAST & CRUISE TERMINAL',
+    badge: 'GULF COAST & CRUISE BERTHS',
     subtitle: 'Historic Pleasure Pier, Seawall & Royal Caribbean / Carnival berths',
     imageDay: '/images/dest_galveston_pier.png',
     imageSunset: null,
@@ -59,13 +59,14 @@ const HUBS_DATA = [
       { id: 'gal-3', x: 18, y: 38, title: 'Cruise Terminal 10', desc: 'Seamless baggage handling at Royal Caribbean & Carnival' }
     ],
     highlights: [
-      'Massive rear cargo comfortably holds 6+ large overseas cruise suitcases',
-      'Direct non-stop private transfer from IAH or Hobby terminal to ship gangway',
+      'Massive rear cargo comfortably accommodates 6+ overseas bags',
+      'Direct non-stop private transfer from IAH or Hobby to ship gangway',
       'Guaranteed flat rate with zero cruise-rush surge pricing'
     ]
   },
   {
     id: 'nrg',
+    code: '03 / ARENA DISTRICT',
     name: 'NRG Stadium & Park',
     badge: 'CHAMPIONSHIP SPORTS & ARENA',
     subtitle: 'Home of Houston Texans, RodeoHouston & FIFA World Cup 2026',
@@ -85,13 +86,14 @@ const HUBS_DATA = [
     ],
     highlights: [
       'Dedicated private chauffeur drop-off lane directly at stadium gate',
-      'Skip $50+ parking fees and 45-minute parking lot exit lines',
-      'Direct cell communication with owner Symanthan for immediate pickup'
+      'Skip $50+ parking fees and 45-minute parking lot exit queues',
+      'Direct phone communication with owner Symanthan for immediate pickup'
     ]
   },
   {
     id: 'skyline',
-    name: 'Houston Highway Arterials',
+    code: '04 / ARTERIAL ARCS',
+    name: 'Highway Arterials & Loops',
     badge: 'METROPOLITAN ARTERIALS',
     subtitle: 'Golden hour vantage across Houston’s dynamic highway interchange',
     imageDay: '/images/dest_houston_golden.jpg',
@@ -109,8 +111,8 @@ const HUBS_DATA = [
       { id: 'sky-3', x: 72, y: 82, title: 'Southbound Express Lane', desc: 'High-speed corridor connection to Texas Medical Center & Coast' }
     ],
     highlights: [
-      'Experienced Houston native chauffeurs with continuous real-time traffic bypass',
-      'Automatic flight delay compensation via live FAA satellite radar',
+      'Experienced Houston native chauffeurs with live traffic bypass',
+      'Automatic flight delay compensation via live FAA satellite tracking',
       'Upfront transparent flat pricing with zero hidden toll charges'
     ]
   }
@@ -123,7 +125,6 @@ export default function InteractiveCityExplorer() {
 
   const activeHub = HUBS_DATA.find((h) => h.id === activeHubId) || HUBS_DATA[0];
 
-  // Resolve current active image
   const currentImage =
     activeHub.hasTimeToggle && timeMode === 'sunset' && activeHub.imageSunset
       ? activeHub.imageSunset
@@ -134,31 +135,30 @@ export default function InteractiveCityExplorer() {
     setActiveHotspot(null);
   };
 
-  const handleBookDestination = (destinationName, vehicleId) => {
+  const handleBookDestination = (vehicleId) => {
     openBooking(vehicleId || 'suburban');
   };
 
   return (
-    <section id="interactive-explorer" className="interactive-city-section" aria-label="Interactive Houston City Explorer">
-      {/* Background radial glow */}
-      <div className="city-section-glow" />
-
-      <div className="container city-container">
+    <section id="interactive-explorer" className="luxury-city-section" aria-label="Interactive Houston Corridors and Destinations">
+      <div className="container">
         
-        {/* Section Header */}
-        <div className="city-header-block reveal-on-scroll">
+        {/* =====================================================================
+            1. SECTION HEADER (NO PILLS / NO SPARKLES / THICK HEADINGS)
+            ===================================================================== */}
+        <header className="city-header-block reveal-on-scroll">
+          <span className="city-pre-heading">METROPOLITAN SERVICE MAP</span>
           <h2 className="city-main-heading">
             HOUSTON’S ICONIC CORRIDORS<br />
-            <span className="orange-accent">& SIGNATURE DESTINATIONS</span>
+            <span className="city-heading-accent">& SIGNATURE DESTINATIONS</span>
           </h2>
-
           <p className="city-sub-description">
-            Explore our most frequented ground routes across Greater Houston. Tap any destination to view real-time transit telemetry, interactive landmarks, and chauffeur advantages.
+            Explore our most frequented ground routes across Greater Houston. Select any corridor to inspect verified airport transit times, waypoint landmarks, and chauffeur advantages.
           </p>
-        </div>
+        </header>
 
-        {/* Mobile Horizontal Pill Selector (< 900px) */}
-        <div className="city-mobile-tabs-scroll" role="tablist">
+        {/* Mobile Horizontal Corridor Selector (< 900px) */}
+        <div className="city-mobile-corridors-bar" role="tablist" aria-label="Select destination corridor">
           {HUBS_DATA.map((hub) => {
             const isActive = hub.id === activeHubId;
             return (
@@ -168,87 +168,90 @@ export default function InteractiveCityExplorer() {
                 role="tab"
                 aria-selected={isActive}
                 onClick={() => handleHubSelect(hub.id)}
-                className={`city-mobile-tab-pill ${isActive ? 'active' : ''}`}
+                className={`city-mobile-corridor-btn ${isActive ? 'is-active' : ''}`}
               >
-                <span className="tab-pill-dot" />
-                <span className="tab-pill-text">{hub.name}</span>
+                <span className="corridor-btn-code">{hub.code.split('/')[0].trim()}</span>
+                <span className="corridor-btn-name">{hub.name}</span>
               </button>
             );
           })}
         </div>
 
-        {/* Main Interactive Stage Grid */}
+        {/* =====================================================================
+            2. MAIN INTERACTIVE STAGE GRID
+            ===================================================================== */}
         <div className="city-stage-grid">
           
-          {/* LEFT: Cinematic Visual Stage with Hotspots & Time Toggle */}
+          {/* LEFT: Cinematic Visual Stage with Waypoints & Time Toggle */}
           <div className="city-visual-col reveal-on-scroll">
-            <div className="city-visual-frame">
-              {/* Main Landmark Photo */}
+            <div className="city-visual-stage">
+              
+              {/* Landmark Photography */}
               <img
                 key={currentImage}
                 src={currentImage}
-                alt={`${activeHub.name} - Lavender Taxi Houston Chauffeur Destination`}
+                alt={`${activeHub.name} - Houston Private Chauffeur Route`}
                 className="city-landmark-photo"
               />
 
-              {/* Gradient Vignette Overlay for Readability */}
+              {/* Cinematic Vignette */}
               <div className="city-photo-vignette" />
 
-              {/* Floating Top Header Badge */}
-              <div className="city-badge-floating">
-                <span className="city-badge-kicker">{activeHub.badge}</span>
-                <h3 className="city-badge-title">{activeHub.name}</h3>
+              {/* Unboxed Architectural Category Indicator (Top Left) */}
+              <div className="city-stage-meta-plate">
+                <span className="stage-meta-code">{activeHub.code}</span>
+                <h3 className="stage-meta-title">{activeHub.name.toUpperCase()}</h3>
               </div>
 
-              {/* Interactive Day / Golden Hour Switcher (Only for Downtown) */}
+              {/* Clean Minimal Time Toggle (Downtown Only) */}
               {activeHub.hasTimeToggle && (
-                <div className="city-time-toggle-dock" role="group" aria-label="Toggle Daytime and Golden Hour perspectives">
+                <div className="city-time-dock" role="group" aria-label="Toggle Daytime and Golden Hour perspectives">
                   <button
                     type="button"
                     onClick={() => setTimeMode('day')}
-                    className={`time-toggle-btn ${timeMode === 'day' ? 'active' : ''}`}
-                    title="Switch to Daytime View"
+                    className={`time-dock-btn ${timeMode === 'day' ? 'is-active' : ''}`}
+                    title="Switch to Daytime Perspective"
                   >
-                    <Sun size={13} />
-                    <span>Daytime</span>
+                    <Sun size={13} strokeWidth={2.4} />
+                    <span>DAY</span>
                   </button>
                   <button
                     type="button"
                     onClick={() => setTimeMode('sunset')}
-                    className={`time-toggle-btn ${timeMode === 'sunset' ? 'active' : ''}`}
-                    title="Switch to Golden Hour Sunset View"
+                    className={`time-dock-btn ${timeMode === 'sunset' ? 'is-active' : ''}`}
+                    title="Switch to Golden Hour Sunset Perspective"
                   >
-                    <Sunset size={13} />
-                    <span>Golden Hour</span>
+                    <Sunset size={13} strokeWidth={2.4} />
+                    <span>SUNSET</span>
                   </button>
                 </div>
               )}
 
-              {/* Interactive Pulsing Hotspot Pins */}
+              {/* Interactive Minimalist Waypoint Pins */}
               {activeHub.hotspots.map((pin, idx) => {
                 const isPinActive = activeHotspot === pin.id;
                 return (
                   <div
                     key={pin.id}
-                    className="city-hotspot-container"
+                    className="city-waypoint-anchor"
                     style={{ left: `${pin.x}%`, top: `${pin.y}%` }}
                   >
                     <button
                       type="button"
                       onClick={() => setActiveHotspot(isPinActive ? null : pin.id)}
-                      className={`city-hotspot-pin ${isPinActive ? 'active' : ''}`}
-                      aria-label={`View landmark: ${pin.title}`}
+                      className={`city-waypoint-node ${isPinActive ? 'is-active' : ''}`}
+                      aria-label={`View waypoint: ${pin.title}`}
                       title={pin.title}
                     >
-                      <span className="hotspot-pulse" />
-                      <span className="hotspot-core">{idx + 1}</span>
+                      <span className="waypoint-ring" />
+                      <span className="waypoint-digit">0{idx + 1}</span>
                     </button>
 
                     {/* Popover Micro Card */}
                     {isPinActive && (
-                      <div className="city-hotspot-popover">
-                        <div className="popover-arrow" />
-                        <span className="popover-title">{pin.title}</span>
+                      <div className="city-waypoint-popover">
+                        <span className="popover-code">WAYPOINT 0{idx + 1}</span>
+                        <strong className="popover-title">{pin.title}</strong>
                         <p className="popover-desc">{pin.desc}</p>
                       </div>
                     )}
@@ -256,118 +259,111 @@ export default function InteractiveCityExplorer() {
                 );
               })}
 
-              {/* Hint badge on bottom of visual */}
-              <div className="city-visual-hint">
-                <Sparkles size={13} color="#E88C2B" />
-                <span>Tap numbered pins to inspect chauffeur landmarks</span>
+              {/* Minimalist Visual Legend (No Sparkles / Clean Compass) */}
+              <div className="city-stage-legend">
+                <Compass size={13} color="#E88C2B" strokeWidth={2.4} />
+                <span>TAP WAYPOINT COORDINATES (01–03) TO INSPECT LANDMARKS</span>
               </div>
             </div>
           </div>
 
-          {/* RIGHT: Hub Navigation Bento & Live Telemetry Panel */}
-          <div className="city-controls-col reveal-on-scroll reveal-delay-1">
+          {/* RIGHT: Corridor Selector Bento & Telemetry Instrument */}
+          <div className="city-controls-col reveal-on-scroll">
             
-            {/* Desktop Hub Selector Cards (Hidden on mobile where horizontal scroll is used) */}
-            <div className="city-desktop-hubs-list" role="tablist" aria-label="Select destination hub">
+            {/* Desktop Corridor Selector List */}
+            <div className="city-corridors-list" role="tablist" aria-label="Select destination corridor">
               {HUBS_DATA.map((hub) => {
                 const isSelected = hub.id === activeHubId;
                 return (
-                  <div
+                  <button
                     key={hub.id}
+                    type="button"
                     role="tab"
                     aria-selected={isSelected}
-                    tabIndex={0}
                     onClick={() => handleHubSelect(hub.id)}
-                    onKeyDown={(e) => {
-                      if (e.key === 'Enter' || e.key === ' ') {
-                        handleHubSelect(hub.id);
-                      }
-                    }}
-                    className={`city-hub-card ${isSelected ? 'selected' : ''}`}
+                    className={`city-corridor-item ${isSelected ? 'is-selected' : ''}`}
                   >
-                    <div className="hub-card-thumb-wrap">
-                      <img src={hub.imageDay} alt="" className="hub-card-thumb-img" />
-                      {isSelected && <div className="hub-thumb-active-ring" />}
+                    <div className="corridor-thumb-frame">
+                      <img src={hub.imageDay} alt="" className="corridor-thumb-img" />
+                      {isSelected && <div className="corridor-active-indicator" />}
                     </div>
 
-                    <div className="hub-card-text">
-                      <div className="hub-card-title-row">
-                        <span className="hub-card-name">{hub.name}</span>
-                        {isSelected && <span className="hub-card-active-pill">ACTIVE</span>}
+                    <div className="corridor-text-block">
+                      <div className="corridor-title-row">
+                        <span className="corridor-code-label">{hub.code}</span>
+                        <strong className="corridor-name">{hub.name}</strong>
                       </div>
-                      <span className="hub-card-sub">{hub.subtitle}</span>
+                      <span className="corridor-subtitle">{hub.subtitle}</span>
                     </div>
 
-                    <ArrowRight size={15} className="hub-card-arrow" />
-                  </div>
+                    <ArrowRight size={16} className="corridor-arrow-icon" strokeWidth={2.4} />
+                  </button>
                 );
               })}
             </div>
 
-            {/* Live Route Telemetry & Chauffeur Intelligence Card */}
-            <div className="city-telemetry-panel">
-              <div className="telemetry-header">
-                <div className="telemetry-tag">
-                  <Navigation size={13} color="#E88C2B" />
-                  <span>ROUTE INTELLIGENCE & TELEMETRY</span>
+            {/* Flight & Route Telemetry Panel */}
+            <div className="city-telemetry-instrument">
+              <div className="telemetry-top-bar">
+                <div className="telemetry-title-group">
+                  <Navigation size={14} color="#E88C2B" strokeWidth={2.4} />
+                  <span className="telemetry-heading-label">ROUTE TELEMETRY & FLIGHT SYNC</span>
                 </div>
-                <div className="telemetry-live-indicator">
-                  <span className="live-dot" />
-                  <span>GPS / FAA Monitored</span>
+                <div className="telemetry-live-badge">
+                  <span className="telemetry-pulse-dot" />
+                  <span>GPS / FAA RADAR</span>
                 </div>
               </div>
 
-              {/* Stats Dual Grid */}
-              <div className="telemetry-stats-grid">
-                <div className="telemetry-stat-box">
-                  <div className="stat-label-row">
-                    <Clock size={13} color="#94A3B8" />
+              {/* Dual Transit Metric Columns */}
+              <div className="telemetry-metrics-grid">
+                <div className="telemetry-metric-tile">
+                  <div className="metric-tile-header">
+                    <Clock size={12} color="#8C7B79" strokeWidth={2.2} />
                     <span>FROM BUSH (IAH)</span>
                   </div>
-                  <span className="stat-value">{activeHub.stats.iah}</span>
+                  <strong className="metric-tile-value">{activeHub.stats.iah}</strong>
                 </div>
 
-                <div className="telemetry-stat-box">
-                  <div className="stat-label-row">
-                    <Clock size={13} color="#94A3B8" />
+                <div className="telemetry-metric-tile">
+                  <div className="metric-tile-header">
+                    <Clock size={12} color="#8C7B79" strokeWidth={2.2} />
                     <span>FROM HOBBY (HOU)</span>
                   </div>
-                  <span className="stat-value">{activeHub.stats.hou}</span>
+                  <strong className="metric-tile-value">{activeHub.stats.hou}</strong>
                 </div>
               </div>
 
-              {/* Recommended Fleet Vehicle */}
-              <div className="telemetry-fleet-row">
-                <div className="fleet-icon-box">
-                  <Car size={16} color="#E88C2B" />
+              {/* Recommended Fleet */}
+              <div className="telemetry-recommended-row">
+                <div className="fleet-badge-box">
+                  <Car size={16} color="#E88C2B" strokeWidth={2.4} />
                 </div>
-                <div className="fleet-text">
-                  <span className="fleet-title">RECOMMENDED FLEET:</span>
-                  <span className="fleet-name">{activeHub.stats.recommended}</span>
+                <div className="fleet-info-text">
+                  <span className="fleet-kicker-label">RECOMMENDED CHAUFFEUR FLEET</span>
+                  <strong className="fleet-name-text">{activeHub.stats.recommended}</strong>
                 </div>
               </div>
 
-              {/* Chauffeur Advantages Checklist */}
-              <div className="telemetry-perks-stack">
+              {/* Route Advantages */}
+              <div className="telemetry-advantages-list">
                 {activeHub.highlights.map((item, idx) => (
-                  <div key={idx} className="telemetry-perk-item">
-                    <CheckCircle2 size={15} color="#E88C2B" className="perk-check-icon" />
-                    <span>{item}</span>
+                  <div key={idx} className="advantage-bullet-row">
+                    <CheckCircle2 size={14} color="#E88C2B" strokeWidth={2.4} className="advantage-icon" />
+                    <span className="advantage-text">{item}</span>
                   </div>
                 ))}
               </div>
 
-              {/* Action Button */}
-              <div className="telemetry-action-row">
-                <button
-                  type="button"
-                  onClick={() => handleBookDestination(activeHub.name, activeHub.stats.recommendedId)}
-                  className="city-reserve-btn"
-                >
-                  <span>RESERVE CHAUFFEUR TO {activeHub.name.toUpperCase()}</span>
-                  <ArrowRight size={16} strokeWidth={2.4} />
-                </button>
-              </div>
+              {/* Direct Booking Action */}
+              <button
+                type="button"
+                onClick={() => handleBookDestination(activeHub.stats.recommendedId)}
+                className="btn-reserve-corridor"
+              >
+                <span>RESERVE CHAUFFEUR TO {activeHub.name.toUpperCase()}</span>
+                <ArrowRight size={16} strokeWidth={2.4} />
+              </button>
 
             </div>
 
@@ -379,75 +375,70 @@ export default function InteractiveCityExplorer() {
 
       <style>{`
         /* ==========================================================================
-           INTERACTIVE CITY EXPLORER SECTION — LUXURY THEME & RESPONSIVE PERFECTION
+           HOUSTON CORRIDORS & SIGNATURE DESTINATIONS — LUXURY MINIMAL REDESIGN
            ========================================================================== */
-
-        .interactive-city-section {
+        .luxury-city-section {
           position: relative;
           background: #08020C;
           color: #FFFFFF;
-          padding: 100px 0 110px 0;
+          padding: 100px 0 115px 0;
           overflow: hidden;
           border-top: 1px solid rgba(255, 255, 255, 0.08);
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
         }
 
-        .city-section-glow {
-          position: absolute;
-          top: 20%;
-          left: 50%;
-          transform: translate(-50%, -50%);
-          width: 800px;
-          height: 500px;
-          background: radial-gradient(circle, rgba(232, 140, 43, 0.12) 0%, rgba(8, 2, 12, 0) 70%);
-          pointer-events: none;
-          z-index: 1;
-        }
-
-        .city-container {
-          position: relative;
-          z-index: 2;
-        }
-
-        /* Section Header */
+        /* 1. Header */
         .city-header-block {
           text-align: center;
-          max-width: 780px;
+          max-width: 860px;
           margin: 0 auto 52px auto;
+        }
+
+        .city-pre-heading {
+          font-family: var(--font-body);
+          font-size: 0.78rem;
+          font-weight: 800;
+          letter-spacing: 0.2em;
+          text-transform: uppercase;
+          color: #E88C2B;
+          display: block;
+          margin-bottom: 12px;
         }
 
         .city-main-heading {
           font-family: var(--font-heading);
-          font-size: clamp(2.2rem, 4vw, 3.2rem);
+          font-size: clamp(2.2rem, 3.8vw, 3.2rem);
           font-weight: 900;
           color: #FFFFFF;
-          line-height: 1.1;
+          line-height: 1.08;
           letter-spacing: -0.02em;
           text-transform: uppercase;
           margin-bottom: 16px;
+          text-rendering: optimizeLegibility;
         }
 
-        .city-main-heading .orange-accent {
+        .city-heading-accent {
           color: #E88C2B;
         }
 
         .city-sub-description {
-          font-size: 1.02rem;
+          font-size: 1.05rem;
           color: #CBD5E1;
-          line-height: 1.6;
+          line-height: 1.65;
+          max-width: 680px;
           margin: 0 auto;
         }
 
-        /* Mobile Tab Pill Scroll (Hidden on desktop) */
-        .city-mobile-tabs-scroll {
+        /* Mobile Corridor Bar (Hidden on Desktop) */
+        .city-mobile-corridors-bar {
           display: none;
         }
 
-        /* Main 2-Column Grid */
+        /* 2. Main Stage Grid */
         .city-stage-grid {
           display: grid;
           grid-template-columns: 1.15fr 0.85fr;
-          gap: 32px;
+          gap: 36px;
           align-items: start;
         }
 
@@ -456,15 +447,15 @@ export default function InteractiveCityExplorer() {
           width: 100%;
         }
 
-        .city-visual-frame {
+        .city-visual-stage {
           position: relative;
           width: 100%;
           aspect-ratio: 16 / 11;
-          border-radius: 24px;
+          border-radius: 20px;
           overflow: hidden;
-          background: #110518;
+          background: #110314;
           border: 1px solid rgba(255, 255, 255, 0.14);
-          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.65), 0 0 30px rgba(232, 140, 43, 0.08);
+          box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7);
         }
 
         .city-landmark-photo {
@@ -472,10 +463,10 @@ export default function InteractiveCityExplorer() {
           height: 100%;
           object-fit: cover;
           display: block;
-          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1), filter 0.5s ease;
+          transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
-        .city-visual-frame:hover .city-landmark-photo {
+        .city-visual-stage:hover .city-landmark-photo {
           transform: scale(1.025);
         }
 
@@ -484,51 +475,52 @@ export default function InteractiveCityExplorer() {
           inset: 0;
           background: linear-gradient(
             180deg,
-            rgba(0, 0, 0, 0.60) 0%,
-            rgba(0, 0, 0, 0.05) 35%,
-            rgba(0, 0, 0, 0.15) 60%,
-            rgba(0, 0, 0, 0.80) 100%
+            rgba(0, 0, 0, 0.65) 0%,
+            rgba(0, 0, 0, 0.08) 35%,
+            rgba(0, 0, 0, 0.2) 60%,
+            rgba(0, 0, 0, 0.85) 100%
           );
           pointer-events: none;
           z-index: 2;
         }
 
-        /* Floating Top Left Badge */
-        .city-badge-floating {
+        /* Stage Meta Plate (Top Left) */
+        .city-stage-meta-plate {
           position: absolute;
           top: 20px;
           left: 20px;
           z-index: 5;
-          background: rgba(14, 3, 20, 0.75);
-          backdrop-filter: blur(12px);
-          -webkit-backdrop-filter: blur(12px);
-          border: 1px solid rgba(255, 255, 255, 0.18);
-          border-radius: 14px;
+          background: rgba(10, 2, 14, 0.85);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(255, 255, 255, 0.16);
+          border-radius: 12px;
           padding: 10px 16px;
-          max-width: calc(100% - 160px);
+          text-align: left;
+          max-width: calc(100% - 170px);
         }
 
-        .city-badge-kicker {
-          display: block;
+        .stage-meta-code {
           font-size: 0.68rem;
           font-weight: 800;
           letter-spacing: 0.14em;
           color: #E88C2B;
-          text-transform: uppercase;
+          display: block;
           margin-bottom: 2px;
         }
 
-        .city-badge-title {
+        .stage-meta-title {
           font-family: var(--font-heading);
           font-size: 1.15rem;
-          font-weight: 800;
+          font-weight: 900;
           color: #FFFFFF;
           margin: 0;
-          line-height: 1.2;
+          letter-spacing: -0.01em;
+          line-height: 1.15;
         }
 
-        /* Time Switcher Toggle */
-        .city-time-toggle-dock {
+        /* Time Dock (Top Right) */
+        .city-time-dock {
           position: absolute;
           top: 20px;
           right: 20px;
@@ -538,260 +530,234 @@ export default function InteractiveCityExplorer() {
           background: rgba(10, 2, 14, 0.85);
           backdrop-filter: blur(14px);
           -webkit-backdrop-filter: blur(14px);
-          border: 1px solid rgba(255, 255, 255, 0.22);
-          border-radius: 9999px;
-          padding: 4px;
-          gap: 4px;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.4);
+          border: 1px solid rgba(255, 255, 255, 0.18);
+          border-radius: 10px;
+          padding: 3px;
+          gap: 3px;
         }
 
-        .time-toggle-btn {
+        .time-dock-btn {
           display: inline-flex;
           align-items: center;
-          gap: 6px;
+          gap: 5px;
           background: transparent;
           border: none;
           color: #CBD5E1;
           font-family: inherit;
-          font-size: 0.75rem;
-          font-weight: 700;
-          padding: 6px 12px;
-          border-radius: 9999px;
+          font-size: 0.72rem;
+          font-weight: 800;
+          letter-spacing: 0.08em;
+          padding: 6px 10px;
+          border-radius: 8px;
           cursor: pointer;
           transition: all 0.18s ease;
-          touch-action: manipulation;
         }
 
-        .time-toggle-btn.active {
+        .time-dock-btn.is-active {
           background: #E88C2B;
           color: #FFFFFF;
           box-shadow: 0 2px 10px rgba(232, 140, 43, 0.5);
         }
 
-        .time-toggle-btn:hover:not(.active) {
+        .time-dock-btn:hover:not(.is-active) {
           color: #FFFFFF;
-          background: rgba(255, 255, 255, 0.12);
+          background: rgba(255, 255, 255, 0.1);
         }
 
-        /* Hotspots */
-        .city-hotspot-container {
+        /* Minimal Waypoint Pins */
+        .city-waypoint-anchor {
           position: absolute;
           transform: translate(-50%, -50%);
           z-index: 8;
         }
 
-        .city-hotspot-pin {
+        .city-waypoint-node {
           position: relative;
           width: 32px;
           height: 32px;
-          background: rgba(14, 3, 20, 0.90);
-          border: 2px solid #E88C2B;
-          border-radius: 50%;
+          background: rgba(10, 2, 14, 0.92);
+          border: 1.5px solid #E88C2B;
+          border-radius: 8px;
           cursor: pointer;
           display: flex;
           align-items: center;
           justify-content: center;
           padding: 0;
           color: #FFFFFF;
-          font-size: 0.76rem;
+          font-size: 0.74rem;
           font-weight: 900;
-          box-shadow: 0 0 16px rgba(232, 140, 43, 0.65);
+          box-shadow: 0 4px 14px rgba(0, 0, 0, 0.5), 0 0 16px rgba(232, 140, 43, 0.4);
           transition: all 0.2s ease;
-          touch-action: manipulation;
         }
 
-        .city-hotspot-pin:hover,
-        .city-hotspot-pin.active {
-          transform: scale(1.15);
+        .city-waypoint-node:hover,
+        .city-waypoint-node.is-active {
           background: #E88C2B;
-          color: #FFFFFF;
-          border-color: #FFFFFF;
-          box-shadow: 0 0 24px rgba(232, 140, 43, 0.9);
+          transform: scale(1.1);
+          box-shadow: 0 0 20px #E88C2B;
         }
 
-        .hotspot-pulse {
-          position: absolute;
-          inset: -6px;
-          border: 2px solid #E88C2B;
-          border-radius: 50%;
-          animation: hotspotPulse 2s infinite ease-out;
-          opacity: 0.8;
-          pointer-events: none;
+        .waypoint-digit {
+          line-height: 1;
         }
 
-        @keyframes hotspotPulse {
-          0% { transform: scale(0.85); opacity: 1; }
-          100% { transform: scale(1.6); opacity: 0; }
-        }
-
-        .city-hotspot-popover {
+        /* Popover */
+        .city-waypoint-popover {
           position: absolute;
           bottom: calc(100% + 12px);
           left: 50%;
           transform: translateX(-50%);
-          width: 210px;
-          background: rgba(14, 3, 20, 0.95);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1px solid rgba(232, 140, 43, 0.45);
+          width: 250px;
+          background: rgba(10, 2, 14, 0.94);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(232, 140, 43, 0.35);
           border-radius: 12px;
-          padding: 12px 14px;
-          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-          z-index: 15;
-          animation: popoverFadeIn 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+          padding: 14px 16px;
+          text-align: left;
+          box-shadow: 0 16px 36px rgba(0, 0, 0, 0.65);
+          z-index: 20;
+          pointer-events: none;
         }
 
-        @keyframes popoverFadeIn {
-          from { opacity: 0; transform: translate(-50%, 6px); }
-          to { opacity: 1; transform: translate(-50%, 0); }
-        }
-
-        .popover-arrow {
-          position: absolute;
-          top: 100%;
-          left: 50%;
-          transform: translateX(-50%);
-          border-width: 6px;
-          border-style: solid;
-          border-color: rgba(232, 140, 43, 0.45) transparent transparent transparent;
+        .popover-code {
+          font-size: 0.64rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: #E88C2B;
+          display: block;
+          margin-bottom: 2px;
         }
 
         .popover-title {
-          display: block;
           font-family: var(--font-heading);
-          font-size: 0.84rem;
-          font-weight: 800;
-          color: #E88C2B;
+          font-size: 0.95rem;
+          font-weight: 900;
+          color: #FFFFFF;
+          display: block;
           margin-bottom: 4px;
-          line-height: 1.25;
         }
 
         .popover-desc {
-          font-size: 0.76rem;
-          color: #E2E8F0;
-          line-height: 1.4;
+          font-size: 0.80rem;
+          color: #CBD5E1;
+          line-height: 1.45;
           margin: 0;
         }
 
-        .city-visual-hint {
+        /* Stage Legend (Bottom) */
+        .city-stage-legend {
           position: absolute;
-          bottom: 16px;
+          bottom: 18px;
           left: 20px;
+          right: 20px;
           z-index: 5;
-          display: inline-flex;
+          display: flex;
           align-items: center;
-          gap: 6px;
-          font-size: 0.74rem;
-          font-weight: 600;
-          color: rgba(255, 255, 255, 0.85);
-          background: rgba(0, 0, 0, 0.6);
-          backdrop-filter: blur(8px);
-          padding: 5px 12px;
-          border-radius: 9999px;
-          border: 1px solid rgba(255, 255, 255, 0.12);
+          gap: 8px;
+          font-size: 0.70rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: #CBD5E1;
+          background: rgba(10, 2, 14, 0.75);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
+          padding: 8px 14px;
+          border-radius: 8px;
+          border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
-        /* Controls Column */
+        /* 3. Right Column: Corridors List & Telemetry */
         .city-controls-col {
           display: flex;
           flex-direction: column;
           gap: 20px;
         }
 
-        /* Desktop Hub Cards List */
-        .city-desktop-hubs-list {
+        .city-corridors-list {
           display: flex;
           flex-direction: column;
           gap: 10px;
         }
 
-        .city-hub-card {
+        .city-corridor-item {
           display: flex;
           align-items: center;
           gap: 14px;
           background: rgba(255, 255, 255, 0.04);
-          border: 1.5px solid rgba(255, 255, 255, 0.09);
-          border-radius: 16px;
-          padding: 10px 14px;
+          border: 1px solid rgba(255, 255, 255, 0.09);
+          border-radius: 14px;
+          padding: 12px 16px;
           cursor: pointer;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
           text-align: left;
+          color: #FFFFFF;
         }
 
-        .city-hub-card:hover {
+        .city-corridor-item:hover {
           background: rgba(255, 255, 255, 0.08);
           border-color: rgba(232, 140, 43, 0.4);
-          transform: translateX(4px);
+          transform: translateX(3px);
         }
 
-        .city-hub-card.selected {
+        .city-corridor-item.is-selected {
           background: rgba(232, 140, 43, 0.12);
           border-color: #E88C2B;
           box-shadow: 0 4px 20px rgba(232, 140, 43, 0.18);
         }
 
-        .hub-card-thumb-wrap {
+        .corridor-thumb-frame {
           position: relative;
-          width: 58px;
+          width: 60px;
           height: 48px;
-          border-radius: 10px;
+          border-radius: 8px;
           overflow: hidden;
+          background: #110204;
           flex-shrink: 0;
-          background: #000;
         }
 
-        .hub-card-thumb-img {
+        .corridor-thumb-img {
           width: 100%;
           height: 100%;
           object-fit: cover;
         }
 
-        .hub-thumb-active-ring {
+        .corridor-active-indicator {
           position: absolute;
           inset: 0;
           border: 2px solid #E88C2B;
-          border-radius: 10px;
+          border-radius: 8px;
         }
 
-        .hub-card-text {
-          flex: 1;
+        .corridor-text-block {
           display: flex;
           flex-direction: column;
-          min-width: 0;
+          flex-grow: 1;
+          overflow: hidden;
         }
 
-        .hub-card-title-row {
+        .corridor-title-row {
           display: flex;
-          align-items: center;
+          align-items: baseline;
           gap: 8px;
           margin-bottom: 2px;
         }
 
-        .hub-card-name {
-          font-family: var(--font-heading);
-          font-size: 0.96rem;
+        .corridor-code-label {
+          font-size: 0.65rem;
           font-weight: 800;
-          color: #FFFFFF;
-          white-space: nowrap;
-          overflow: hidden;
-          text-overflow: ellipsis;
-        }
-
-        .city-hub-card.selected .hub-card-name {
+          letter-spacing: 0.12em;
           color: #E88C2B;
         }
 
-        .hub-card-active-pill {
-          font-size: 0.62rem;
-          font-weight: 800;
-          letter-spacing: 0.06em;
-          background: #E88C2B;
+        .corridor-name {
+          font-family: var(--font-heading);
+          font-size: 0.98rem;
+          font-weight: 900;
           color: #FFFFFF;
-          padding: 2px 6px;
-          border-radius: 9999px;
         }
 
-        .hub-card-sub {
+        .corridor-subtitle {
           font-size: 0.78rem;
           color: #94A3B8;
           white-space: nowrap;
@@ -799,221 +765,207 @@ export default function InteractiveCityExplorer() {
           text-overflow: ellipsis;
         }
 
-        .hub-card-arrow {
+        .corridor-arrow-icon {
           color: #64748B;
-          flex-shrink: 0;
           transition: transform 0.2s ease, color 0.2s ease;
+          flex-shrink: 0;
         }
 
-        .city-hub-card:hover .hub-card-arrow,
-        .city-hub-card.selected .hub-card-arrow {
+        .city-corridor-item.is-selected .corridor-arrow-icon {
           color: #E88C2B;
           transform: translateX(3px);
         }
 
-        /* Telemetry & Perks Panel */
-        .city-telemetry-panel {
-          background: rgba(18, 5, 25, 0.7);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          border: 1.5px solid rgba(255, 255, 255, 0.12);
-          border-radius: 20px;
-          padding: 22px;
-          box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+        /* Flight & Route Telemetry Panel */
+        .city-telemetry-instrument {
+          background: rgba(16, 5, 20, 0.85);
+          backdrop-filter: blur(14px);
+          -webkit-backdrop-filter: blur(14px);
+          border: 1px solid rgba(255, 255, 255, 0.12);
+          border-radius: 18px;
+          padding: 24px;
+          text-align: left;
         }
 
-        .telemetry-header {
+        .telemetry-top-bar {
           display: flex;
           align-items: center;
           justify-content: space-between;
-          margin-bottom: 18px;
-          padding-bottom: 12px;
+          padding-bottom: 14px;
           border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+          margin-bottom: 18px;
         }
 
-        .telemetry-tag {
-          display: inline-flex;
+        .telemetry-title-group {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+        }
+
+        .telemetry-heading-label {
+          font-size: 0.70rem;
+          font-weight: 900;
+          letter-spacing: 0.16em;
+          color: #CBD5E1;
+        }
+
+        .telemetry-live-badge {
+          display: flex;
           align-items: center;
           gap: 6px;
-          font-size: 0.72rem;
+          font-size: 0.65rem;
           font-weight: 800;
-          letter-spacing: 0.12em;
+          letter-spacing: 0.1em;
           color: #E88C2B;
-          text-transform: uppercase;
         }
 
-        .telemetry-live-indicator {
-          display: inline-flex;
-          align-items: center;
-          gap: 6px;
-          font-size: 0.72rem;
-          font-weight: 700;
-          color: #94A3B8;
-        }
-
-        .live-dot {
-          width: 8px;
-          height: 8px;
-          background: #10B981;
+        .telemetry-pulse-dot {
+          width: 6px;
+          height: 6px;
           border-radius: 50%;
-          box-shadow: 0 0 8px #10B981;
-          animation: livePulse 2s infinite ease-in-out;
+          background: #E88C2B;
+          box-shadow: 0 0 8px #E88C2B;
         }
 
-        @keyframes livePulse {
-          0%, 100% { opacity: 1; }
-          50% { opacity: 0.4; }
-        }
-
-        /* Telemetry Dual Stat Grid */
-        .telemetry-stats-grid {
+        /* Dual Metrics Grid */
+        .telemetry-metrics-grid {
           display: grid;
           grid-template-columns: 1fr 1fr;
           gap: 12px;
-          margin-bottom: 14px;
+          margin-bottom: 16px;
         }
 
-        .telemetry-stat-box {
-          background: rgba(255, 255, 255, 0.05);
+        .telemetry-metric-tile {
+          background: rgba(255, 255, 255, 0.03);
           border: 1px solid rgba(255, 255, 255, 0.08);
-          border-radius: 12px;
-          padding: 10px 14px;
+          border-radius: 10px;
+          padding: 12px 14px;
         }
 
-        .stat-label-row {
+        .metric-tile-header {
           display: flex;
           align-items: center;
-          gap: 5px;
-          font-size: 0.68rem;
-          font-weight: 700;
-          letter-spacing: 0.06em;
-          color: #94A3B8;
-          text-transform: uppercase;
+          gap: 6px;
+          font-size: 0.64rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: #8C7B79;
           margin-bottom: 4px;
         }
 
-        .stat-value {
+        .metric-tile-value {
           display: block;
           font-family: var(--font-heading);
-          font-size: 0.95rem;
-          font-weight: 800;
+          font-size: 1rem;
+          font-weight: 900;
           color: #FFFFFF;
         }
 
-        /* Recommended Fleet Row */
-        .telemetry-fleet-row {
+        /* Recommended Fleet */
+        .telemetry-recommended-row {
           display: flex;
           align-items: center;
           gap: 12px;
           background: rgba(232, 140, 43, 0.08);
-          border: 1px solid rgba(232, 140, 43, 0.25);
-          border-radius: 12px;
+          border: 1px solid rgba(232, 140, 43, 0.24);
+          border-radius: 10px;
           padding: 10px 14px;
           margin-bottom: 16px;
         }
 
-        .fleet-icon-box {
+        .fleet-badge-box {
           width: 32px;
           height: 32px;
-          border-radius: 8px;
-          background: rgba(232, 140, 43, 0.15);
+          border-radius: 6px;
+          background: rgba(232, 140, 43, 0.18);
           display: flex;
           align-items: center;
           justify-content: center;
           flex-shrink: 0;
         }
 
-        .fleet-text {
+        .fleet-info-text {
           display: flex;
           flex-direction: column;
         }
 
-        .fleet-title {
-          font-size: 0.68rem;
+        .fleet-kicker-label {
+          font-size: 0.65rem;
           font-weight: 800;
-          letter-spacing: 0.08em;
+          letter-spacing: 0.12em;
           color: #E88C2B;
         }
 
-        .fleet-name {
-          font-size: 0.88rem;
-          font-weight: 800;
+        .fleet-name-text {
+          font-family: var(--font-heading);
+          font-size: 0.92rem;
+          font-weight: 900;
           color: #FFFFFF;
         }
 
-        /* Perks Stack */
-        .telemetry-perks-stack {
+        /* Advantages Checklist */
+        .telemetry-advantages-list {
           display: flex;
           flex-direction: column;
           gap: 8px;
           margin-bottom: 20px;
         }
 
-        .telemetry-perk-item {
+        .advantage-bullet-row {
           display: flex;
           align-items: flex-start;
-          gap: 9px;
-          font-size: 0.84rem;
+          gap: 10px;
+          font-size: 0.86rem;
           color: #E2E8F0;
           line-height: 1.45;
         }
 
-        .perk-check-icon {
+        .advantage-icon {
           flex-shrink: 0;
           margin-top: 2px;
         }
 
-        /* Reserve Button */
-        .telemetry-action-row {
-          width: 100%;
-        }
-
-        .city-reserve-btn {
+        /* Action Button */
+        .btn-reserve-corridor {
           width: 100%;
           display: inline-flex;
           align-items: center;
           justify-content: center;
           gap: 10px;
-          background: linear-gradient(135deg, #E88C2B 0%, #D2791C 100%);
+          background: #E88C2B;
           color: #FFFFFF;
           border: none;
-          padding: 14px 20px;
-          border-radius: 9999px;
+          padding: 15px 22px;
+          border-radius: 10px;
           font-family: inherit;
-          font-size: 0.90rem;
-          font-weight: 800;
-          letter-spacing: 0.04em;
+          font-size: 0.88rem;
+          font-weight: 900;
+          letter-spacing: 0.06em;
           cursor: pointer;
-          touch-action: manipulation;
           transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
-          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.42);
+          box-shadow: 0 6px 20px rgba(232, 140, 43, 0.38);
         }
 
-        .city-reserve-btn:hover {
+        .btn-reserve-corridor:hover {
+          background: #D2791C;
           transform: translateY(-2px);
-          box-shadow: 0 10px 28px rgba(232, 140, 43, 0.58);
-          filter: brightness(1.05);
-        }
-
-        .city-reserve-btn:active {
-          transform: scale(0.98);
+          box-shadow: 0 10px 26px rgba(232, 140, 43, 0.52);
         }
 
         /* ==========================================================================
-           RESPONSIVE BREAKPOINTS (Mobile & Tablet Layout Perfection)
+           RESPONSIVE REFINEMENTS
            ========================================================================== */
-
         @media (max-width: 1024px) {
           .city-stage-grid {
             grid-template-columns: 1fr;
             gap: 28px;
           }
 
-          .city-visual-frame {
+          .city-visual-stage {
             aspect-ratio: 16 / 10;
           }
 
-          .city-desktop-hubs-list {
+          .city-corridors-list {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
@@ -1021,8 +973,8 @@ export default function InteractiveCityExplorer() {
         }
 
         @media (max-width: 768px) {
-          .interactive-city-section {
-            padding: 70px 0 80px 0;
+          .luxury-city-section {
+            padding: 65px 0 75px 0;
           }
 
           .city-header-block {
@@ -1030,136 +982,126 @@ export default function InteractiveCityExplorer() {
             margin-bottom: 24px;
           }
 
+          .city-pre-heading {
+            font-size: 0.72rem;
+            margin-bottom: 8px;
+          }
+
           .city-main-heading {
-            font-size: clamp(1.9rem, 7.2vw, 2.5rem);
+            font-size: 2rem;
             margin-bottom: 12px;
           }
 
           .city-sub-description {
-            font-size: 0.92rem;
-            line-height: 1.5;
+            font-size: 0.94rem;
           }
 
-          /* Show horizontal scrolling tab pills on mobile */
-          .city-mobile-tabs-scroll {
+          /* Show mobile corridor bar */
+          .city-mobile-corridors-bar {
             display: flex;
             align-items: center;
             gap: 8px;
             overflow-x: auto;
-            overflow-y: hidden;
             padding-bottom: 14px;
             margin-bottom: 18px;
             -webkit-overflow-scrolling: touch;
             scrollbar-width: none;
           }
 
-          .city-mobile-tabs-scroll::-webkit-scrollbar {
+          .city-mobile-corridors-bar::-webkit-scrollbar {
             display: none;
           }
 
-          .city-mobile-tab-pill {
+          .city-mobile-corridor-btn {
             display: inline-flex;
             align-items: center;
-            gap: 7px;
+            gap: 8px;
             background: rgba(255, 255, 255, 0.06);
             border: 1px solid rgba(255, 255, 255, 0.14);
-            border-radius: 9999px;
-            padding: 9px 16px;
+            border-radius: 8px;
+            padding: 10px 14px;
             color: #CBD5E1;
             font-family: inherit;
-            font-size: 0.84rem;
-            font-weight: 700;
+            font-size: 0.82rem;
+            font-weight: 800;
             white-space: nowrap;
             cursor: pointer;
-            touch-action: manipulation;
-            transition: all 0.16s ease;
             flex-shrink: 0;
+            transition: all 0.18s ease;
           }
 
-          .city-mobile-tab-pill.active {
+          .city-mobile-corridor-btn.is-active {
             background: #E88C2B;
             color: #FFFFFF;
             border-color: #E88C2B;
-            box-shadow: 0 4px 14px rgba(232, 140, 43, 0.45);
+            box-shadow: 0 4px 14px rgba(232, 140, 43, 0.4);
           }
 
-          .tab-pill-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            background: currentColor;
+          .corridor-btn-code {
+            font-size: 0.68rem;
+            opacity: 0.85;
           }
 
-          /* Hide desktop hub list on mobile */
-          .city-desktop-hubs-list {
+          /* Hide desktop corridor list on mobile */
+          .city-corridors-list {
             display: none;
           }
 
-          .city-visual-frame {
+          .city-visual-stage {
             aspect-ratio: 4 / 3;
-            border-radius: 18px;
+            border-radius: 16px;
           }
 
-          .city-badge-floating {
+          .city-stage-meta-plate {
             top: 14px;
             left: 14px;
             padding: 8px 12px;
             max-width: calc(100% - 150px);
           }
 
-          .city-badge-kicker {
+          .stage-meta-code {
             font-size: 0.62rem;
           }
 
-          .city-badge-title {
-            font-size: 0.96rem;
+          .stage-meta-title {
+            font-size: 0.98rem;
           }
 
-          .city-time-toggle-dock {
+          .city-time-dock {
             top: 14px;
             right: 14px;
-            padding: 3px;
           }
 
-          .time-toggle-btn {
-            font-size: 0.70rem;
-            padding: 5px 9px;
-            gap: 4px;
+          .time-dock-btn {
+            font-size: 0.68rem;
+            padding: 5px 8px;
           }
 
-          .city-visual-hint {
+          .city-stage-legend {
             display: none;
           }
 
-          .city-telemetry-panel {
+          .city-telemetry-instrument {
             padding: 18px;
-            border-radius: 18px;
+            border-radius: 16px;
           }
 
-          .telemetry-stats-grid {
+          .telemetry-metrics-grid {
             grid-template-columns: 1fr;
             gap: 8px;
           }
 
-          .telemetry-stat-box {
-            padding: 9px 12px;
+          .telemetry-metric-tile {
+            padding: 10px 12px;
           }
 
-          .stat-value {
-            font-size: 0.90rem;
+          .metric-tile-value {
+            font-size: 0.94rem;
           }
 
-          .telemetry-perks-stack {
-            gap: 7px;
-          }
-
-          .telemetry-perk-item {
-            font-size: 0.80rem;
-          }
-
-          .city-reserve-btn {
+          .btn-reserve-corridor {
             font-size: 0.82rem;
-            padding: 13px 16px;
+            padding: 14px 18px;
           }
         }
       `}</style>
