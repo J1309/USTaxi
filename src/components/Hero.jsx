@@ -88,7 +88,7 @@ export default function Hero({ onSelectVehicle }) {
           justify-content: flex-start;
           background: #FEFBF3;
           padding-top: 48px;
-          padding-bottom: 50px;
+          padding-bottom: 75px;
           overflow: visible;
         }
 
@@ -204,7 +204,7 @@ export default function Hero({ onSelectVehicle }) {
         .hero-booking-dock {
           position: relative;
           z-index: 10;
-          margin-top: 85px;
+          margin-top: 145px;
         }
 
         /* Minimal, Clean, Professional Mobile Hero (< 768px) */

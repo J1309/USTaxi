@@ -65,11 +65,16 @@ export default function Navbar() {
           className="brand-logo-link"
           aria-label="Lavender Taxi Service - Home"
         >
-          <img
-            src="/images/new_logo_cropped.png"
-            alt="Lavender Taxi Service"
-            className="brand-logo-img"
-          />
+          <picture>
+            <source srcSet="/images/lavender_taxi_suv_logo.webp" type="image/webp" />
+            <img
+              src="/images/lavender_taxi_suv_logo.png"
+              alt="Lavender Taxi Service"
+              className="brand-logo-img"
+              width="100"
+              height="58"
+            />
+          </picture>
         </a>
 
         {/* Center Desktop Navigation Links */}
@@ -264,11 +269,12 @@ export default function Navbar() {
           padding: 2px 0;
         }
         .brand-logo-img {
-          height: 54px;
+          height: 58px;
           width: auto;
-          max-width: 180px;
+          max-width: 190px;
           object-fit: contain;
           transition: transform 0.2s ease;
+          display: block;
         }
         .brand-logo-link:hover .brand-logo-img {
           transform: scale(1.02);
