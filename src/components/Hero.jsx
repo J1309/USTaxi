@@ -81,22 +81,24 @@ export default function Hero({ onSelectVehicle }) {
         .hero-editorial-section {
           position: relative;
           width: 100%;
-          min-height: calc(100vh - 76px);
-          min-height: calc(100dvh - 76px);
+          min-height: max(800px, calc(100vh - 76px));
+          min-height: max(800px, calc(100dvh - 76px));
           display: flex;
           flex-direction: column;
-          justify-content: flex-start;
+          justify-content: space-between;
           background: #FEFBF3;
           padding-top: 48px;
-          padding-bottom: 75px;
+          padding-bottom: 36px;
           overflow: visible;
         }
 
         .hero-bg-media {
           position: absolute;
-          inset: 0;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 70px;
           width: 100%;
-          height: 100%;
           z-index: 1;
           overflow: hidden;
         }
@@ -105,14 +107,14 @@ export default function Hero({ onSelectVehicle }) {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: right 30%;
+          object-position: right bottom;
         }
 
         .hero-content-container {
           position: relative;
           z-index: 2;
           width: 100%;
-          margin-bottom: 50px;
+          margin-bottom: 0;
         }
 
         .hero-text-block {
@@ -200,15 +202,20 @@ export default function Hero({ onSelectVehicle }) {
           display: none;
         }
 
-        /* Floating Booking Dock - Shifted lower */
+        /* Floating Booking Dock - Lowered so the entire Suburban car is fully visible above */
         .hero-booking-dock {
           position: relative;
           z-index: 10;
-          margin-top: 145px;
+          margin-top: clamp(200px, 22vw, 300px);
+          width: 100%;
         }
 
         /* Minimal, Clean, Professional Mobile Hero (< 768px) */
         @media (max-width: 768px) {
+          .hero-bg-media {
+            bottom: 0 !important;
+          }
+
           .hero-bg-media::after {
             content: '';
             position: absolute;
