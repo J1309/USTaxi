@@ -333,14 +333,21 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
                 alt={`${activeVehicle.name} - ${activeInterior.title}`}
                 className="cabin-cinema-img"
               />
-              
-              {/* Architectural Caption Bar */}
-              <div className="cabin-caption-plate">
+              <div className="cabin-viewport-status-badge">
+                <span>FULL INTERIOR INSPECTION</span>
+              </div>
+            </div>
+
+            {/* Architectural Caption Bar - Positioned Beneath Viewport to Keep Interior 100% Unobstructed */}
+            <div className="cabin-caption-plate">
+              <div className="caption-plate-main">
                 <div className="caption-plate-meta">
                   <span className="caption-perspective-tag">{activeInterior.indexLabel}</span>
                   <span className="caption-category-tag">{activeInterior.subtitle}</span>
                 </div>
                 <h4 className="caption-title-thick">{activeInterior.title}</h4>
+              </div>
+              <div className="caption-plate-desc-wrap">
                 <p className="caption-desc-text">{activeInterior.desc}</p>
               </div>
             </div>
@@ -930,7 +937,7 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
         .cabin-cinema-viewport {
           position: relative;
           width: 100%;
-          height: 500px;
+          height: clamp(480px, 52vh, 580px);
           border-radius: 20px;
           overflow: hidden;
           background: #0B030A;
@@ -944,19 +951,49 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
           display: block;
         }
 
-        .cabin-caption-plate {
+        .cabin-viewport-status-badge {
           position: absolute;
-          bottom: 20px;
-          left: 20px;
-          right: 20px;
-          background: rgba(14, 3, 16, 0.85);
-          backdrop-filter: blur(14px);
-          -webkit-backdrop-filter: blur(14px);
+          top: 16px;
+          right: 16px;
+          background: rgba(14, 3, 16, 0.70);
+          backdrop-filter: blur(10px);
+          -webkit-backdrop-filter: blur(10px);
           border: 1px solid rgba(255, 255, 255, 0.16);
+          border-radius: 6px;
+          padding: 6px 12px;
+          font-size: 0.68rem;
+          font-weight: 800;
+          letter-spacing: 0.12em;
+          color: rgba(255, 255, 255, 0.9);
+          text-transform: uppercase;
+          pointer-events: none;
+        }
+
+        /* Clean Architectural Spec Plate - Positioned Below Viewport with ZERO Obstruction */
+        .cabin-caption-plate {
+          position: static;
+          background: #FAF6EE;
+          border: 1px solid rgba(78, 4, 1, 0.09);
           border-radius: 16px;
-          padding: 20px 26px;
-          color: #FFFFFF;
+          padding: 22px 28px;
+          color: #4E0401;
           text-align: left;
+          display: flex;
+          align-items: flex-start;
+          justify-content: space-between;
+          gap: 32px;
+          box-shadow: 0 4px 16px rgba(78, 4, 1, 0.04);
+        }
+
+        .caption-plate-main {
+          flex: 0 0 auto;
+          max-width: 440px;
+        }
+
+        .caption-plate-desc-wrap {
+          flex: 1 1 auto;
+          display: flex;
+          align-items: center;
         }
 
         .caption-plate-meta {
@@ -977,26 +1014,27 @@ export default function FleetSection({ onSelectVehicleForBooking }) {
         .caption-category-tag {
           font-size: 0.70rem;
           font-weight: 700;
-          color: #CBD5E1;
+          color: #786C6A;
           letter-spacing: 0.08em;
           text-transform: uppercase;
         }
 
         .caption-title-thick {
           font-family: var(--font-heading);
-          font-size: 1.4rem;
+          font-size: 1.35rem;
           font-weight: 900;
-          color: #FFFFFF;
-          margin: 0 0 6px 0;
+          color: #4E0401;
+          margin: 0;
           letter-spacing: -0.01em;
+          line-height: 1.2;
         }
 
         .caption-desc-text {
           font-size: 0.92rem;
-          color: #E2E8F0;
-          line-height: 1.5;
+          color: #5A4E4D;
+          line-height: 1.55;
           margin: 0;
-          max-width: 820px;
+          max-width: 760px;
         }
 
         /* Thumbnails Strip */

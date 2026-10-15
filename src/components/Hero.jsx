@@ -81,14 +81,14 @@ export default function Hero({ onSelectVehicle }) {
         .hero-editorial-section {
           position: relative;
           width: 100%;
-          min-height: max(800px, calc(100vh - 76px));
-          min-height: max(800px, calc(100dvh - 76px));
+          min-height: calc(100vh - 76px);
+          min-height: calc(100dvh - 76px);
           display: flex;
           flex-direction: column;
           justify-content: space-between;
           background: #FEFBF3;
-          padding-top: 48px;
-          padding-bottom: 36px;
+          padding-top: clamp(28px, 4vh, 48px);
+          padding-bottom: 28px;
           overflow: visible;
         }
 
@@ -97,7 +97,7 @@ export default function Hero({ onSelectVehicle }) {
           top: 0;
           left: 0;
           right: 0;
-          bottom: 70px;
+          bottom: 40px;
           width: 100%;
           z-index: 1;
           overflow: hidden;
@@ -107,30 +107,35 @@ export default function Hero({ onSelectVehicle }) {
           width: 100%;
           height: 100%;
           object-fit: cover;
-          object-position: right bottom;
+          object-position: right 62%;
         }
 
         .hero-content-container {
           position: relative;
-          z-index: 2;
+          z-index: 3;
           width: 100%;
+          display: flex;
+          align-items: center;
+          min-height: clamp(320px, 44vh, 400px);
           margin-bottom: 0;
         }
 
+        /* Constrained max-width & proper positioning so text never overlaps or crowds the Suburban */
         .hero-text-block {
-          max-width: 620px;
+          max-width: clamp(420px, 32vw, 490px);
           text-align: left;
+          margin-top: clamp(36px, 6vh, 68px);
         }
 
         .hero-main-heading {
           font-family: var(--font-heading);
-          font-size: clamp(2.4rem, 3.8vw, 3.5rem);
+          font-size: clamp(2.3rem, 3.2vw, 3.3rem);
           font-weight: 900;
           color: #4E0401;
           line-height: 1.05;
           letter-spacing: -0.025em;
           text-transform: uppercase;
-          margin-bottom: 12px;
+          margin-bottom: 14px;
           text-rendering: optimizeLegibility;
         }
 
@@ -139,12 +144,12 @@ export default function Hero({ onSelectVehicle }) {
         }
 
         .hero-sub-description {
-          font-size: 1.10rem;
+          font-size: clamp(0.98rem, 1.1vw, 1.08rem);
           font-weight: 600;
           color: #382C2B;
           line-height: 1.55;
-          margin-bottom: 22px;
-          max-width: 540px;
+          margin-bottom: 24px;
+          max-width: 460px;
         }
 
         .hero-cta-buttons-row {
@@ -202,11 +207,11 @@ export default function Hero({ onSelectVehicle }) {
           display: none;
         }
 
-        /* Floating Booking Dock - Lowered so the entire Suburban car is fully visible above */
+        /* Floating Booking Dock - Clean lower anchoring that lets the full vehicle remain visible above */
         .hero-booking-dock {
           position: relative;
           z-index: 10;
-          margin-top: clamp(200px, 22vw, 300px);
+          margin-top: clamp(24px, 4vh, 48px);
           width: 100%;
         }
 
